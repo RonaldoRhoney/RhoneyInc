@@ -202,6 +202,7 @@
     text-align:center;
   }
   .nav-orbit-center svg{ width:56px; height:56px; }
+  .nav-orbit-center .brand-logo-img{ width:56px; height:56px; }
   .nav-orbit-center .brand-name{
     font-family:var(--mono); font-weight:700; font-size:15px; letter-spacing:0.04em;
   }
@@ -261,6 +262,11 @@
     flex-shrink:0;
   }
   .brand svg{ width:40px; height:40px; transition:transform .35s cubic-bezier(.2,.8,.2,1), filter .35s ease; }
+  .brand-logo-img{
+    width:40px; height:40px; object-fit:cover; border-radius:9px; flex-shrink:0;
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), filter .35s ease;
+  }
+  .brand:hover .brand-logo-img{ transform:rotate(-8deg) scale(1.08); filter:drop-shadow(0 0 10px rgba(76,143,224,0.55)); }
   .brand:hover svg{ transform:rotate(-8deg) scale(1.08); filter:drop-shadow(0 0 10px rgba(76,143,224,0.55)); }
   .brand-name{
     font-family:var(--mono); font-weight:700; font-size:20px;
@@ -574,7 +580,16 @@
     filter:blur(50px);
     pointer-events:none;
   }
-  .hero-mark svg{ position:relative; z-index:1; width:100%; max-width:380px; height:auto; animation:mark-float 5.5s ease-in-out infinite; }
+  .hero-mark-inner{
+    position:relative; z-index:1; width:100%; max-width:380px;
+    animation:mark-float 5.5s ease-in-out infinite;
+  }
+  .hero-mark-deco{ display:block; width:100%; height:auto; }
+  .hero-mark-img{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:42%; max-width:165px; aspect-ratio:1/1; object-fit:cover;
+    border-radius:22px; box-shadow:0 24px 60px -20px rgba(0,0,0,0.65);
+  }
   .rmark-code{ font-family:var(--mono); font-size:15px; font-weight:700; opacity:0.55; }
   @keyframes mark-float{
     0%, 100%{ transform:translateY(0) rotate(0deg); }
@@ -1481,19 +1496,7 @@
       <div class="nav-orbit-glow" aria-hidden="true"></div>
 
       <a href="#topo" class="nav-orbit-center">
-        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="rGradOrbit" x1="10" y1="10" x2="38" y2="38" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stop-color="#4C8FE0"/>
-              <stop offset="0.45" stop-color="#4C8FE0"/>
-              <stop offset="0.6" stop-color="#E2833F"/>
-              <stop offset="1" stop-color="#F2A65A"/>
-            </linearGradient>
-          </defs>
-          <path d="M6 34C13 34.5 19 30.5 23 23C27 15.5 33.5 10 42 9.5" stroke="url(#rGradOrbit)" stroke-width="2.4" stroke-linecap="round" fill="none"/>
-          <circle cx="42" cy="9.5" r="3.2" fill="#F2A65A"/>
-          <path d="M14 36V12H24.5C28.6 12 32 14.9 32 19C32 22.3 29.8 24.9 26.7 25.8L33 36H27.8L22 26.4H19V36H14ZM19 22.2H24C26 22.2 27.3 20.9 27.3 19C27.3 17.1 26 15.8 24 15.8H19V22.2Z" fill="url(#rGradOrbit)"/>
-        </svg>
+        <img src="assets/rhoneyinc-logo.png" alt="Logo RhoneyInc" class="brand-logo-img">
         <span class="brand-name">RHONEY<span class="dim">INC</span></span>
       </a>
 
@@ -1546,19 +1549,7 @@
     <div class="nav-row nav-row-top">
     <div class="nav-group nav-group-account">
       <a href="#topo" class="brand">
-        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="rGradNav" x1="10" y1="10" x2="38" y2="38" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stop-color="#4C8FE0"/>
-              <stop offset="0.45" stop-color="#4C8FE0"/>
-              <stop offset="0.6" stop-color="#E2833F"/>
-              <stop offset="1" stop-color="#F2A65A"/>
-            </linearGradient>
-          </defs>
-          <path d="M6 34C13 34.5 19 30.5 23 23C27 15.5 33.5 10 42 9.5" stroke="url(#rGradNav)" stroke-width="2.4" stroke-linecap="round" fill="none"/>
-          <circle cx="42" cy="9.5" r="3.2" fill="#F2A65A"/>
-          <path d="M14 36V12H24.5C28.6 12 32 14.9 32 19C32 22.3 29.8 24.9 26.7 25.8L33 36H27.8L22 26.4H19V36H14ZM19 22.2H24C26 22.2 27.3 20.9 27.3 19C27.3 17.1 26 15.8 24 15.8H19V22.2Z" fill="url(#rGradNav)"/>
-        </svg>
+        <img src="assets/rhoneyinc-logo.png" alt="Logo RhoneyInc" class="brand-logo-img">
         <span class="brand-name">RHONEY<span class="dim">INC</span></span>
       </a>
       <span class="nav-divider" aria-hidden="true"></span>
@@ -1661,53 +1652,23 @@
     </div>
 
     <div class="hero-mark">
-      <svg viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="rGradHero" x1="95" y1="75" x2="225" y2="245" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#4C8FE0"/>
-            <stop offset="0.42" stop-color="#4C8FE0"/>
-            <stop offset="0.58" stop-color="#E2833F"/>
-            <stop offset="1" stop-color="#F2A65A"/>
-          </linearGradient>
-          <radialGradient id="rGlowHero" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stop-color="#4C8FE0" stop-opacity="0.35"/>
-            <stop offset="1" stop-color="#4C8FE0" stop-opacity="0"/>
-          </radialGradient>
-          <radialGradient id="rOrbHero" cx="0.35" cy="0.3" r="0.75">
-            <stop offset="0" stop-color="#FFD9A8"/>
-            <stop offset="0.55" stop-color="#F2A65A"/>
-            <stop offset="1" stop-color="#E2833F"/>
-          </radialGradient>
-          <filter id="rShadowHero" x="-30%" y="-30%" width="160%" height="160%">
-            <feDropShadow dx="3" dy="6" stdDeviation="5" flood-color="#000" flood-opacity="0.45"/>
-          </filter>
-          <clipPath id="rClipHero">
-            <path d="M110 230V90H162C182 90 198 103 198 124C198 141 187 152 173 156L210 230H184L150 159H134V230H110Z"/>
-          </clipPath>
-        </defs>
-        <circle cx="160" cy="160" r="158" stroke="#E2833F" stroke-width="1" opacity="0.4"/>
-        <circle cx="160" cy="160" r="120" stroke="#4C8FE0" stroke-width="1" opacity="0.25"/>
-        <circle cx="160" cy="160" r="150" fill="url(#rGlowHero)"/>
-        <circle cx="198" cy="124" r="16" fill="#F2A65A" opacity="0.3" filter="blur(6px)"/>
-        <g filter="url(#rShadowHero)">
-          <g clip-path="url(#rClipHero)">
-            <path d="M110 230V90H162C182 90 198 103 198 124C198 141 187 152 173 156L210 230H184L150 159H134V230H110Z" fill="url(#rGradHero)"/>
-            <ellipse cx="140" cy="108" rx="50" ry="46" fill="#FFFFFF" opacity="0.4" filter="blur(14px)"/>
-            <ellipse cx="192" cy="208" rx="58" ry="58" fill="#000000" opacity="0.32" filter="blur(16px)"/>
-            <path d="M96 70 L214 70 L172 260 L54 260 Z" fill="#FFFFFF" opacity="0.10"/>
-            <path d="M116 78 L150 78 L108 260 L74 260 Z" fill="#FFFFFF" opacity="0.14"/>
-          </g>
-          <path d="M110 230V90H162C182 90 198 103 198 124C198 141 187 152 173 156L210 230H184L150 159H134V230H110Z" fill="none" stroke="rgba(0,0,0,0.4)" stroke-width="1.2"/>
-          <path d="M114 96V224" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
-          <path d="M164 94C179 96 190 106 190 121" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round" opacity="0.3" fill="none"/>
-          <path d="M134 156C134 185 120 210 92 224" stroke="url(#rGradHero)" stroke-width="3" stroke-linecap="round"/>
-          <path d="M134 156C140 175 138 198 122 218" stroke="#4C8FE0" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
-          <circle cx="92" cy="224" r="4" fill="#E2833F"/>
-          <circle cx="198" cy="124" r="7" fill="url(#rOrbHero)"/>
-        </g>
-        <text x="26" y="58" class="rmark-code" fill="#4C8FE0" transform="rotate(-8 26 58)">&lt;/&gt;</text>
-        <text x="246" y="278" class="rmark-code" fill="#F2A65A">{ }</text>
-      </svg>
+      <div class="hero-mark-inner">
+        <svg class="hero-mark-deco" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="rGlowHero" cx="0.5" cy="0.5" r="0.5">
+              <stop offset="0" stop-color="#4C8FE0" stop-opacity="0.35"/>
+              <stop offset="1" stop-color="#4C8FE0" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <circle cx="160" cy="160" r="158" stroke="#E2833F" stroke-width="1" opacity="0.4"/>
+          <circle cx="160" cy="160" r="120" stroke="#4C8FE0" stroke-width="1" opacity="0.25"/>
+          <circle cx="160" cy="160" r="150" fill="url(#rGlowHero)"/>
+          <circle cx="198" cy="124" r="16" fill="#F2A65A" opacity="0.3" filter="blur(6px)"/>
+          <text x="26" y="58" class="rmark-code" fill="#4C8FE0" transform="rotate(-8 26 58)">&lt;/&gt;</text>
+          <text x="246" y="278" class="rmark-code" fill="#F2A65A">{ }</text>
+        </svg>
+        <img src="assets/rhoneyinc-logo.png" alt="Logo RhoneyInc" class="hero-mark-img">
+      </div>
     </div>
   </div>
 </section>
