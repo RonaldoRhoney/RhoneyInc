@@ -163,6 +163,83 @@
     border-bottom-color:var(--linha-forte);
     box-shadow:0 12px 40px -20px rgba(0,0,0,0.65);
   }
+
+  /* ============ NAV ORBITAL (topo da página, telas largas) ============
+     Some no lugar do header compacto só enquanto a página está no topo
+     (header sem .is-scrolled) e a tela é larga o bastante pra caber os
+     itens girando ao redor do logo sem espremer nada. Ao rolar — ou em
+     qualquer tela ≤980px — cai pro .nav-stack de sempre (ver regras logo
+     abaixo e a query ≤980px). */
+  .nav-orbit-outer{
+    display:none;
+    padding:26px 36px 34px;
+    align-items:flex-start; justify-content:space-between;
+    max-width:1400px; margin:0 auto;
+  }
+  @media (min-width: 981px){
+    header:not(.is-scrolled) .nav-orbit-outer{ display:flex; }
+    header:not(.is-scrolled) .nav-stack{ display:none; }
+  }
+  .nav-orbit{
+    position:relative;
+    width:372px; height:372px;
+    margin:0 auto;
+    flex-shrink:0;
+  }
+  .nav-orbit-ring{
+    position:absolute; inset:0; border-radius:50%;
+    border:1px solid var(--linha-forte); opacity:0.7;
+  }
+  .nav-orbit-ring.ring-2{ inset:38px; border-color:rgba(76,143,224,0.28); }
+  .nav-orbit-glow{
+    position:absolute; inset:96px; border-radius:50%;
+    background:radial-gradient(circle, rgba(76,143,224,0.28), transparent 72%);
+    filter:blur(10px);
+  }
+  .nav-orbit-center{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+    text-align:center;
+  }
+  .nav-orbit-center svg{ width:56px; height:56px; }
+  .nav-orbit-center .brand-name{
+    font-family:var(--mono); font-weight:700; font-size:15px; letter-spacing:0.04em;
+  }
+  .nav-orbit-item{ position:absolute; top:50%; left:50%; }
+  .nav-orbit-link{
+    position:absolute; transform:translate(-50%,-50%);
+    display:flex; align-items:center; gap:5px;
+    font-family:var(--mono); font-size:13px; font-weight:600; letter-spacing:0.02em;
+    color:var(--papel-dim); background:var(--painel); border:1px solid var(--linha-forte);
+    border-radius:100px; padding:10px 18px; white-space:nowrap;
+    transition:color .2s ease, border-color .2s ease, transform .2s ease, background .2s ease;
+  }
+  .nav-orbit-link:hover{
+    color:var(--papel); border-color:var(--dourado-2);
+    background:var(--verde-rio-2, var(--painel));
+    transform:translate(-50%,-50%) scale(1.07);
+  }
+  /* .nav-dropdown/.lang-switch já têm position:relative como base (pra
+     ancorar seus próprios painéis suspensos) — precisa de mais
+     especificidade pra vencer isso e virar, ele mesmo, o "pill" orbital
+     (o botão/trigger interno perde a própria casca visual, ver abaixo). */
+  .nav-dropdown.nav-orbit-link,
+  .lang-switch.nav-orbit-link{
+    position:absolute;
+  }
+  .nav-orbit-link .nav-orbit-link-btn{
+    background:none; border:none; padding:0; margin:0;
+    color:inherit; font:inherit; letter-spacing:inherit;
+    display:flex; align-items:center; gap:5px; cursor:pointer;
+  }
+  .nav-orbit-item .nav-dropdown-options,
+  .nav-orbit-item .lang-options{
+    left:50%; transform:translateX(-50%);
+  }
+  .nav-orbit-auth{ flex-shrink:0; padding-top:4px; }
+  .nav-orbit-auth .nav-auth{ display:flex; align-items:center; gap:10px; }
+  .nav-orbit-auth .nav-auth .btn{ border-radius:100px; }
+
   nav{
     display:flex; align-items:center; justify-content:space-between;
     gap:20px;
@@ -413,6 +490,12 @@
     display:flex; align-items:center;
     padding-top:160px;
     overflow:hidden;
+  }
+  /* Espaço reservado pro estado "topo da página" do header (nav orbital,
+     ~430px de altura) — fixo mesmo depois de rolar, já que o header (fixed)
+     encolhe por cima sem que o hero precise reagir a isso. */
+  @media (min-width: 981px){
+    .hero{ padding-top:460px; }
   }
 
   .hero-river{
@@ -1387,6 +1470,78 @@
 
 <!-- ============ NAV ============ -->
 <header>
+  <!-- Header circular: só aparece no topo da página (antes de rolar) em
+       telas largas — iniciarHeaderScroll() (app.js) alterna .is-scrolled
+       no <header>; o CSS decide qual das duas versões do nav mostrar.
+       Ao rolar, ou em telas estreitas, cai pro header compacto (.nav-stack). -->
+  <div class="wrap nav-orbit-outer">
+    <div class="nav-orbit">
+      <div class="nav-orbit-ring ring-1" aria-hidden="true"></div>
+      <div class="nav-orbit-ring ring-2" aria-hidden="true"></div>
+      <div class="nav-orbit-glow" aria-hidden="true"></div>
+
+      <a href="#topo" class="nav-orbit-center">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="rGradOrbit" x1="10" y1="10" x2="38" y2="38" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#4C8FE0"/>
+              <stop offset="0.45" stop-color="#4C8FE0"/>
+              <stop offset="0.6" stop-color="#E2833F"/>
+              <stop offset="1" stop-color="#F2A65A"/>
+            </linearGradient>
+          </defs>
+          <path d="M6 34C13 34.5 19 30.5 23 23C27 15.5 33.5 10 42 9.5" stroke="url(#rGradOrbit)" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+          <circle cx="42" cy="9.5" r="3.2" fill="#F2A65A"/>
+          <path d="M14 36V12H24.5C28.6 12 32 14.9 32 19C32 22.3 29.8 24.9 26.7 25.8L33 36H27.8L22 26.4H19V36H14ZM19 22.2H24C26 22.2 27.3 20.9 27.3 19C27.3 17.1 26 15.8 24 15.8H19V22.2Z" fill="url(#rGradOrbit)"/>
+        </svg>
+        <span class="brand-name">RHONEY<span class="dim">INC</span></span>
+      </a>
+
+      <div class="nav-orbit-item" style="transform:rotate(-60deg) translate(178px) rotate(60deg);">
+        <a href="#softwares" class="nav-orbit-link" data-i18n="nav_softwares">Softwares</a>
+      </div>
+      <div class="nav-orbit-item" style="transform:rotate(0deg) translate(178px) rotate(0deg);">
+        <a href="#processo" class="nav-orbit-link" data-i18n="nav_processo">Processo</a>
+      </div>
+      <div class="nav-orbit-item" style="transform:rotate(60deg) translate(178px) rotate(-60deg);">
+        <a href="#stack" class="nav-orbit-link" data-i18n="nav_stack">Stack</a>
+      </div>
+      <div class="nav-orbit-item" style="transform:rotate(120deg) translate(178px) rotate(-120deg);">
+        <a href="#parceiros" class="nav-orbit-link" data-i18n="nav_parceiros">Parceiros</a>
+      </div>
+      <div class="nav-orbit-item" style="transform:rotate(180deg) translate(178px) rotate(-180deg);">
+        <div class="nav-dropdown nav-orbit-link">
+          <button type="button" class="nav-orbit-link-btn nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+            <span data-i18n="nav_vagas">Vagas</span><span class="nav-dropdown-caret">▾</span>
+          </button>
+          <div class="nav-dropdown-options">
+            <a href="#vagas" data-i18n="nav_vagas">Vagas</a>
+            <a href="#cursos" data-i18n="nav_cursos">Cursos</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-orbit-item" style="transform:rotate(240deg) translate(178px) rotate(-240deg);">
+        <div class="lang-switch nav-orbit-link" id="langSwitchOrbit">
+          <button type="button" class="nav-orbit-link-btn lang-current" aria-haspopup="true" aria-expanded="false">
+            <span class="lang-current-label">PT</span><span class="lang-caret">▾</span>
+          </button>
+          <div class="lang-options" role="group" aria-label="Idioma">
+            <button data-lang="pt" class="is-active">Português</button>
+            <button data-lang="en">English</button>
+            <button data-lang="es">Español</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-orbit-auth">
+      <div class="nav-auth">
+        <button class="btn btn-ghost" onclick="openModal('login')" data-i18n="nav_entrar">Entrar</button>
+        <button class="btn btn-solid" onclick="openModal('cadastro')" data-i18n="nav_criar_conta">Criar conta</button>
+      </div>
+    </div>
+  </div>
+
   <nav class="wrap nav-stack">
     <div class="nav-row nav-row-top">
     <div class="nav-group nav-group-account">
