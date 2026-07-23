@@ -169,6 +169,17 @@
     padding:18px 36px;
     max-width:1440px; margin:0 auto;
   }
+  /* Header em duas linhas: identidade em cima, navegação embaixo — em vez
+     de espremer os dois blocos lado a lado na mesma faixa. */
+  nav.nav-stack{
+    flex-direction:column;
+    align-items:stretch;
+    gap:14px;
+  }
+  .nav-row{
+    display:flex; align-items:center; justify-content:space-between; gap:20px;
+  }
+  .nav-row-bottom{ justify-content:center; }
   .brand{
     display:flex; align-items:center; gap:13px;
     flex-shrink:0;
@@ -300,6 +311,10 @@
   .nav-dropdown-options a:hover{ color:var(--papel); background:rgba(237,239,242,0.05); }
 
   .nav-auth{ display:flex; align-items:center; gap:12px; flex-shrink:0; }
+  /* Botões dentro do bloco de conta seguem o mesmo arredondamento total do
+     "pill" que os envolve — cantos de 10px ao lado de uma borda 100px
+     ficavam quadrados e destoavam do resto do header. */
+  .nav-auth .btn{ border-radius:100px; }
   .btn{
     font-family:var(--mono); font-size:13.5px; letter-spacing:0.02em; font-weight:600;
     padding:11px 20px; border-radius:10px;
@@ -396,7 +411,7 @@
     position:relative;
     min-height:100vh;
     display:flex; align-items:center;
-    padding-top:120px;
+    padding-top:160px;
     overflow:hidden;
   }
 
@@ -961,18 +976,19 @@
        resto (links, idioma, admin/sair ou entrar/criar conta) mora
        exclusivamente no hambúrguer (#mobileMenu), que já recebe essas
        mesmas informações via JS (atualizarEstadoSessao). */
-    .nav-group-menu{ display:none; }
-    nav.wrap > .nav-group-account .nav-auth .btn{ display:none; }
-    nav.wrap > .nav-group-account{
+    .nav-row-bottom{ display:none; }
+    nav.nav-stack{ gap:0; }
+    .nav-row-top .nav-group-account .nav-auth .btn{ display:none; }
+    .nav-row-top .nav-group-account{
       background:none; border:none; padding:0; gap:10px;
       flex-shrink:1; min-width:0;
     }
-    nav.wrap > .nav-group-account .nav-divider{ display:none; }
-    nav.wrap > .nav-group-account .user-chip{ padding:7px 10px; gap:5px; flex-shrink:1; min-width:0; }
-    nav.wrap > .nav-group-account .user-chip-name{ max-width:96px; }
+    .nav-row-top .nav-group-account .nav-divider{ display:none; }
+    .nav-row-top .nav-group-account .user-chip{ padding:7px 10px; gap:5px; flex-shrink:1; min-width:0; }
+    .nav-row-top .nav-group-account .user-chip-name{ max-width:96px; }
   }
   @media (max-width: 400px){
-    nav.wrap > .nav-group-account .user-chip-name{ max-width:62px; }
+    .nav-row-top .nav-group-account .user-chip-name{ max-width:62px; }
   }
   @media (max-width: 720px){
     .hero{ padding-top:100px; min-height:auto; padding-bottom:60px; }
@@ -1371,7 +1387,8 @@
 
 <!-- ============ NAV ============ -->
 <header>
-  <nav class="wrap">
+  <nav class="wrap nav-stack">
+    <div class="nav-row nav-row-top">
     <div class="nav-group nav-group-account">
       <a href="#topo" class="brand">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1396,6 +1413,10 @@
       </div>
     </div>
 
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">☰</button>
+    </div>
+
+    <div class="nav-row nav-row-bottom">
     <div class="nav-group nav-group-menu">
       <div class="nav-links">
         <a href="#softwares" data-i18n="nav_softwares">Softwares</a>
@@ -1426,8 +1447,7 @@
         </div>
       </div>
     </div>
-
-    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">☰</button>
+    </div>
   </nav>
 </header>
 
