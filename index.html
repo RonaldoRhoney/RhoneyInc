@@ -179,7 +179,6 @@
   .nav-row{
     display:flex; align-items:center; justify-content:space-between; gap:20px;
   }
-  .nav-row-bottom{ justify-content:center; }
   .brand{
     display:flex; align-items:center; gap:13px;
     flex-shrink:0;
@@ -187,35 +186,36 @@
   .brand svg{ width:40px; height:40px; transition:transform .35s cubic-bezier(.2,.8,.2,1), filter .35s ease; }
   .brand:hover svg{ transform:rotate(-8deg) scale(1.08); filter:drop-shadow(0 0 10px rgba(76,143,224,0.55)); }
   .brand-name{
-    font-family:var(--mono); font-weight:700; font-size:18px;
+    font-family:var(--mono); font-weight:700; font-size:20px;
     letter-spacing:0.04em;
   }
   .brand-name .dim{ color:var(--papel-dim); font-weight:400; }
 
   /* Os dois blocos do header: identidade (marca + conta) e navegação
-     (links + idioma), cada um com fundo/borda próprios pra ganhar presença
-     visual — antes eram itens soltos direto no header, pequenos e sem
-     nenhuma hierarquia entre si. */
+     (links + idioma), cada um com fundo/borda próprios, esticados pra
+     ocupar toda a largura do header — o conteúdo de cada bloco vai pra
+     as pontas (space-between), o que dá mais respiro e destaque pros
+     nomes dos menus em vez de ficarem espremidos num bloco pequeno. */
   .nav-group{
     display:flex; align-items:center; gap:16px;
   }
   .nav-group-account{
     background:var(--painel); border:1px solid var(--linha-forte);
-    border-radius:100px; padding:8px 10px 8px 18px;
+    border-radius:100px; padding:8px 10px 8px 22px;
+    width:100%; justify-content:space-between;
   }
   .nav-group-menu{
     background:var(--painel); border:1px solid var(--linha-forte);
-    border-radius:100px; padding:10px 24px;
+    border-radius:100px; padding:12px 28px;
     gap:26px;
-    flex-shrink:0;
+    width:100%; justify-content:space-between;
   }
-  .nav-divider{
-    width:1px; height:22px; background:var(--linha-forte); flex-shrink:0;
-  }
+  .nav-group-account .nav-divider,
+  .nav-group-menu .nav-divider{ display:none; }
 
   .nav-links{
-    display:flex; align-items:center; gap:24px;
-    font-family:var(--mono); font-size:14.5px; font-weight:600;
+    display:flex; align-items:center; gap:32px;
+    font-family:var(--mono); font-size:15.5px; font-weight:600;
     letter-spacing:0.03em;
     flex-shrink:1; min-width:0;
   }
