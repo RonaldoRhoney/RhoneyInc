@@ -1,0 +1,9 @@
+{
+  "name": "rhoneyinc-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Site institucional da RhoneyInc + funções serverless do painel admin.",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0"
+  }
+}

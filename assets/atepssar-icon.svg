@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="none">
+  <rect width="192" height="192" rx="42" fill="#0E1A1E"/>
+  <rect width="192" height="192" rx="42" fill="url(#atepssar-glow)" fill-opacity="0.28"/>
+  <path d="M96 56L156 82L96 108L36 82L96 56Z" stroke="#22D3EE" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M64 96V124C64 124 78 136 96 136C114 136 128 124 128 124V96" stroke="#22D3EE" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M156 82V116" stroke="#22D3EE" stroke-width="10" stroke-linecap="round"/>
+  <defs>
+    <radialGradient id="atepssar-glow" cx="0" cy="0" r="1" gradientTransform="translate(96 40) rotate(90) scale(140)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

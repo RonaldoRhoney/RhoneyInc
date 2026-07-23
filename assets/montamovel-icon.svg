@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="none">
+  <rect width="192" height="192" rx="42" fill="#1E1015"/>
+  <rect width="192" height="192" rx="42" fill="url(#montamovel-glow)" fill-opacity="0.28"/>
+  <path d="M118 50L142 74L88 128L60 136L68 108L118 50Z" stroke="#E94560" stroke-width="9" stroke-linejoin="round"/>
+  <path d="M104 64L128 88" stroke="#E94560" stroke-width="9" stroke-linecap="round"/>
+  <defs>
+    <radialGradient id="montamovel-glow" cx="0" cy="0" r="1" gradientTransform="translate(96 40) rotate(90) scale(140)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E94560"/>
+      <stop offset="1" stop-color="#E94560" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

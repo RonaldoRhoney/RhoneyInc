@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RhoneyInc v3 — Protótipo Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="code-bg">const  =>  { }  import  null  [ ]  fn()  &&  return  0x  ;  const  =>  { }  import  null  [ ]  fn()  &&  return  0x  ;
+const  =>  { }  import  null  [ ]  fn()  &&  return  0x  ;  const  =>  { }  import  null
+[ ]  fn()  &&  return  0x  ;  const  =>  { }  import  null  [ ]  fn()  &&  return  0x  ;
+const  =>  { }  import  null  [ ]  fn()  &&  return  0x  ;  const  =>  { }  import  null</div>
+
+<!-- PREVIEW BAR -->
+<div class="preview-bar">
+  <span>RHONEYINC v3 — PROTÓTIPO VISUAL</span>
+  <button class="prev-btn active" onclick="show('home', this)">① HOME PÚBLICA</button>
+  <button class="prev-btn" onclick="show('dash', this)">② DASHBOARD (logado)</button>
+  <button class="prev-btn" onclick="show('admin', this)">③ ADMIN (Ronaldo)</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN 1 — HOME PÚBLICA
+═══════════════════════════════════════════════════════ -->
+<div class="screen visible" id="s-home">
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <svg class="logo-mark" viewBox="0 0 30 30" fill="none">
+          <rect x=".5" y=".5" width="29" height="29" rx="4" stroke="#C9A24B" stroke-width="1"/>
+          <path d="M8 22V8h7c2.6 0 4.5 1.8 4.5 4.5 0 2-1.4 3.5-3.2 4L20 22h-3.5L13 17h-2v5H8Zm3-7.5h3.5c1.2 0 2-.8 2-2s-.8-2-2-2H11V14.5Z" fill="#EDEEF2"/>
+          <path d="M11 17c0 3-2 5.5-5 7" stroke="#3FA796" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        RHONEY<span>INC</span>
+      </a>
+      <div class="nav-links">
+        <a href="#">Produtos</a>
+        <a href="#">Parceiros</a>
+        <a href="#">Sobre</a>
+      </div>
+      <div class="nav-actions">
+        <button class="btn btn-ghost btn-sm" onclick="show('dash', document.querySelectorAll('.prev-btn')[1])">Entrar</button>
+        <button class="btn btn-gold btn-sm" onclick="show('dash', document.querySelectorAll('.prev-btn')[1])">Criar conta</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <div class="hero-eyebrow">Plataforma de software · Belém, PA</div>
+      <h1 class="hero-title">
+        Uma conta.<br>
+        <span class="g">Todos</span> os seus<br>
+        <span class="o">softwares.</span>
+      </h1>
+      <p class="hero-sub">
+        A RhoneyInc é o guarda-chuva por trás do FitNow, FinWise, MontaMovel e dos próximos produtos. Cadastre-se uma vez e acesse, contrate e gerencie tudo num só lugar.
+      </p>
+      <div class="hero-cta">
+        <button class="btn btn-gold btn-lg" onclick="show('dash', document.querySelectorAll('.prev-btn')[1])">Criar conta grátis</button>
+        <a href="#produtos" class="btn btn-ghost btn-lg">Ver produtos →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-n">3</div><div class="stat-l">PRODUTOS EM DEV.</div></div>
+        <div class="stat"><div class="stat-n">BR</div><div class="stat-l">FEITO NO BRASIL</div></div>
+        <div class="stat"><div class="stat-n">PA</div><div class="stat-l">SEDE · BELÉM</div></div>
+      </div>
+    </div>
+
+    <!-- diagrama de produtos -->
+    <div class="hero-diagram">
+      <div class="diag-hub">
+        <svg viewBox="0 0 22 22" fill="none">
+          <rect x=".5" y=".5" width="21" height="21" rx="3" stroke="#C9A24B" stroke-width="1"/>
+          <path d="M5 15V7h5c1.8 0 3 1.2 3 3 0 1.4-1 2.5-2.2 2.8L13 15H10.5L8.5 12H7v3H5ZM7 10.5H9.5c.8 0 1.4-.5 1.4-1.4 0-.8-.6-1.4-1.4-1.4H7V10.5Z" fill="#E2BE6E"/>
+          <path d="M7 12c0 2-1.4 3.8-3.5 4.8" stroke="#3FA796" stroke-width=".9" stroke-linecap="round"/>
+        </svg>
+        RhoneyInc — Plataforma
+      </div>
+      <div class="diag-conn"></div>
+      <div class="diag-products">
+        <div class="diag-prod">
+          <div class="dp-tag tag-dev">Em dev.</div>
+          <div class="dp-name">FitNow</div>
+          <div class="dp-model">Freemium · Web + Mobile</div>
+        </div>
+        <div class="diag-prod">
+          <div class="dp-tag tag-dev">Em dev.</div>
+          <div class="dp-name">FinWise</div>
+          <div class="dp-model">Freemium · Web</div>
+        </div>
+        <div class="diag-prod">
+          <div class="dp-tag tag-dev">Em dev.</div>
+          <div class="dp-name">MontaMovel</div>
+          <div class="dp-model">B2B · Assinatura</div>
+        </div>
+        <div class="diag-more">+ próximos produtos →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARQUEE -->
+  <div class="marquee">
+    <div class="mq-track">
+      <span class="hi">FITNOW</span><span>·</span>
+      <span class="hi">FINWISE</span><span>·</span>
+      <span class="hi">MONTAMOVEL</span><span>·</span>
+      <span>SUPABASE</span><span>·</span>
+      <span>REACT</span><span>·</span>
+      <span>FASTAPI</span><span>·</span>
+      <span>PYTHON</span><span>·</span>
+      <span>BELÉM · PA · BRASIL</span><span>·</span>
+      <span class="hi">FITNOW</span><span>·</span>
+      <span class="hi">FINWISE</span><span>·</span>
+      <span class="hi">MONTAMOVEL</span><span>·</span>
+      <span>SUPABASE</span><span>·</span>
+      <span>REACT</span><span>·</span>
+      <span>FASTAPI</span><span>·</span>
+      <span>PYTHON</span><span>·</span>
+      <span>BELÉM · PA · BRASIL</span><span>·</span>
+    </div>
+  </div>
+
+  <!-- PRODUTOS -->
+  <section class="section" id="produtos">
+    <div class="sec-head">
+      <div>
+        <div class="sec-eyebrow">Portfólio</div>
+        <h2 class="sec-title">Produtos da RhoneyInc</h2>
+      </div>
+      <p class="sec-note">Cada produto resolve um problema real, com plano e pricing transparente.</p>
+    </div>
+    <div class="products-grid">
+
+      <!-- FitNow -->
+      <div class="prod-card">
+        <div class="prod-card-top">
+          <div class="prod-icon icon-fit">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M6 12h2M16 12h2M8 9v6M16 9v6M10 7v10M14 7v10" stroke="#3FA796" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <span class="dp-tag tag-dev">Em desenvolvimento</span>
+        </div>
+        <div class="prod-name">FitNow</div>
+        <div class="prod-desc">App de fitness inclusivo: treinos por nível, receitas, controle de macros, comunidade e rankings. Sem desculpa. Sem rótulo.</div>
+        <div class="prod-footer">
+          <div class="prod-price"><strong>Grátis</strong> · plano premium em breve</div>
+          <span class="prod-arrow">↗</span>
+        </div>
+      </div>
+
+      <!-- FinWise -->
+      <div class="prod-card">
+        <div class="prod-card-top">
+          <div class="prod-icon icon-fin">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M7 17V11M12 17V7M17 17v-4" stroke="#E2BE6E" stroke-width="1.8" stroke-linecap="round"/><path d="M5 17h14" stroke="#E2BE6E" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </div>
+          <span class="dp-tag tag-dev">Em desenvolvimento</span>
+        </div>
+        <div class="prod-name">FinWise</div>
+        <div class="prod-desc">Controle financeiro com IA (TipsMoney), conversor de moedas, relatórios em PDF e educação financeira nos conformes do CVM.</div>
+        <div class="prod-footer">
+          <div class="prod-price"><strong>Freemium</strong> · a partir de R$ 0</div>
+          <span class="prod-arrow">↗</span>
+        </div>
+      </div>
+
+      <!-- MontaMovel -->
+      <div class="prod-card">
+        <div class="prod-card-top">
+          <div class="prod-icon icon-mont">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="1" stroke="#8888ff" stroke-width="1.6"/><rect x="13" y="3" width="8" height="8" rx="1" stroke="#8888ff" stroke-width="1.6"/><rect x="3" y="13" width="8" height="8" rx="1" stroke="#8888ff" stroke-width="1.6"/><path d="M13 17h8M17 13v8" stroke="#8888ff" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <span class="dp-tag tag-dev">Em desenvolvimento</span>
+        </div>
+        <div class="prod-name">MontaMovel</div>
+        <div class="prod-desc">SaaS B2B para gestão de equipes de montagem de móveis: ordens de serviço, técnicos, relatórios e conformidade com a CLT.</div>
+        <div class="prod-footer">
+          <div class="prod-price">A partir de <strong>R$ 299/mês</strong></div>
+          <span class="prod-arrow">↗</span>
+        </div>
+      </div>
+
+      <!-- placeholder -->
+      <div class="prod-card prod-card-placeholder">
+        <div class="ph-inner">
+          <div class="ph-plus">+</div>
+          <div class="ph-lbl">PRÓXIMO PRODUTO</div>
+        </div>
+      </div>
+      <div class="prod-card prod-card-placeholder">
+        <div class="ph-inner">
+          <div class="ph-plus">+</div>
+          <div class="ph-lbl">PRÓXIMO PRODUTO</div>
+        </div>
+      </div>
+      <div class="prod-card prod-card-placeholder">
+        <div class="ph-inner">
+          <div class="ph-plus">+</div>
+          <div class="ph-lbl">PRÓXIMO PRODUTO</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <div class="cta-band">
+    <div class="cta-band-inner">
+      <h2>Uma conta. <span>Todos os produtos.</span> Para sempre.</h2>
+      <button class="btn btn-gold btn-lg" onclick="show('dash', document.querySelectorAll('.prev-btn')[1])">Criar conta grátis →</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="logo">
+            <svg class="logo-mark" viewBox="0 0 30 30" fill="none">
+              <rect x=".5" y=".5" width="29" height="29" rx="4" stroke="#C9A24B" stroke-width="1"/>
+              <path d="M8 22V8h7c2.6 0 4.5 1.8 4.5 4.5 0 2-1.4 3.5-3.2 4L20 22h-3.5L13 17h-2v5H8Z" fill="#EDEEF2"/>
+            </svg>
+            RHONEY<span>INC</span>
+          </a>
+          <p>Plataforma holding de produtos de software criados por Ronaldo Martins, em Belém do Pará.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Produtos</h5>
+          <a href="#">FitNow</a>
+          <a href="#">FinWise</a>
+          <a href="#">MontaMovel</a>
+        </div>
+        <div class="footer-col">
+          <h5>Empresa</h5>
+          <a href="#">Sobre</a>
+          <a href="#">Parceiros</a>
+          <a href="#">Contato</a>
+        </div>
+        <div class="footer-col">
+          <h5>Conta</h5>
+          <a href="#" onclick="show('dash', document.querySelectorAll('.prev-btn')[1]); return false;">Entrar</a>
+          <a href="#" onclick="show('dash', document.querySelectorAll('.prev-btn')[1]); return false;">Criar conta</a>
+          <a href="#" onclick="show('admin', document.querySelectorAll('.prev-btn')[2]); return false;">Admin</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 RHONEYINC · TODOS OS DIREITOS RESERVADOS</span>
+        <span>BELÉM · PA · BRASIL</span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /screen home -->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN 2 — DASHBOARD
+═══════════════════════════════════════════════════════ -->
+<div class="screen" id="s-dash">
+  <div class="dash-layout">
+
+    <!-- sidebar -->
+    <aside class="dash-sidebar">
+      <div class="dash-user">
+        <div class="avatar">R</div>
+        <div class="uname">Ronaldo Martins</div>
+        <div class="urole">● Conta ativa</div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-label">Principal</div>
+        <a href="#" class="active">
+          <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor"/><rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor"/><rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor"/><rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor"/></svg>
+          Visão geral
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h8M2 12h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Meus produtos
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Histórico
+        </a>
+        <div class="sidebar-sep"></div>
+        <div class="sidebar-label">Conta</div>
+        <a href="#">
+          <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M2 13c0-2.8 2.7-5 6-5s6 2.2 6 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Perfil
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="#" onclick="show('home', document.querySelectorAll('.prev-btn')[0]); return false;">← Voltar ao site</a>
+        <a href="#" onclick="show('admin', document.querySelectorAll('.prev-btn')[2]); return false;">⚙ Painel admin</a>
+        <a href="#" style="color:#e07a5f;">Sair da conta</a>
+      </div>
+    </aside>
+
+    <!-- main -->
+    <main class="dash-main">
+      <div class="dash-header">
+        <h1>Olá, Ronaldo 👋</h1>
+        <p>Aqui estão os produtos que você acessa pela RhoneyInc.</p>
+      </div>
+
+      <div class="dash-cards">
+        <div class="dash-card">
+          <div class="dc-label">PRODUTOS COM ACESSO</div>
+          <div class="dc-value">2</div>
+          <div class="dc-sub">de 3 disponíveis</div>
+        </div>
+        <div class="dash-card">
+          <div class="dc-label">STATUS DA CONTA</div>
+          <div class="dc-value" style="font-size:18px; color: var(--teal);">● Ativa</div>
+          <div class="dc-sub">desde jan 2026</div>
+        </div>
+        <div class="dash-card">
+          <div class="dc-label">PRÓXIMO PRODUTO</div>
+          <div class="dc-value" style="font-size:18px;">MontaMovel</div>
+          <div class="dc-sub">Em desenvolvimento</div>
+        </div>
+      </div>
+
+      <div class="dash-section-title">Meus produtos</div>
+      <div class="my-products">
+        <div class="my-prod">
+          <div class="mp-icon icon-fit"><svg viewBox="0 0 24 24" fill="none"><path d="M6 12h2M16 12h2M8 9v6M16 9v6M10 7v10M14 7v10" stroke="#3FA796" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <div class="mp-info">
+            <div class="mp-name">FitNow</div>
+            <div class="mp-plan">Plano Gratuito · acesso liberado</div>
+          </div>
+          <span class="mp-status status-ativo">Ativo</span>
+          <button class="mp-btn">Acessar →</button>
+        </div>
+        <div class="my-prod">
+          <div class="mp-icon icon-fin"><svg viewBox="0 0 24 24" fill="none"><path d="M7 17V11M12 17V7M17 17v-4" stroke="#E2BE6E" stroke-width="1.8" stroke-linecap="round"/><path d="M5 17h14" stroke="#E2BE6E" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+          <div class="mp-info">
+            <div class="mp-name">FinWise</div>
+            <div class="mp-plan">Trial gratuito · 14 dias restantes</div>
+          </div>
+          <span class="mp-status status-trial">Trial</span>
+          <button class="mp-btn">Acessar →</button>
+        </div>
+      </div>
+
+      <div class="dash-section-title" style="margin-top: 12px;">Descobrir mais</div>
+      <div class="discover-grid">
+        <div class="disc-card">
+          <div class="dc-icon icon-mont"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="1" stroke="#8888ff" stroke-width="1.6"/><rect x="13" y="3" width="8" height="8" rx="1" stroke="#8888ff" stroke-width="1.6"/><rect x="3" y="13" width="8" height="8" rx="1" stroke="#8888ff" stroke-width="1.6"/><path d="M13 17h8M17 13v8" stroke="#8888ff" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <div>
+            <div class="dc-name">MontaMovel</div>
+            <div class="dc-desc">Gestão de montagem de móveis B2B</div>
+            <div class="dc-cta">Em breve · entrar na lista →</div>
+          </div>
+        </div>
+        <div class="disc-card" style="border-style: dashed;">
+          <div class="dc-icon icon-new"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#7E8494" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <div>
+            <div class="dc-name" style="color: var(--paper-dim);">Próximo produto</div>
+            <div class="dc-desc">A caminho — fique de olho</div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+  </div>
+</div><!-- /screen dash -->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN 3 — ADMIN
+═══════════════════════════════════════════════════════ -->
+<div class="screen" id="s-admin">
+  <div class="admin-layout">
+
+    <aside class="admin-sidebar">
+      <div class="admin-badge">
+        👑 Acesso admin
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-label">Gestão</div>
+        <a href="#" class="active">
+          <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor"/><rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor"/><rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor"/><rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor"/></svg>
+          Visão geral
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M8 5v6M5 8h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Produtos
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M2 13c0-2.8 2.7-5 6-5s6 2.2 6 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Usuários
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M2 11V5l6-3 6 3v6l-6 3-6-3Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+          Parceiros
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h8M2 12h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Propostas
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="#" onclick="show('dash', document.querySelectorAll('.prev-btn')[1]); return false;">← Meu dashboard</a>
+        <a href="#" onclick="show('home', document.querySelectorAll('.prev-btn')[0]); return false;">← Site público</a>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <h1>Painel administrativo</h1>
+      <p class="sub">Gerencie produtos, usuários, parceiros e propostas da RhoneyInc.</p>
+
+      <!-- métricas -->
+      <div class="admin-metrics">
+        <div class="am-card">
+          <div class="amc-l">PRODUTOS ATIVOS</div>
+          <div class="amc-v teal">3</div>
+          <div class="amc-delta">↑ +1 este mês</div>
+        </div>
+        <div class="am-card">
+          <div class="amc-l">USUÁRIOS CADASTRADOS</div>
+          <div class="amc-v gold">—</div>
+          <div class="amc-delta">aguardando dados reais</div>
+        </div>
+        <div class="am-card">
+          <div class="amc-l">PROPOSTAS PENDENTES</div>
+          <div class="amc-v">0</div>
+          <div class="amc-delta">nenhuma nova</div>
+        </div>
+        <div class="am-card">
+          <div class="amc-l">PARCEIROS ATIVOS</div>
+          <div class="amc-v">0</div>
+          <div class="amc-delta">vagas abertas</div>
+        </div>
+      </div>
+
+      <!-- tabela de produtos -->
+      <div class="dash-section-title">Catálogo de produtos</div>
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th>Status</th>
+            <th>Modelo</th>
+            <th>Preço base</th>
+            <th>Usuários</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>FitNow</td>
+            <td><span class="td-status tag-dev">Em dev.</span></td>
+            <td>Freemium</td>
+            <td>R$ 0 / mês</td>
+            <td style="color:var(--paper-dim)">—</td>
+            <td><div class="td-acts">
+              <button class="td-act">Editar</button>
+              <button class="td-act">Desativar</button>
+            </div></td>
+          </tr>
+          <tr>
+            <td>FinWise</td>
+            <td><span class="td-status tag-dev">Em dev.</span></td>
+            <td>Freemium</td>
+            <td>R$ 0 / mês</td>
+            <td style="color:var(--paper-dim)">—</td>
+            <td><div class="td-acts">
+              <button class="td-act">Editar</button>
+              <button class="td-act">Desativar</button>
+            </div></td>
+          </tr>
+          <tr>
+            <td>MontaMovel</td>
+            <td><span class="td-status tag-dev">Em dev.</span></td>
+            <td>B2B · Assinatura</td>
+            <td>R$ 299 / mês</td>
+            <td style="color:var(--paper-dim)">—</td>
+            <td><div class="td-acts">
+              <button class="td-act">Editar</button>
+              <button class="td-act">Desativar</button>
+            </div></td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-gold btn-sm" style="margin-bottom: 40px;">+ Adicionar produto</button>
+
+      <!-- propostas recentes -->
+      <div class="dash-section-title">Propostas de parceria recentes</div>
+      <div class="prop-list">
+        <div class="prop-row" style="justify-content:center; color: var(--paper-dim); font-family: var(--f-mono); font-size: 13px;">
+          Nenhuma proposta recebida ainda. Quando alguém preencher o formulário, aparece aqui.
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div><!-- /screen admin -->
+
+
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="none">
+  <rect width="192" height="192" rx="42" fill="#181420"/>
+  <rect width="192" height="192" rx="42" fill="url(#amavida-glow)" fill-opacity="0.28"/>
+  <path d="M96 138C74 122 50 104 50 78C50 60 63 48 79 48C87 48 93 52 96 58C99 52 105 48 113 48C129 48 142 60 142 78C142 104 118 122 96 138Z" fill="#A78BFA"/>
+  <defs>
+    <radialGradient id="amavida-glow" cx="0" cy="0" r="1" gradientTransform="translate(96 40) rotate(90) scale(140)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A78BFA"/>
+      <stop offset="1" stop-color="#A78BFA" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

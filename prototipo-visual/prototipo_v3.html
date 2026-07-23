@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RhoneyInc v3 — Protótipo Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ─── TOKENS ─────────────────────────────────────────────── */
+:root {
+  --ink:      #09090B;
+  --ink-2:    #111116;
+  --ink-3:    #18181F;
+  --ink-4:    #22222C;
+  --gold:     #C9A24B;
+  --gold-2:   #E2BE6E;
+  --teal:     #3FA796;
+  --teal-dim: rgba(63,167,150,0.18);
+  --paper:    #EDEEF2;
+  --paper-dim:#7E8494;
+  --line:     rgba(237,238,242,0.09);
+  --line-2:   rgba(237,238,242,0.16);
+
+  --f-display: 'Archivo Black', sans-serif;
+  --f-body:    'Archivo', sans-serif;
+  --f-mono:    'Space Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--f-body);
+  line-height: 1.55;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--gold); color: var(--ink); }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* ─── PREVIEW SWITCHER (só no protótipo) ─────────────────── */
+.preview-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+  background: #000;
+  border-bottom: 1px solid #2a2a35;
+  display: flex; align-items: center; gap: 0;
+  height: 42px;
+  font-family: var(--f-mono); font-size: 11px;
+}
+.preview-bar span {
+  color: #555; padding: 0 16px; border-right: 1px solid #222;
+  white-space: nowrap;
+}
+.prev-btn {
+  padding: 0 18px; height: 42px;
+  color: #555; border-right: 1px solid #222;
+  transition: all .2s; font-family: var(--f-mono); font-size: 11px;
+  letter-spacing: .04em;
+}
+.prev-btn:hover { color: var(--paper); background: #111; }
+.prev-btn.active { color: var(--gold-2); background: #0f0f14; }
+
+/* ─── GRAIN ──────────────────────────────────────────────── */
+.grain {
+  position: fixed; inset: 0; z-index: 998; pointer-events: none;
+  opacity: .032; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ─── CODE BG ────────────────────────────────────────────── */
+.code-bg {
+  position: fixed; inset: -10% -5%; z-index: 0; pointer-events: none;
+  font-family: var(--f-mono); font-size: 12px; line-height: 3.4;
+  color: rgba(237,238,242,.022); white-space: pre-wrap;
+  transform: rotate(-5deg);
+  content: 'const  =>  { }  import  null  [ ]  fn()  &&  return  0x  ;';
+}
+
+/* ─── SCREENS ────────────────────────────────────────────── */
+.screen { display: none; position: relative; z-index: 1; padding-top: 42px; }
+.screen.visible { display: block; }
+
+/* ════════════════════════════════════════════════════════════
+   SCREEN 1 — HOME PÚBLICA
+════════════════════════════════════════════════════════════ */
+
+/* NAV */
+.nav {
+  position: sticky; top: 42px; z-index: 100;
+  background: rgba(9,9,11,.92); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 32px;
+  height: 62px; display: flex; align-items: center; gap: 40px;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--f-mono); font-size: 14px; font-weight: 700;
+  letter-spacing: .04em; flex-shrink: 0;
+}
+.logo-mark {
+  width: 30px; height: 30px; flex-shrink: 0;
+}
+.logo span { color: var(--paper-dim); font-weight: 400; }
+.nav-links {
+  display: flex; gap: 28px; flex: 1;
+  font-family: var(--f-mono); font-size: 12px;
+}
+.nav-links a { color: var(--paper-dim); transition: color .2s; }
+.nav-links a:hover { color: var(--paper); }
+.nav-actions { display: flex; gap: 10px; flex-shrink: 0; }
+
+.btn {
+  font-family: var(--f-mono); font-size: 12px; font-weight: 700;
+  letter-spacing: .03em; padding: 9px 18px; border-radius: 3px;
+  border: 1px solid var(--line-2); transition: all .2s; white-space: nowrap;
+}
+.btn-ghost { color: var(--paper); }
+.btn-ghost:hover { border-color: var(--gold-2); color: var(--gold-2); }
+.btn-gold { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+.btn-gold:hover { background: var(--gold-2); border-color: var(--gold-2); transform: translateY(-1px); }
+.btn-teal { background: var(--teal); color: #fff; border-color: var(--teal); }
+.btn-teal:hover { opacity: .88; }
+.btn-sm { padding: 7px 13px; font-size: 11px; }
+.btn-lg { padding: 14px 28px; font-size: 13px; }
+
+/* HERO */
+.hero {
+  max-width: 1200px; margin: 0 auto; padding: 96px 32px 80px;
+  display: grid; grid-template-columns: 1fr 400px; gap: 64px; align-items: center;
+}
+.hero-eyebrow {
+  font-family: var(--f-mono); font-size: 11px; color: var(--teal);
+  letter-spacing: .1em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 8px; margin-bottom: 20px;
+}
+.hero-eyebrow::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--teal); box-shadow: 0 0 0 3px var(--teal-dim);
+  animation: pulse 2.4s ease infinite;
+}
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 3px var(--teal-dim)} 50%{box-shadow:0 0 0 7px transparent} }
+
+.hero-title {
+  font-family: var(--f-display); font-size: clamp(38px,4.8vw,68px);
+  line-height: .97; letter-spacing: -.01em; margin-bottom: 24px;
+}
+.hero-title .g { color: var(--gold-2); }
+.hero-title .o { -webkit-text-stroke: 1.5px var(--paper); color: transparent; }
+
+.hero-sub {
+  font-size: 17px; color: var(--paper-dim); max-width: 500px;
+  line-height: 1.65; margin-bottom: 36px;
+}
+.hero-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 52px; }
+
+.hero-stats {
+  display: flex; gap: 0; border-top: 1px solid var(--line); padding-top: 28px;
+}
+.stat {
+  padding-right: 32px; margin-right: 32px; border-right: 1px solid var(--line);
+}
+.stat:last-child { border: none; }
+.stat-n { font-family: var(--f-display); font-size: 28px; color: var(--gold-2); }
+.stat-l { font-family: var(--f-mono); font-size: 10px; color: var(--paper-dim); letter-spacing: .05em; margin-top: 2px; }
+
+/* HERO VISUAL — diagrama de produtos */
+.hero-diagram {
+  position: relative; display: flex; flex-direction: column; gap: 10px;
+}
+.diag-hub {
+  background: var(--ink-3); border: 1px solid var(--gold);
+  padding: 14px 18px; border-radius: 4px;
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--f-mono); font-size: 13px; font-weight: 700;
+  color: var(--gold-2);
+}
+.diag-hub svg { width: 22px; height: 22px; flex-shrink: 0; }
+.diag-conn {
+  width: 2px; height: 14px; background: var(--line-2); margin-left: 29px;
+}
+.diag-products {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+}
+.diag-prod {
+  background: var(--ink-3); border: 1px solid var(--line-2);
+  padding: 12px 14px; border-radius: 4px;
+  font-family: var(--f-mono); font-size: 11px;
+  transition: border-color .2s, transform .2s;
+  cursor: default;
+}
+.diag-prod:hover { border-color: var(--line-2 ); transform: translateY(-2px); border-color: var(--teal); }
+.diag-prod .dp-name { color: var(--paper); font-weight: 700; margin-bottom: 4px; }
+.diag-prod .dp-tag {
+  display: inline-block; font-size: 9px; letter-spacing: .05em; text-transform: uppercase;
+  padding: 2px 6px; border-radius: 20px; margin-bottom: 6px;
+}
+.tag-dev { background: rgba(63,167,150,.15); color: var(--teal); border: 1px solid rgba(63,167,150,.3); }
+.tag-em-breve { background: rgba(201,162,75,.12); color: var(--gold-2); border: 1px solid rgba(201,162,75,.25); }
+.tag-ativo { background: rgba(63,167,150,.2); color: #5de6ce; border: 1px solid rgba(63,167,150,.4); }
+.diag-prod .dp-model { font-size: 10px; color: var(--paper-dim); }
+.diag-more {
+  grid-column: 1/-1; background: var(--ink-2);
+  border: 1px dashed var(--line-2); padding: 10px 14px; border-radius: 4px;
+  font-family: var(--f-mono); font-size: 11px; color: var(--paper-dim);
+  text-align: center;
+}
+
+/* MARQUEE */
+.marquee { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; background: var(--ink-2); padding: 13px 0; }
+.mq-track { display: inline-block; animation: mq 28s linear infinite; white-space: nowrap; }
+.mq-track span { font-family: var(--f-mono); font-size: 12px; color: var(--paper-dim); margin: 0 24px; letter-spacing: .04em; }
+.mq-track span.hi { color: var(--gold-2); }
+@keyframes mq { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* PRODUTOS SECTION */
+.section { max-width: 1200px; margin: 0 auto; padding: 88px 32px; }
+.sec-head {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  border-bottom: 1px solid var(--line); padding-bottom: 24px; margin-bottom: 48px;
+  gap: 24px; flex-wrap: wrap;
+}
+.sec-eyebrow { font-family: var(--f-mono); font-size: 11px; color: var(--teal); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
+.sec-title { font-family: var(--f-display); font-size: clamp(26px,3vw,38px); line-height: 1.05; }
+.sec-note { color: var(--paper-dim); font-size: 14px; max-width: 300px; }
+
+/* product cards */
+.products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.prod-card {
+  background: var(--ink); padding: 32px 28px;
+  display: flex; flex-direction: column; transition: background .25s;
+  position: relative;
+}
+.prod-card:hover { background: var(--ink-3); }
+.prod-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+.prod-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.prod-icon svg { width: 24px; height: 24px; }
+.icon-fit { background: rgba(63,167,150,.12); }
+.icon-fin { background: rgba(201,162,75,.1); }
+.icon-mont { background: rgba(100,120,255,.1); }
+.icon-new { background: rgba(237,238,242,.05); }
+
+.prod-name { font-family: var(--f-display); font-size: 20px; margin-bottom: 6px; }
+.prod-desc { color: var(--paper-dim); font-size: 14px; line-height: 1.6; flex: 1; margin-bottom: 24px; }
+.prod-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid var(--line); }
+.prod-price { font-family: var(--f-mono); font-size: 12px; color: var(--paper-dim); }
+.prod-price strong { color: var(--paper); font-size: 15px; }
+.prod-arrow { color: var(--gold-2); font-size: 18px; transition: transform .2s; }
+.prod-card:hover .prod-arrow { transform: translateX(5px); }
+.prod-card-placeholder {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 260px; background: var(--ink);
+}
+.prod-card-placeholder:hover { background: var(--ink-2); }
+.ph-inner { text-align: center; }
+.ph-plus { font-family: var(--f-display); font-size: 32px; color: var(--line-2); margin-bottom: 8px; }
+.ph-lbl { font-family: var(--f-mono); font-size: 10px; color: var(--paper-dim); letter-spacing: .06em; }
+
+/* CTA FAIXA */
+.cta-band {
+  background: var(--ink-3); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  padding: 80px 32px;
+}
+.cta-band-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center; gap: 40px; flex-wrap: wrap;
+}
+.cta-band h2 { font-family: var(--f-display); font-size: clamp(28px,3.5vw,44px); max-width: 560px; line-height: 1.1; }
+.cta-band h2 span { color: var(--gold-2); }
+
+/* FOOTER */
+.footer {
+  background: var(--ink-2); border-top: 1px solid var(--line);
+  padding: 56px 32px 28px;
+}
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: 1.5fr repeat(3,1fr); gap: 40px; margin-bottom: 48px; }
+.footer-brand p { color: var(--paper-dim); font-size: 13px; max-width: 260px; line-height: 1.6; margin-top: 14px; }
+.footer-col h5 { font-family: var(--f-mono); font-size: 11px; color: var(--gold-2); letter-spacing: .07em; text-transform: uppercase; margin-bottom: 16px; }
+.footer-col a { display: block; color: var(--paper-dim); font-size: 13px; margin-bottom: 10px; transition: color .2s; }
+.footer-col a:hover { color: var(--paper); }
+.footer-bottom { border-top: 1px solid var(--line); padding-top: 24px; display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 11px; color: var(--paper-dim); }
+
+/* ════════════════════════════════════════════════════════════
+   SCREEN 2 — DASHBOARD LOGADO
+════════════════════════════════════════════════════════════ */
+.dash-layout {
+  display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 42px);
+}
+.dash-sidebar {
+  background: var(--ink-2); border-right: 1px solid var(--line);
+  padding: 28px 0; display: flex; flex-direction: column; position: sticky; top: 42px; height: calc(100vh - 42px); overflow-y: auto;
+}
+.dash-user {
+  padding: 0 20px 24px; border-bottom: 1px solid var(--line); margin-bottom: 16px;
+}
+.dash-user .avatar {
+  width: 38px; height: 38px; border-radius: 50%; background: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-display); font-size: 16px; color: var(--ink); margin-bottom: 10px;
+}
+.dash-user .uname { font-size: 14px; font-weight: 600; }
+.dash-user .urole { font-family: var(--f-mono); font-size: 10px; color: var(--teal); letter-spacing: .05em; }
+
+.sidebar-nav a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 20px; color: var(--paper-dim); font-size: 13px;
+  transition: all .2s; position: relative;
+}
+.sidebar-nav a:hover { color: var(--paper); background: var(--line); }
+.sidebar-nav a.active { color: var(--paper); }
+.sidebar-nav a.active::before {
+  content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 18px; background: var(--gold-2); border-radius: 0 2px 2px 0;
+}
+.sidebar-nav a svg { width: 16px; height: 16px; opacity: .6; }
+.sidebar-nav a.active svg { opacity: 1; }
+.sidebar-sep { height: 1px; background: var(--line); margin: 12px 20px; }
+.sidebar-label { font-family: var(--f-mono); font-size: 10px; color: var(--paper-dim); letter-spacing: .07em; text-transform: uppercase; padding: 8px 20px 4px; }
+.sidebar-footer { margin-top: auto; padding: 16px 20px 0; border-top: 1px solid var(--line); }
+.sidebar-footer a { font-family: var(--f-mono); font-size: 11px; color: var(--paper-dim); display: block; padding: 6px 0; }
+.sidebar-footer a:hover { color: var(--paper); }
+
+.dash-main { padding: 40px 48px; overflow-y: auto; }
+.dash-header { margin-bottom: 36px; }
+.dash-header h1 { font-family: var(--f-display); font-size: 26px; margin-bottom: 4px; }
+.dash-header p { color: var(--paper-dim); font-size: 14px; }
+
+.dash-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 40px; }
+.dash-card {
+  background: var(--ink-3); border: 1px solid var(--line-2); border-radius: 4px; padding: 20px 22px;
+}
+.dash-card .dc-label { font-family: var(--f-mono); font-size: 11px; color: var(--paper-dim); letter-spacing: .04em; margin-bottom: 8px; }
+.dash-card .dc-value { font-family: var(--f-display); font-size: 28px; color: var(--paper); }
+.dash-card .dc-sub { font-size: 12px; color: var(--paper-dim); margin-top: 4px; }
+
+.dash-section-title {
+  font-family: var(--f-mono); font-size: 12px; color: var(--paper-dim);
+  letter-spacing: .07em; text-transform: uppercase; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.dash-section-title::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+
+/* meus produtos (dashboard) */
+.my-products { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-bottom: 40px; }
+.my-prod {
+  background: var(--ink-3); border: 1px solid var(--line-2); border-radius: 4px;
+  padding: 18px 20px; display: flex; align-items: center; gap: 16px;
+  transition: border-color .2s;
+}
+.my-prod:hover { border-color: var(--line-2); border-color: rgba(237,238,242,.25); }
+.my-prod .mp-icon {
+  width: 40px; height: 40px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.my-prod .mp-icon svg { width: 20px; height: 20px; }
+.my-prod .mp-info { flex: 1; }
+.my-prod .mp-name { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+.my-prod .mp-plan { font-family: var(--f-mono); font-size: 10px; color: var(--paper-dim); }
+.my-prod .mp-status {
+  font-family: var(--f-mono); font-size: 9px; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 20px; flex-shrink: 0;
+}
+.status-ativo { background: rgba(63,167,150,.15); color: var(--teal); border: 1px solid rgba(63,167,150,.3); }
+.status-trial { background: rgba(201,162,75,.12); color: var(--gold-2); border: 1px solid rgba(201,162,75,.25); }
+.my-prod .mp-btn {
+  font-family: var(--f-mono); font-size: 11px; color: var(--teal);
+  padding: 6px 10px; border: 1px solid rgba(63,167,150,.3); border-radius: 3px;
+  transition: all .2s; flex-shrink: 0;
+}
+.my-prod .mp-btn:hover { background: var(--teal-dim); }
+
+/* descobrir mais produtos */
+.discover-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+.disc-card {
+  background: var(--ink-2); border: 1px solid var(--line); border-radius: 4px;
+  padding: 16px 18px; display: flex; align-items: center; gap: 14px;
+  transition: all .2s;
+}
+.disc-card:hover { border-color: var(--line-2); background: var(--ink-3); }
+.disc-card .dc-icon {
+  width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.disc-card .dc-icon svg { width: 18px; height: 18px; }
+.disc-card .dc-name { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+.disc-card .dc-desc { font-size: 12px; color: var(--paper-dim); }
+.disc-card .dc-cta { font-family: var(--f-mono); font-size: 10px; color: var(--gold-2); margin-top: 6px; }
+
+/* ════════════════════════════════════════════════════════════
+   SCREEN 3 — ADMIN
+════════════════════════════════════════════════════════════ */
+.admin-layout {
+  display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 42px);
+}
+.admin-sidebar {
+  background: var(--ink-2); border-right: 1px solid var(--line);
+  padding: 28px 0; position: sticky; top: 42px; height: calc(100vh - 42px); overflow-y: auto;
+}
+.admin-badge {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 20px; margin: 0 12px 20px;
+  background: rgba(201,162,75,.08); border: 1px solid rgba(201,162,75,.2); border-radius: 4px;
+  font-family: var(--f-mono); font-size: 11px; color: var(--gold-2);
+}
+.admin-main { padding: 40px 48px; }
+.admin-main h1 { font-family: var(--f-display); font-size: 26px; margin-bottom: 4px; }
+.admin-main .sub { color: var(--paper-dim); font-size: 14px; margin-bottom: 36px; }
+
+/* admin metric cards */
+.admin-metrics { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 40px; }
+.am-card {
+  background: var(--ink-3); border: 1px solid var(--line-2); border-radius: 4px; padding: 18px 20px;
+}
+.am-card .amc-l { font-family: var(--f-mono); font-size: 10px; color: var(--paper-dim); letter-spacing: .05em; margin-bottom: 8px; text-transform: uppercase; }
+.am-card .amc-v { font-family: var(--f-display); font-size: 30px; }
+.am-card .amc-v.gold { color: var(--gold-2); }
+.am-card .amc-v.teal { color: var(--teal); }
+.am-card .amc-delta { font-family: var(--f-mono); font-size: 11px; color: var(--teal); margin-top: 4px; }
+
+/* tabela de produtos admin */
+.admin-table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
+.admin-table th {
+  font-family: var(--f-mono); font-size: 10px; color: var(--paper-dim);
+  letter-spacing: .07em; text-transform: uppercase; text-align: left;
+  padding: 10px 16px; border-bottom: 1px solid var(--line-2); white-space: nowrap;
+}
+.admin-table td {
+  padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 13px;
+  vertical-align: middle;
+}
+.admin-table tr:hover td { background: var(--ink-3); }
+.admin-table td:first-child { font-weight: 600; }
+.td-status {
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 20px; display: inline-block; white-space: nowrap;
+}
+.td-acts { display: flex; gap: 6px; }
+.td-act {
+  font-family: var(--f-mono); font-size: 10px; padding: 5px 10px; border-radius: 3px;
+  border: 1px solid var(--line-2); color: var(--paper-dim); transition: all .2s;
+}
+.td-act:hover { border-color: var(--gold-2); color: var(--gold-2); }
+.td-act.danger:hover { border-color: #e07a5f; color: #e07a5f; }
+
+/* propostas admin */
+.prop-list { display: flex; flex-direction: column; gap: 10px; }
+.prop-row {
+  background: var(--ink-3); border: 1px solid var(--line-2); border-radius: 4px;
+  padding: 16px 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+}
+.prop-row .pr-name { font-weight: 600; font-size: 14px; }
+.prop-row .pr-meta { font-family: var(--f-mono); font-size: 11px; color: var(--paper-dim); flex: 1; }
+.prop-row .pr-acts { display: flex; gap: 8px; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-diagram { display: none; }
+  .products-grid { grid-template-columns: 1fr 1fr; }
+  .dash-layout, .admin-layout { grid-template-columns: 1fr; }
+  .dash-sidebar, .admin-sidebar { display: none; }
+  .dash-cards, .admin-metrics { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .products-grid { grid-template-columns: 1fr; }
+  .dash-cards, .admin-metrics { grid-template-columns: 1fr; }
+  .my-products, .discover-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .hero { padding: 56px 20px 48px; }
+  .section { padding: 56px 20px; }
+  .dash-main, .admin-main { padding: 28px 20px; }
+  .footer-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="code-bg">const  =>  { }  import  null  [ ]  fn()  &&  return  0x  ;  const  =>  { }  import  null  [ ]  fn()  &&  return  0x  ;
+const  =>  { }  import  null  [ ]  fn()  &&  return  0x  ;  const  =>  { }  import  null
+[ ]  fn()  &&  return  0x  ;  const  =>  { }  import  null  [ ]  fn()  &&  return  0x  ;
+const  =>  { }  import  null  [ ]  fn()  &&  return  0x  ;  const  =>  { }  import  null</div>
+
+<!-- PREVIEW BAR -->
+<div class="preview-bar">
+  <span>RHONEYINC v3 — PROTÓTIPO VISUAL</span>
+  <button class="prev-btn active" onclick="show('home', this)">① HOME PÚBLICA</button>
+  <button class="prev-btn" onclick="show('dash', this)">② DASHBOARD (logado)</button>
+  <button class="prev-btn" onclick="show('admin', this)">③ ADMIN (Ronaldo)</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN 1 — HOME PÚBLICA
+═══════════════════════════════════════════════════════ -->
+<div class="screen visible" id="s-home">
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <svg class="logo-mark" viewBox="0 0 30 30" fill="none">
+          <rect x=".5" y=".5" width="29" height="29" rx="4" stroke="#C9A24B" stroke-width="1"/>
+          <path d="M8 22V8h7c2.6 0 4.5 1.8 4.5 4.5 0 2-1.4 3.5-3.2 4L20 22h-3.5L13 17h-2v5H8Zm3-7.5h3.5c1.2 0 2-.8 2-2s-.8-2-2-2H11V14.5Z" fill="#EDEEF2"/>
+          <path d="M11 17c0 3-2 5.5-5 7" stroke="#3FA796" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        RHONEY<span>INC</span>
+      </a>
+      <div class="nav-links">
+        <a href="#">Produtos</a>
+        <a href="#">Parceiros</a>
+        <a href="#">Sobre</a>
+      </div>
+      <div class="nav-actions">
+        <button class="btn btn-ghost btn-sm" onclick="show('dash', document.querySelectorAll('.prev-btn')[1])">Entrar</button>
+        <button class="btn btn-gold btn-sm" onclick="show('dash', document.querySelectorAll('.prev-btn')[1])">Criar conta</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <div class="hero-eyebrow">Plataforma de software · Belém, PA</div>
+      <h1 class="hero-title">
+        Uma conta.<br>
+        <span class="g">Todos</span> os seus<br>
+        <span class="o">softwares.</span>
+      </h1>
+      <p class="hero-sub">
+        A RhoneyInc é o guarda-chuva por trás do FitNow, FinWise, MontaMovel e dos próximos produtos. Cadastre-se uma vez e acesse, contrate e gerencie tudo num só lugar.
+      </p>
+      <div class="hero-cta">
+        <button class="btn btn-gold btn-lg" onclick="show('dash', document.querySelectorAll('.prev-btn')[1])">Criar conta grátis</button>
+        <a href="#produtos" class="btn btn-ghost btn-lg">Ver produtos →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-n">3</div><div class="stat-l">PRODUTOS EM DEV.</div></div>
+        <div class="stat"><div class="stat-n">BR</div><div class="stat-l">FEITO NO BRASIL</div></div>
+        <div class="stat"><div class="stat-n">PA</div><div class="stat-l">SEDE · BELÉM</div></div>
+      </div>
+    </div>
+
+    <!-- diagrama de produtos -->
+    <div class="hero-diagram">
+      <div class="diag-hub">
+        <svg viewBox="0 0 22 22" fill="none">
+          <rect x=".5" y=".5" width="21" height="21" rx="3" stroke="#C9A24B" stroke-width="1"/>
+          <path d="M5 15V7h5c1.8 0 3 1.2 3 3 0 1.4-1 2.5-2.2 2.8L13 15H10.5L8.5 12H7v3H5ZM7 10.5H9.5c.8 0 1.4-.5 1.4-1.4 0-.8-.6-1.4-1.4-1.4H7V10.5Z" fill="#E2BE6E"/>
+          <path d="M7 12c0 2-1.4 3.8-3.5 4.8" stroke="#3FA796" stroke-width=".9" stroke-linecap="round"/>
+        </svg>
+        RhoneyInc — Plataforma
+      </div>
+      <div class="diag-conn"></div>
+      <div class="diag-products">
+        <div class="diag-prod">
+          <div class="dp-tag tag-dev">Em dev.</div>
+          <div class="dp-name">FitNow</div>
+          <div class="dp-model">Freemium · Web + Mobile</div>
+        </div>
+        <div class="diag-prod">
+          <div class="dp-tag tag-dev">Em dev.</div>
+          <div class="dp-name">FinWise</div>
+          <div class="dp-model">Freemium · Web</div>
+        </div>
+        <div class="diag-prod">
+          <div class="dp-tag tag-dev">Em dev.</div>
+          <div class="dp-name">MontaMovel</div>
+          <div class="dp-model">B2B · Assinatura</div>
+        </div>
+        <div class="diag-more">+ próximos produtos →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARQUEE -->
+  <div class="marquee">
+    <div class="mq-track">
+      <span class="hi">FITNOW</span><span>·</span>
+      <span class="hi">FINWISE</span><span>·</span>
+      <span class="hi">MONTAMOVEL</span><span>·</span>
+      <span>SUPABASE</span><span>·</span>
+      <span>REACT</span><span>·</span>
+      <span>FASTAPI</span><span>·</span>
+      <span>PYTHON</span><span>·</span>
+      <span>BELÉM · PA · BRASIL</span><span>·</span>
+      <span class="hi">FITNOW</span><span>·</span>
+      <span class="hi">FINWISE</span><span>·</span>
+      <span class="hi">MONTAMOVEL</span><span>·</span>
+      <span>SUPABASE</span><span>·</span>
+      <span>REACT</span><span>·</span>
+      <span>FASTAPI</span><span>·</span>
+      <span>PYTHON</span><span>·</span>
+      <span>BELÉM · PA · BRASIL</span><span>·</span>
+    </div>
+  </div>
+
+  <!-- PRODUTOS -->
+  <section class="section" id="produtos">
+    <div class="sec-head">
+      <div>
+        <div class="sec-eyebrow">Portfólio</div>
+        <h2 class="sec-title">Produtos da RhoneyInc</h2>
+      </div>
+      <p class="sec-note">Cada produto resolve um problema real, com plano e pricing transparente.</p>
+    </div>
+    <div class="products-grid">
+
+      <!-- FitNow -->
+      <div class="prod-card">
+        <div class="prod-card-top">
+          <div class="prod-icon icon-fit">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M6 12h2M16 12h2M8 9v6M16 9v6M10 7v10M14 7v10" stroke="#3FA796" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <span class="dp-tag tag-dev">Em desenvolvimento</span>
+        </div>
+        <div class="prod-name">FitNow</div>
+        <div class="prod-desc">App de fitness inclusivo: treinos por nível, receitas, controle de macros, comunidade e rankings. Sem desculpa. Sem rótulo.</div>
+        <div class="prod-footer">
+          <div class="prod-price"><strong>Grátis</strong> · plano premium em breve</div>
+          <span class="prod-arrow">↗</span>
+        </div>
+      </div>
+
+      <!-- FinWise -->
+      <div class="prod-card">
+        <div class="prod-card-top">
+          <div class="prod-icon icon-fin">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M7 17V11M12 17V7M17 17v-4" stroke="#E2BE6E" stroke-width="1.8" stroke-linecap="round"/><path d="M5 17h14" stroke="#E2BE6E" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </div>
+          <span class="dp-tag tag-dev">Em desenvolvimento</span>
+        </div>
+        <div class="prod-name">FinWise</div>
+        <div class="prod-desc">Controle financeiro com IA (TipsMoney), conversor de moedas, relatórios em PDF e educação financeira nos conformes do CVM.</div>
+        <div class="prod-footer">
+          <div class="prod-price"><strong>Freemium</strong> · a partir de R$ 0</div>
+          <span class="prod-arrow">↗</span>
+        </div>
+      </div>
+
+      <!-- MontaMovel -->
+      <div class="prod-card">
+        <div class="prod-card-top">
+          <div class="prod-icon icon-mont">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="1" stroke="#8888ff" stroke-width="1.6"/><rect x="13" y="3" width="8" height="8" rx="1" stroke="#8888ff" stroke-width="1.6"/><rect x="3" y="13" width="8" height="8" rx="1" stroke="#8888ff" stroke-width="1.6"/><path d="M13 17h8M17 13v8" stroke="#8888ff" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <span class="dp-tag tag-dev">Em desenvolvimento</span>
+        </div>
+        <div class="prod-name">MontaMovel</div>
+        <div class="prod-desc">SaaS B2B para gestão de equipes de montagem de móveis: ordens de serviço, técnicos, relatórios e conformidade com a CLT.</div>
+        <div class="prod-footer">
+          <div class="prod-price">A partir de <strong>R$ 299/mês</strong></div>
+          <span class="prod-arrow">↗</span>
+        </div>
+      </div>
+
+      <!-- placeholder -->
+      <div class="prod-card prod-card-placeholder">
+        <div class="ph-inner">
+          <div class="ph-plus">+</div>
+          <div class="ph-lbl">PRÓXIMO PRODUTO</div>
+        </div>
+      </div>
+      <div class="prod-card prod-card-placeholder">
+        <div class="ph-inner">
+          <div class="ph-plus">+</div>
+          <div class="ph-lbl">PRÓXIMO PRODUTO</div>
+        </div>
+      </div>
+      <div class="prod-card prod-card-placeholder">
+        <div class="ph-inner">
+          <div class="ph-plus">+</div>
+          <div class="ph-lbl">PRÓXIMO PRODUTO</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <div class="cta-band">
+    <div class="cta-band-inner">
+      <h2>Uma conta. <span>Todos os produtos.</span> Para sempre.</h2>
+      <button class="btn btn-gold btn-lg" onclick="show('dash', document.querySelectorAll('.prev-btn')[1])">Criar conta grátis →</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="logo">
+            <svg class="logo-mark" viewBox="0 0 30 30" fill="none">
+              <rect x=".5" y=".5" width="29" height="29" rx="4" stroke="#C9A24B" stroke-width="1"/>
+              <path d="M8 22V8h7c2.6 0 4.5 1.8 4.5 4.5 0 2-1.4 3.5-3.2 4L20 22h-3.5L13 17h-2v5H8Z" fill="#EDEEF2"/>
+            </svg>
+            RHONEY<span>INC</span>
+          </a>
+          <p>Plataforma holding de produtos de software criados por Ronaldo Martins, em Belém do Pará.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Produtos</h5>
+          <a href="#">FitNow</a>
+          <a href="#">FinWise</a>
+          <a href="#">MontaMovel</a>
+        </div>
+        <div class="footer-col">
+          <h5>Empresa</h5>
+          <a href="#">Sobre</a>
+          <a href="#">Parceiros</a>
+          <a href="#">Contato</a>
+        </div>
+        <div class="footer-col">
+          <h5>Conta</h5>
+          <a href="#" onclick="show('dash', document.querySelectorAll('.prev-btn')[1]); return false;">Entrar</a>
+          <a href="#" onclick="show('dash', document.querySelectorAll('.prev-btn')[1]); return false;">Criar conta</a>
+          <a href="#" onclick="show('admin', document.querySelectorAll('.prev-btn')[2]); return false;">Admin</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 RHONEYINC · TODOS OS DIREITOS RESERVADOS</span>
+        <span>BELÉM · PA · BRASIL</span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /screen home -->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN 2 — DASHBOARD
+═══════════════════════════════════════════════════════ -->
+<div class="screen" id="s-dash">
+  <div class="dash-layout">
+
+    <!-- sidebar -->
+    <aside class="dash-sidebar">
+      <div class="dash-user">
+        <div class="avatar">R</div>
+        <div class="uname">Ronaldo Martins</div>
+        <div class="urole">● Conta ativa</div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-label">Principal</div>
+        <a href="#" class="active">
+          <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor"/><rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor"/><rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor"/><rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor"/></svg>
+          Visão geral
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h8M2 12h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Meus produtos
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Histórico
+        </a>
+        <div class="sidebar-sep"></div>
+        <div class="sidebar-label">Conta</div>
+        <a href="#">
+          <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M2 13c0-2.8 2.7-5 6-5s6 2.2 6 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Perfil
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="#" onclick="show('home', document.querySelectorAll('.prev-btn')[0]); return false;">← Voltar ao site</a>
+        <a href="#" onclick="show('admin', document.querySelectorAll('.prev-btn')[2]); return false;">⚙ Painel admin</a>
+        <a href="#" style="color:#e07a5f;">Sair da conta</a>
+      </div>
+    </aside>
+
+    <!-- main -->
+    <main class="dash-main">
+      <div class="dash-header">
+        <h1>Olá, Ronaldo 👋</h1>
+        <p>Aqui estão os produtos que você acessa pela RhoneyInc.</p>
+      </div>
+
+      <div class="dash-cards">
+        <div class="dash-card">
+          <div class="dc-label">PRODUTOS COM ACESSO</div>
+          <div class="dc-value">2</div>
+          <div class="dc-sub">de 3 disponíveis</div>
+        </div>
+        <div class="dash-card">
+          <div class="dc-label">STATUS DA CONTA</div>
+          <div class="dc-value" style="font-size:18px; color: var(--teal);">● Ativa</div>
+          <div class="dc-sub">desde jan 2026</div>
+        </div>
+        <div class="dash-card">
+          <div class="dc-label">PRÓXIMO PRODUTO</div>
+          <div class="dc-value" style="font-size:18px;">MontaMovel</div>
+          <div class="dc-sub">Em desenvolvimento</div>
+        </div>
+      </div>
+
+      <div class="dash-section-title">Meus produtos</div>
+      <div class="my-products">
+        <div class="my-prod">
+          <div class="mp-icon icon-fit"><svg viewBox="0 0 24 24" fill="none"><path d="M6 12h2M16 12h2M8 9v6M16 9v6M10 7v10M14 7v10" stroke="#3FA796" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <div class="mp-info">
+            <div class="mp-name">FitNow</div>
+            <div class="mp-plan">Plano Gratuito · acesso liberado</div>
+          </div>
+          <span class="mp-status status-ativo">Ativo</span>
+          <button class="mp-btn">Acessar →</button>
+        </div>
+        <div class="my-prod">
+          <div class="mp-icon icon-fin"><svg viewBox="0 0 24 24" fill="none"><path d="M7 17V11M12 17V7M17 17v-4" stroke="#E2BE6E" stroke-width="1.8" stroke-linecap="round"/><path d="M5 17h14" stroke="#E2BE6E" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+          <div class="mp-info">
+            <div class="mp-name">FinWise</div>
+            <div class="mp-plan">Trial gratuito · 14 dias restantes</div>
+          </div>
+          <span class="mp-status status-trial">Trial</span>
+          <button class="mp-btn">Acessar →</button>
+        </div>
+      </div>
+
+      <div class="dash-section-title" style="margin-top: 12px;">Descobrir mais</div>
+      <div class="discover-grid">
+        <div class="disc-card">
+          <div class="dc-icon icon-mont"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="1" stroke="#8888ff" stroke-width="1.6"/><rect x="13" y="3" width="8" height="8" rx="1" stroke="#8888ff" stroke-width="1.6"/><rect x="3" y="13" width="8" height="8" rx="1" stroke="#8888ff" stroke-width="1.6"/><path d="M13 17h8M17 13v8" stroke="#8888ff" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <div>
+            <div class="dc-name">MontaMovel</div>
+            <div class="dc-desc">Gestão de montagem de móveis B2B</div>
+            <div class="dc-cta">Em breve · entrar na lista →</div>
+          </div>
+        </div>
+        <div class="disc-card" style="border-style: dashed;">
+          <div class="dc-icon icon-new"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#7E8494" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <div>
+            <div class="dc-name" style="color: var(--paper-dim);">Próximo produto</div>
+            <div class="dc-desc">A caminho — fique de olho</div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+  </div>
+</div><!-- /screen dash -->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN 3 — ADMIN
+═══════════════════════════════════════════════════════ -->
+<div class="screen" id="s-admin">
+  <div class="admin-layout">
+
+    <aside class="admin-sidebar">
+      <div class="admin-badge">
+        👑 Acesso admin
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-label">Gestão</div>
+        <a href="#" class="active">
+          <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor"/><rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor"/><rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor"/><rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor"/></svg>
+          Visão geral
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M8 5v6M5 8h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Produtos
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M2 13c0-2.8 2.7-5 6-5s6 2.2 6 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Usuários
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M2 11V5l6-3 6 3v6l-6 3-6-3Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+          Parceiros
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h8M2 12h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Propostas
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="#" onclick="show('dash', document.querySelectorAll('.prev-btn')[1]); return false;">← Meu dashboard</a>
+        <a href="#" onclick="show('home', document.querySelectorAll('.prev-btn')[0]); return false;">← Site público</a>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <h1>Painel administrativo</h1>
+      <p class="sub">Gerencie produtos, usuários, parceiros e propostas da RhoneyInc.</p>
+
+      <!-- métricas -->
+      <div class="admin-metrics">
+        <div class="am-card">
+          <div class="amc-l">PRODUTOS ATIVOS</div>
+          <div class="amc-v teal">3</div>
+          <div class="amc-delta">↑ +1 este mês</div>
+        </div>
+        <div class="am-card">
+          <div class="amc-l">USUÁRIOS CADASTRADOS</div>
+          <div class="amc-v gold">—</div>
+          <div class="amc-delta">aguardando dados reais</div>
+        </div>
+        <div class="am-card">
+          <div class="amc-l">PROPOSTAS PENDENTES</div>
+          <div class="amc-v">0</div>
+          <div class="amc-delta">nenhuma nova</div>
+        </div>
+        <div class="am-card">
+          <div class="amc-l">PARCEIROS ATIVOS</div>
+          <div class="amc-v">0</div>
+          <div class="amc-delta">vagas abertas</div>
+        </div>
+      </div>
+
+      <!-- tabela de produtos -->
+      <div class="dash-section-title">Catálogo de produtos</div>
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th>Status</th>
+            <th>Modelo</th>
+            <th>Preço base</th>
+            <th>Usuários</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>FitNow</td>
+            <td><span class="td-status tag-dev">Em dev.</span></td>
+            <td>Freemium</td>
+            <td>R$ 0 / mês</td>
+            <td style="color:var(--paper-dim)">—</td>
+            <td><div class="td-acts">
+              <button class="td-act">Editar</button>
+              <button class="td-act">Desativar</button>
+            </div></td>
+          </tr>
+          <tr>
+            <td>FinWise</td>
+            <td><span class="td-status tag-dev">Em dev.</span></td>
+            <td>Freemium</td>
+            <td>R$ 0 / mês</td>
+            <td style="color:var(--paper-dim)">—</td>
+            <td><div class="td-acts">
+              <button class="td-act">Editar</button>
+              <button class="td-act">Desativar</button>
+            </div></td>
+          </tr>
+          <tr>
+            <td>MontaMovel</td>
+            <td><span class="td-status tag-dev">Em dev.</span></td>
+            <td>B2B · Assinatura</td>
+            <td>R$ 299 / mês</td>
+            <td style="color:var(--paper-dim)">—</td>
+            <td><div class="td-acts">
+              <button class="td-act">Editar</button>
+              <button class="td-act">Desativar</button>
+            </div></td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-gold btn-sm" style="margin-bottom: 40px;">+ Adicionar produto</button>
+
+      <!-- propostas recentes -->
+      <div class="dash-section-title">Propostas de parceria recentes</div>
+      <div class="prop-list">
+        <div class="prop-row" style="justify-content:center; color: var(--paper-dim); font-family: var(--f-mono); font-size: 13px;">
+          Nenhuma proposta recebida ainda. Quando alguém preencher o formulário, aparece aqui.
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div><!-- /screen admin -->
+
+
+<script>
+function show(name, btn) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.prev-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('s-' + name).classList.add('visible');
+  if(btn) btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>

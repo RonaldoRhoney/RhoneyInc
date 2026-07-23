@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1504348001414311" crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Changelog — RhoneyInc</title>
+<meta name="description" content="Diário de desenvolvimento público da RhoneyInc: atualizações reais dos produtos MeuPet, FitNow, Controle Financeiro, MenuFlex e o que está em construção.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="canonical" href="https://rhoneyinc.com/changelog.html">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@600;700;800&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0C10; --grafite:#07090C; --painel:#11151B;
+    --dourado:#E2833F; --dourado-2:#F2A65A; --sinal:#4C8FE0;
+    --papel:#EDEFF2; --papel-dim:#8B95A1; --linha:rgba(237,239,242,0.1);
+    --display:'Archivo Expanded', sans-serif; --mono:'Space Mono', monospace; --corpo:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:var(--corpo); background:var(--bg); color:var(--papel); line-height:1.7;}
+  header{background:var(--grafite); border-bottom:1px solid var(--linha); padding:18px 24px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;}
+  header a{color:var(--papel-dim); text-decoration:none; font-family:var(--mono); font-size:0.85rem;}
+  header a:hover{color:var(--sinal);}
+  header h1{font-family:var(--display); font-size:1.05rem; font-weight:700;}
+  .content{max-width:760px; margin:40px auto; padding:0 24px 60px;}
+  .intro{color:var(--papel-dim); font-size:0.96rem; margin-bottom:36px; max-width:60ch;}
+  .filtros{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:32px; }
+  .filtro-btn{
+    font-family:var(--mono); font-size:12px; color:var(--papel-dim);
+    background:var(--painel); border:1px solid var(--linha); border-radius:100px;
+    padding:7px 14px; cursor:pointer;
+  }
+  .filtro-btn.is-active{ color:var(--bg); background:var(--dourado-2); border-color:var(--dourado-2); font-weight:600; }
+  .timeline{ position:relative; padding-left:26px; border-left:2px solid var(--linha); }
+  .entry{ position:relative; margin-bottom:36px; }
+  .entry::before{
+    content:''; position:absolute; left:-32px; top:4px; width:10px; height:10px;
+    border-radius:50%; background:var(--dourado-2); border:2px solid var(--bg);
+  }
+  .entry.status-dev::before{ background:var(--sinal); }
+  .entry-data{ font-family:var(--mono); font-size:0.78rem; color:var(--papel-dim); margin-bottom:6px; }
+  .entry-head{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px; }
+  .entry-produto{ font-family:var(--display); font-size:1.1rem; color:var(--papel); }
+  .entry-badge{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.04em;
+    border-radius:100px; padding:3px 10px;
+  }
+  .entry-badge.disponivel{ color:var(--dourado-2); border:1px solid rgba(242,166,90,0.4); }
+  .entry-badge.dev{ color:var(--sinal); border:1px solid rgba(76,143,224,0.4); }
+  .entry p{ font-size:0.92rem; color:var(--papel-dim); }
+  .entry ul{ margin:8px 0 0 20px; }
+  .entry li{ font-size:0.88rem; color:var(--papel-dim); margin-bottom:4px; }
+  footer.legal-footer{border-top:1px solid var(--linha); background:var(--grafite); padding:24px; text-align:center;}
+  footer.legal-footer p{font-family:var(--mono); font-size:0.78rem; color:var(--papel-dim); margin:0;}
+  @media (max-width:520px){
+    header{padding:14px 16px;}
+    .content{margin:28px auto; padding:0 16px 48px;}
+    .timeline{padding-left:20px;}
+    .entry::before{left:-26px;}
+  }
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html">← Voltar</a>
+  <h1>RhoneyInc — Changelog</h1>
+</header>
+<div class="content">
+  <p class="intro">Diário de desenvolvimento público dos produtos RhoneyInc. Atualizações reais, na ordem em que aconteceram — sem marketing, sem "em breve" vago.</p>
+
+  <div class="filtros" id="clFiltros">
+    <button class="filtro-btn is-active" data-produto="todos">Todos</button>
+    <button class="filtro-btn" data-produto="MeuPet">MeuPet</button>
+    <button class="filtro-btn" data-produto="MenuFlex">MenuFlex</button>
+    <button class="filtro-btn" data-produto="FitNow">FitNow</button>
+    <button class="filtro-btn" data-produto="Controle Financeiro">Controle Financeiro</button>
+    <button class="filtro-btn" data-produto="Em desenvolvimento">Em desenvolvimento</button>
+  </div>
+
+  <div class="timeline" id="clTimeline">
+
+    <div class="entry" data-produto="MenuFlex">
+      <div class="entry-data">Julho de 2026</div>
+      <div class="entry-head">
+        <span class="entry-produto">MenuFlex</span>
+        <span class="entry-badge disponivel">Disponível agora</span>
+      </div>
+      <p>Cardápio digital multi-tenant sai do zero e vai ao ar: backend completo no Supabase, autenticação com Google, catálogo colaborativo de itens (autocomplete sem IA externa, baseado em uso real), checkout de upgrade de plano via Mercado Pago (PIX, boleto, cartão) e painel administrativo com fila de pedidos em tempo real.</p>
+      <ul>
+        <li>Cardápio já nasce com categorias e itens sugeridos conforme o tipo do negócio</li>
+        <li>Métricas de acesso para o dono de cada negócio e visão agregada da plataforma</li>
+        <li>Redesenho completo do painel: tema escuro, navegação lateral, animações de transição</li>
+      </ul>
+    </div>
+
+    <div class="entry" data-produto="MeuPet">
+      <div class="entry-data">2026</div>
+      <div class="entry-head">
+        <span class="entry-produto">MeuPet</span>
+        <span class="entry-badge disponivel">Disponível agora</span>
+      </div>
+      <p>O primeiro produto RhoneyInc no ar segue evoluindo continuamente: mapa de petshops por categoria com filtros e raio ajustável, seção "Cuidados" com dicas e controle de vacinação, painel de administração com fila de feedback dos usuários, e notificações push via backend próprio.</p>
+      <ul>
+        <li>Correção de um vazamento de localização (GPS) que expunha coordenadas de tutores publicamente — resolvido antes de qualquer exposição de dado sensível ir ao ar</li>
+        <li>Ajustes de contraste e acessibilidade nos temas claro e escuro</li>
+        <li>Carrossel de parceiros com esteira automática contínua</li>
+      </ul>
+    </div>
+
+    <div class="entry" data-produto="FitNow">
+      <div class="entry-data">2026</div>
+      <div class="entry-head">
+        <span class="entry-produto">FitNow</span>
+        <span class="entry-badge disponivel">Disponível agora</span>
+      </div>
+      <p>App de fitness inclusivo no ar, com biblioteca de treinos, ranking e comunidade — pensado para todo tipo de corpo e rotina, não só o público fitness tradicional.</p>
+    </div>
+
+    <div class="entry" data-produto="Controle Financeiro">
+      <div class="entry-data">2026</div>
+      <div class="entry-head">
+        <span class="entry-produto">Controle Financeiro (FinWise)</span>
+        <span class="entry-badge disponivel">Disponível agora</span>
+      </div>
+      <p>Gestão financeira pessoal no ar, com metas, relatórios e uma seção de educação financeira voltada para o brasileiro comum.</p>
+    </div>
+
+    <div class="entry status-dev" data-produto="Em desenvolvimento">
+      <div class="entry-data">Em andamento</div>
+      <div class="entry-head">
+        <span class="entry-produto">MontaMóvel</span>
+        <span class="entry-badge dev">Em desenvolvimento</span>
+      </div>
+      <p>Plataforma para montadores de móveis planejados encontrarem clientes e organizarem suas rotas de trabalho — em construção, com painel do montador, portal do cliente e cadastro de prestadores em andamento.</p>
+    </div>
+
+    <div class="entry status-dev" data-produto="Em desenvolvimento">
+      <div class="entry-data">Em andamento</div>
+      <div class="entry-head">
+        <span class="entry-produto">AmaVida</span>
+        <span class="entry-badge dev">Em desenvolvimento</span>
+      </div>
+      <p>Produto voltado ao cuidado de idosos e apoio a cuidadores/familiares — ainda em fase de definição de escopo e primeiras telas.</p>
+    </div>
+
+    <div class="entry status-dev" data-produto="Em desenvolvimento">
+      <div class="entry-data">Em andamento</div>
+      <div class="entry-head">
+        <span class="entry-produto">Até Passar</span>
+        <span class="entry-badge dev">Em desenvolvimento</span>
+      </div>
+      <p>Plataforma de estudos para concursos públicos, com trilha de revisão e banco de questões — protótipo inicial em construção.</p>
+    </div>
+
+  </div>
+</div>
+<footer class="legal-footer">
+  <p>© 2026 RhoneyInc — Copyright @RhoneyInc. Todos os direitos reservados.</p>
+</footer>
+<script>
+  document.getElementById('clFiltros').addEventListener('click', function(e){
+    var btn = e.target.closest('.filtro-btn');
+    if(!btn) return;
+    this.querySelectorAll('.filtro-btn').forEach(function(b){ b.classList.remove('is-active'); });
+    btn.classList.add('is-active');
+    var produto = btn.dataset.produto;
+    document.querySelectorAll('#clTimeline .entry').forEach(function(entry){
+      entry.style.display = (produto === 'todos' || entry.dataset.produto === produto) ? '' : 'none';
+    });
+  });
+</script>
+</body>
+</html>

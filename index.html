@@ -1,0 +1,2458 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1504348001414311" crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RhoneyInc — Engenharia de software</title>
+<meta name="description" content="RhoneyInc constrói software com IA generativa, Claude Code e Supabase: da ideia ao deploy, com direção e precisão.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="alternate icon" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="canonical" href="https://rhoneyinc.com/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RhoneyInc">
+<meta property="og:title" content="RhoneyInc — Engenharia de software">
+<meta property="og:description" content="RhoneyInc constrói software com IA generativa, Claude Code e Supabase: da ideia ao deploy, com direção e precisão.">
+<meta property="og:url" content="https://rhoneyinc.com/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RhoneyInc — Engenharia de software">
+<meta name="twitter:description" content="RhoneyInc constrói software com IA generativa, Claude Code e Supabase: da ideia ao deploy, com direção e precisão.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@600;700;800&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+<style>
+  :root{
+    --bg: #0A0C10;
+    --bg-2: #0F1318;
+    --painel: #11151B;
+    --verde-rio: #0D1015;
+    --verde-rio-2: #151A21;
+    --grafite: #07090C;
+    --dourado: #E2833F;
+    --dourado-2: #F2A65A;
+    --papel: #EDEFF2;
+    --papel-dim: #8B95A1;
+    --sinal: #4C8FE0;
+    --code-blue: #5B9FD6;
+    --code-purple: #9A7FD1;
+    --linha: rgba(237,239,242,0.08);
+    --linha-forte: rgba(237,239,242,0.16);
+
+    --display: 'Archivo Expanded', sans-serif;
+    --mono: 'Space Mono', monospace;
+    --corpo: 'Inter', sans-serif;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--papel);
+    font-family:var(--corpo);
+    line-height:1.6;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* ============================================================
+     ESCALA TIPOGRÁFICA — tokens explícitos em vez de tamanhos soltos.
+     Display (Archivo Expanded) pro peso/caráter dos headlines,
+     corpo (Inter) neutro e legível, mono (Space Mono) só pra
+     labels/eyebrows/badges — o estilo "terminal" já estabelecido.
+     ============================================================ */
+  :root{
+    /* Documenta a escala já em uso (hero h1, page-title, section-title,
+       corpo, legendas mono) como tokens nomeados — sem mudar tamanho
+       nenhum, só dando nome e intenção ao que já existia solto. */
+    --fs-h1: clamp(40px, 5.4vw, 76px);
+    --fs-h2: clamp(32px, 4.6vw, 56px);
+    --fs-h3: clamp(30px, 3.6vw, 46px);
+    --fs-body: 15px;
+    --fs-caption: 13px;
+    --lh-body: 1.65;
+    --lh-heading: 1.04;
+    --ls-display: -0.01em;
+    --ls-caption: 0.04em;
+  }
+
+  /* ============================================================
+     SCROLL REVEAL — fade + leve translação (8-12px), uma vez só,
+     respeitando prefers-reduced-motion. Ver app.js (initScrollReveal).
+     Só transform/opacity — nada de width/height/top/left.
+     ============================================================ */
+  .reveal, .reveal-left, .reveal-right{
+    opacity:0;
+    transition:opacity .8s cubic-bezier(0.16,1,0.3,1), transform .8s cubic-bezier(0.16,1,0.3,1);
+    will-change:opacity, transform;
+  }
+  .reveal{ transform:translateY(10px); }
+  .reveal-left{ transform:translateX(-32px); }
+  .reveal-right{ transform:translateX(32px); }
+  .reveal.is-visible, .reveal-left.is-visible, .reveal-right.is-visible{
+    opacity:1;
+    transform:translate(0,0);
+  }
+  @media (prefers-reduced-motion: reduce){
+    .reveal, .reveal-left, .reveal-right{ opacity:1; transform:none; transition:none; }
+  }
+
+  /* Camada sutil de "código" no fundo da página inteira */
+  body::before{
+    content:'{ }  < / >  const  =>  ;  [ ]  fn()  ==  &&  return  import  null  01  10  { }  < / >  =>  const';
+    position:fixed; inset:-10% -5%;
+    z-index:0; pointer-events:none;
+    font-family:var(--mono); font-size:13px; line-height:3.6;
+    color:rgba(237,239,242,0.025);
+    word-spacing:2.2em;
+    white-space:pre-wrap;
+    transform:rotate(-6deg);
+  }
+
+  header, .hero, section, footer{ position:relative; z-index:1; }
+
+  ::selection{ background:var(--dourado); color:var(--grafite); }
+
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; cursor:pointer;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+  }
+
+  :focus-visible{
+    outline:2px solid var(--dourado-2);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+  /* O header precisa de mais fôlego que o conteúdo das seções (1180px):
+     os dois blocos do nav (marca+conta, links+idioma) com fundo/borda
+     próprios ocupam mais espaço horizontal do que os itens soltos de antes. */
+  header nav.wrap{ max-width:1400px; }
+
+  /* ============ TEXTURE / GRAIN ============ */
+  .grain{
+    position:fixed; inset:0; pointer-events:none; z-index:999;
+    opacity:0.045; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ============ NAV ============ */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:linear-gradient(to bottom, rgba(10,12,16,0.75), rgba(10,12,16,0.5) 70%, transparent);
+    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+    border-bottom:1px solid transparent;
+    transition:background .4s ease, backdrop-filter .4s ease, border-color .4s ease, box-shadow .4s ease;
+  }
+  header.is-scrolled{
+    background:rgba(7,9,12,0.86);
+    backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+    border-bottom-color:var(--linha-forte);
+    box-shadow:0 12px 40px -20px rgba(0,0,0,0.65);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:20px;
+    padding:18px 36px;
+    max-width:1440px; margin:0 auto;
+  }
+  .brand{
+    display:flex; align-items:center; gap:13px;
+    flex-shrink:0;
+  }
+  .brand svg{ width:40px; height:40px; transition:transform .35s cubic-bezier(.2,.8,.2,1), filter .35s ease; }
+  .brand:hover svg{ transform:rotate(-8deg) scale(1.08); filter:drop-shadow(0 0 10px rgba(76,143,224,0.55)); }
+  .brand-name{
+    font-family:var(--mono); font-weight:700; font-size:18px;
+    letter-spacing:0.04em;
+  }
+  .brand-name .dim{ color:var(--papel-dim); font-weight:400; }
+
+  /* Os dois blocos do header: identidade (marca + conta) e navegação
+     (links + idioma), cada um com fundo/borda próprios pra ganhar presença
+     visual — antes eram itens soltos direto no header, pequenos e sem
+     nenhuma hierarquia entre si. */
+  .nav-group{
+    display:flex; align-items:center; gap:16px;
+  }
+  .nav-group-account{
+    background:var(--painel); border:1px solid var(--linha-forte);
+    border-radius:100px; padding:8px 10px 8px 18px;
+  }
+  .nav-group-menu{
+    background:var(--painel); border:1px solid var(--linha-forte);
+    border-radius:100px; padding:10px 24px;
+    gap:26px;
+    flex-shrink:0;
+  }
+  .nav-divider{
+    width:1px; height:22px; background:var(--linha-forte); flex-shrink:0;
+  }
+
+  .nav-links{
+    display:flex; align-items:center; gap:24px;
+    font-family:var(--mono); font-size:14.5px; font-weight:600;
+    letter-spacing:0.03em;
+    flex-shrink:1; min-width:0;
+  }
+  .nav-links a{
+    color:var(--papel-dim);
+    position:relative;
+    padding:6px 0;
+    transition:color .25s ease;
+    white-space:nowrap;
+  }
+  .nav-links a:hover{ color:var(--papel); }
+
+  .lang-switch{
+    position:relative; flex-shrink:0;
+  }
+  .lang-current{
+    display:flex; align-items:center; gap:5px;
+    font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:0.03em;
+    color:var(--papel); background:rgba(237,239,242,0.04);
+    border:1px solid var(--linha-forte); border-radius:100px; padding:7px 12px;
+    cursor:pointer; transition:border-color .2s, background .2s;
+  }
+  .lang-switch:hover .lang-current, .lang-switch.is-open .lang-current{ border-color:var(--dourado-2); }
+  .lang-caret{ font-size:9px; color:var(--papel-dim); transition:transform .2s ease; }
+  .lang-switch.is-open .lang-caret{ transform:rotate(180deg); }
+
+  .lang-options{
+    position:absolute; top:calc(100% + 8px); right:0; z-index:50;
+    display:flex; flex-direction:column; min-width:130px;
+    background:var(--painel); border:1px solid var(--linha-forte); border-radius:10px;
+    padding:5px; box-shadow:0 14px 34px -14px rgba(0,0,0,0.6);
+    opacity:0; visibility:hidden; transform:translateY(-6px);
+    transition:opacity .18s ease, transform .18s ease, visibility .18s;
+  }
+  .lang-switch:hover .lang-options,
+  .lang-switch.is-open .lang-options,
+  .lang-current:focus-visible + .lang-options{
+    opacity:1; visibility:visible; transform:translateY(0);
+  }
+  .lang-options button{
+    font-family:var(--mono); font-size:12.5px; text-align:left; color:var(--papel-dim);
+    background:none; border:none; border-radius:6px; padding:8px 10px; cursor:pointer;
+    transition:color .15s, background .15s;
+  }
+  .lang-options button:hover{ color:var(--papel); background:rgba(237,239,242,0.05); }
+  .lang-options button.is-active{ color:var(--dourado-2); font-weight:700; }
+
+  .mobile-menu .lang-switch{ margin-top:20px; margin-left:0; display:flex; justify-content:center; }
+  .mobile-menu .lang-options{ right:auto; left:50%; transform:translate(-50%,-6px); }
+  .mobile-menu .lang-switch:hover .lang-options,
+  .mobile-menu .lang-switch.is-open .lang-options{ transform:translate(-50%,0); }
+
+  .nav-links a::after{
+    content:''; position:absolute; left:0; bottom:0;
+    width:0%; height:1px; background:linear-gradient(90deg, var(--sinal), var(--dourado-2));
+    transition:width .25s ease;
+  }
+  .nav-links a:hover::after{ width:100%; }
+  .nav-links a.is-active{ color:var(--papel); }
+  .nav-links a.is-active::after{ width:100%; }
+
+  /* Vagas + Cursos juntos no mesmo botão, mesmo padrão visual/interação do
+     seletor de idioma (.lang-switch): hover abre no mouse, clique abre no
+     touch, clique fora fecha. */
+  .nav-dropdown{ position:relative; }
+  .nav-dropdown-trigger{
+    display:flex; align-items:center; gap:5px;
+    font-family:var(--mono); font-size:13.5px; letter-spacing:0.03em;
+    color:var(--papel-dim); background:none; border:none; padding:6px 0;
+    cursor:pointer; transition:color .25s ease;
+  }
+  .nav-dropdown-trigger:hover{ color:var(--papel); }
+  .nav-dropdown-caret{ font-size:9px; color:var(--papel-dim); transition:transform .2s ease; }
+  .nav-dropdown.is-open .nav-dropdown-caret{ transform:rotate(180deg); }
+
+  .nav-dropdown-options{
+    position:absolute; top:calc(100% + 10px); left:50%; z-index:50;
+    display:flex; flex-direction:column; min-width:140px;
+    background:var(--painel); border:1px solid var(--linha-forte); border-radius:10px;
+    padding:5px; box-shadow:0 14px 34px -14px rgba(0,0,0,0.6);
+    opacity:0; visibility:hidden; transform:translate(-50%,-6px);
+    transition:opacity .18s ease, transform .18s ease, visibility .18s;
+  }
+  @media (hover:hover) and (pointer:fine){
+    .nav-dropdown:hover .nav-dropdown-options{ opacity:1; visibility:visible; transform:translate(-50%,0); }
+  }
+  .nav-dropdown.is-open .nav-dropdown-options{ opacity:1; visibility:visible; transform:translate(-50%,0); }
+  .nav-dropdown-options a{
+    font-family:var(--mono); font-size:12.5px; color:var(--papel-dim);
+    padding:8px 10px; border-radius:6px; white-space:nowrap;
+    transition:color .15s, background .15s;
+  }
+  .nav-dropdown-options a:hover{ color:var(--papel); background:rgba(237,239,242,0.05); }
+
+  .nav-auth{ display:flex; align-items:center; gap:12px; flex-shrink:0; }
+  .btn{
+    font-family:var(--mono); font-size:13.5px; letter-spacing:0.02em; font-weight:600;
+    padding:11px 20px; border-radius:10px;
+    border:1px solid var(--linha-forte);
+    transition:transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease, border-color .22s ease, color .22s ease, background .22s ease;
+    white-space:nowrap;
+    cursor:pointer;
+  }
+  .btn-ghost{ color:var(--papel); background:transparent; }
+  .btn-ghost:hover{ border-color:var(--dourado-2); color:var(--dourado-2); }
+  .btn-solid{
+    background:linear-gradient(135deg, var(--dourado-2), var(--dourado));
+    color:var(--grafite); border-color:var(--dourado);
+    font-weight:700;
+    box-shadow:0 4px 16px -6px rgba(226,131,63,0.4);
+    position:relative; overflow:hidden;
+  }
+  .btn-solid:hover{
+    border-color:var(--dourado-2); transform:translateY(-1px) scale(1.04);
+    box-shadow:0 10px 28px -6px rgba(226,131,63,0.65), 0 0 0 1px rgba(76,143,224,0.25);
+  }
+  .btn-solid:active{ transform:translateY(0) scale(0.98); }
+  /* Ripple: um círculo que nasce no ponto do clique e se expande — coordenadas
+     setadas via JS em --ripple-x/--ripple-y no momento do pointerdown. */
+  .btn-solid::after{
+    content:''; position:absolute; z-index:0; pointer-events:none;
+    left:var(--ripple-x, 50%); top:var(--ripple-y, 50%);
+    width:8px; height:8px; border-radius:50%;
+    background:rgba(255,255,255,0.55);
+    transform:translate(-50%,-50%) scale(0);
+    opacity:0;
+  }
+  .btn-solid.is-rippling::after{
+    animation:btn-ripple .55s ease-out;
+  }
+  .btn-solid > *{ position:relative; z-index:1; }
+  @keyframes btn-ripple{
+    0%{ transform:translate(-50%,-50%) scale(0); opacity:0.5; }
+    100%{ transform:translate(-50%,-50%) scale(22); opacity:0; }
+  }
+
+  .nav-toggle{ display:none; }
+
+  /* ============ MENU MOBILE (fullscreen) ============ */
+  .mobile-menu{
+    position:fixed; inset:0; z-index:200; overflow:hidden;
+    background:rgba(7,9,12,0.97);
+    backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
+    display:flex; flex-direction:column;
+    padding:100px 32px 40px;
+    opacity:0; visibility:hidden;
+    transition:opacity .35s ease, visibility 0s linear .35s;
+  }
+  .mobile-menu.is-open{
+    opacity:1; visibility:visible;
+    transition:opacity .35s ease, visibility 0s;
+  }
+  .mobile-menu .mobile-close{
+    position:absolute; top:22px; right:20px;
+    width:42px; height:42px; border-radius:50%;
+    border:1px solid var(--linha-forte); background:transparent; color:var(--papel);
+    font-size:18px; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:border-color .2s ease, transform .2s ease;
+  }
+  .mobile-menu .mobile-close:hover{ border-color:var(--dourado-2); transform:rotate(90deg); }
+  .mobile-menu .nav-links{
+    display:flex; flex-direction:column; align-items:flex-start; gap:8px;
+    font-size:22px; font-family:var(--display); font-weight:700;
+  }
+  .mobile-menu .nav-links a{
+    padding:14px 0; width:100%; color:var(--papel);
+    opacity:0; transform:translateY(14px);
+    transition:opacity .4s ease, transform .4s cubic-bezier(.2,.8,.2,1), color .25s ease;
+  }
+  .mobile-menu.is-open .nav-links a{ opacity:1; transform:translateY(0); }
+  .mobile-menu.is-open .nav-links a:nth-child(1){ transition-delay:.08s; }
+  .mobile-menu.is-open .nav-links a:nth-child(2){ transition-delay:.14s; }
+  .mobile-menu.is-open .nav-links a:nth-child(3){ transition-delay:.2s; }
+  .mobile-menu.is-open .nav-links a:nth-child(4){ transition-delay:.26s; }
+  .mobile-menu.is-open .nav-links a:nth-child(5){ transition-delay:.32s; }
+  .mobile-menu.is-open .nav-links a:nth-child(6){ transition-delay:.38s; }
+  .mobile-menu.is-open .nav-links a:nth-child(7){ transition-delay:.44s; }
+  .mobile-menu .nav-auth{
+    display:flex; margin-top:32px; flex-direction:column; align-items:stretch; gap:12px;
+    opacity:0; transform:translateY(14px);
+    transition:opacity .4s ease .36s, transform .4s cubic-bezier(.2,.8,.2,1) .36s;
+  }
+  .mobile-menu.is-open .nav-auth{ opacity:1; transform:translateY(0); }
+  .mobile-menu .nav-auth .btn{ display:block; text-align:center; padding:14px 18px; }
+  body.menu-open{ overflow:hidden; }
+
+  /* ============ HERO ============ */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex; align-items:center;
+    padding-top:120px;
+    overflow:hidden;
+  }
+
+  .hero-river{
+    position:absolute; inset:0; z-index:0; opacity:0.5;
+  }
+  .hero-river svg{ width:100%; height:100%; }
+
+  .hero-grid{
+    position:relative; z-index:2;
+    display:grid; grid-template-columns:1.15fr 0.85fr;
+    gap:48px; align-items:center;
+    width:100%;
+  }
+
+  .eyebrow{
+    font-family:var(--mono); font-size:13px; color:var(--sinal);
+    letter-spacing:0.08em; text-transform:uppercase;
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:''; width:7px; height:7px; border-radius:50%;
+    background:var(--sinal);
+    box-shadow:0 0 0 3px rgba(76,143,224,0.2);
+  }
+
+  h1.hero-title{
+    font-family:var(--display); font-weight:800;
+    font-size:clamp(40px, 5.4vw, 76px);
+    line-height:0.98;
+    letter-spacing:-0.01em;
+    color:var(--papel);
+  }
+  h1.hero-title .accent{ color:var(--dourado-2); }
+  h1.hero-title .stroke{
+    -webkit-text-stroke:1.5px var(--papel);
+    color:transparent;
+  }
+
+  .hero-sub{
+    margin-top:26px;
+    font-size:18px; color:var(--papel-dim);
+    max-width:480px; line-height:1.65;
+  }
+
+  .hero-cta{
+    margin-top:38px;
+    display:flex; gap:16px; align-items:center;
+  }
+  .btn-lg{
+    padding:15px 28px; font-size:14px;
+  }
+
+  .hero-meta{
+    margin-top:56px;
+    display:flex; gap:36px;
+    font-family:var(--mono);
+    border-top:1px solid var(--linha);
+    padding-top:24px;
+    max-width:480px;
+  }
+  .hero-meta div{ display:flex; flex-direction:column; gap:4px; }
+  .hero-meta .num{ font-size:22px; color:var(--dourado-2); font-weight:700; }
+  .hero-meta .lbl{ font-size:11px; color:var(--papel-dim); letter-spacing:0.04em; }
+
+  /* logo grande lado direito */
+  .hero-mark{
+    position:relative; z-index:2;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .hero-mark::before{
+    content:''; position:absolute; inset:-15%; z-index:0;
+    background:
+      radial-gradient(circle at 32% 28%, rgba(76,143,224,0.28), transparent 45%),
+      radial-gradient(circle at 68% 72%, rgba(226,131,63,0.28), transparent 50%);
+    filter:blur(50px);
+    pointer-events:none;
+  }
+  .hero-mark svg{ position:relative; z-index:1; width:100%; max-width:380px; height:auto; animation:mark-float 5.5s ease-in-out infinite; }
+  .rmark-code{ font-family:var(--mono); font-size:15px; font-weight:700; opacity:0.55; }
+  @keyframes mark-float{
+    0%, 100%{ transform:translateY(0) rotate(0deg); }
+    50%{ transform:translateY(-24px) rotate(-1.2deg); }
+  }
+  .hero-mark::before{ animation:mark-glow 4s ease-in-out infinite; }
+  @keyframes mark-glow{
+    0%, 100%{ opacity:0.8; transform:scale(1); }
+    50%{ opacity:1; transform:scale(1.14); }
+  }
+
+  /* Entrada em sequência: cada bloco do hero some/desliza até o lugar,
+     com atraso crescente — ativado via classe .is-ready no <body> depois
+     que a página carrega, pra não competir com o parse/paint inicial.
+     Deslocamento e duração generosos de propósito: precisa ser óbvio que
+     algo está acontecendo, não só um fade sutil que passa despercebido. */
+  .hero-grid > div:not(.hero-mark) > *{ opacity:0; transform:translateY(36px); }
+  body.is-ready .hero-grid > div:not(.hero-mark) > *{
+    animation:hero-rise 1s cubic-bezier(.16,.8,.24,1) forwards;
+  }
+  /* Seletor totalmente qualificado de propósito: precisa ter especificidade
+     igual ou maior que a regra genérica acima, senão o "animation-delay"
+     implícito (0s) do shorthand dela vence e todos os blocos entram juntos —
+     foi exatamente esse bug que fez a entrada parecer um fade só, sem cascata. */
+  body.is-ready .hero-grid > div:not(.hero-mark) > .eyebrow{ animation-delay:.1s; }
+  body.is-ready .hero-grid > div:not(.hero-mark) > h1.hero-title{ animation-delay:.28s; }
+  body.is-ready .hero-grid > div:not(.hero-mark) > .hero-sub{ animation-delay:.52s; }
+  body.is-ready .hero-grid > div:not(.hero-mark) > .hero-cta{ animation-delay:.76s; }
+  body.is-ready .hero-grid > div:not(.hero-mark) > .hero-meta{ animation-delay:1s; }
+  body.is-ready .hero-mark{ opacity:0; animation:hero-rise-scale 1.1s cubic-bezier(.16,.8,.24,1) .4s forwards; }
+  @keyframes hero-rise{
+    to{ opacity:1; transform:translateY(0); }
+  }
+  @keyframes hero-rise-scale{
+    from{ opacity:0; transform:translateY(24px) scale(0.9); }
+    to{ opacity:1; transform:translateY(0) scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .hero-mark svg, .hero-mark::before{ animation:none !important; }
+    .hero-grid > div:not(.hero-mark) > *, .hero-mark{ opacity:1 !important; transform:none !important; animation:none !important; }
+    .reveal{ opacity:1 !important; transform:none !important; transition:none !important; }
+    .btn-solid.is-rippling::after{ animation:none !important; }
+    *{ scroll-behavior:auto !important; }
+  }
+
+  /* ============ MARQUEE ============ */
+  .marquee-band{
+    border-top:1px solid var(--linha);
+    border-bottom:1px solid var(--linha);
+    overflow:hidden; white-space:nowrap;
+    background:var(--grafite);
+    padding:14px 0;
+  }
+  .marquee-track{
+    display:inline-block;
+    animation:scroll-left 32s linear infinite;
+  }
+  .marquee-track span{
+    font-family:var(--mono); font-size:13px; color:var(--papel-dim);
+    margin:0 28px; letter-spacing:0.05em;
+  }
+  .marquee-track span.gold{ color:var(--dourado-2); }
+  @keyframes scroll-left{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
+  }
+
+  /* ============ SECTION GENERIC ============ */
+  section{ padding:120px 0; position:relative; }
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    gap:24px; margin-bottom:64px;
+    border-bottom:1px solid var(--linha);
+    padding-bottom:28px;
+  }
+  .section-eyebrow{
+    font-family:var(--mono); font-size:12px; color:var(--sinal);
+    letter-spacing:0.1em; text-transform:uppercase; margin-bottom:14px;
+  }
+  h2.section-title{
+    font-family:var(--display); font-weight:700;
+    font-size:clamp(30px, 3.6vw, 46px);
+    line-height:1.05; letter-spacing:-0.01em;
+  }
+  .section-desc{
+    max-width:340px; color:var(--papel-dim); font-size:15px; line-height:1.6;
+  }
+
+  /* ============ SOFTWARES (carrossel) ============ */
+  .soft-carousel-wrap{ position:relative; padding:6px 56px 20px; }
+  .grid-soft{
+    display:flex; gap:28px;
+    overflow-x:auto; scroll-snap-type:x mandatory;
+    scroll-padding-left:1px;
+    padding:6px 4px 14px;
+  }
+  .grid-soft::-webkit-scrollbar{ height:0; display:none; }
+  .grid-soft{ -ms-overflow-style:none; scrollbar-width:none; }
+  .soft-carousel-wrap::before, .soft-carousel-wrap::after{
+    content:""; position:absolute; top:0; bottom:20px; width:40px; z-index:3; pointer-events:none;
+  }
+  .soft-carousel-wrap::before{ left:56px; background:linear-gradient(90deg, var(--bg), transparent); }
+  .soft-carousel-wrap::after{ right:56px; background:linear-gradient(-90deg, var(--bg), transparent); }
+  .carousel-nav{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:4;
+    width:40px; height:40px; border-radius:50%;
+    background:rgba(17,21,27,0.55);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border:1px solid rgba(237,239,242,0.14);
+    color:var(--papel); display:flex; align-items:center; justify-content:center;
+    font-size:15px; font-weight:300;
+    cursor:pointer; transition:background .25s ease, border-color .25s ease, transform .25s ease;
+    box-shadow:0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+  .carousel-nav:hover{ background:rgba(226,131,63,0.16); border-color:rgba(242,166,90,0.5); transform:translateY(-50%) scale(1.06); }
+  .carousel-nav.prev{ left:4px; }
+  .carousel-nav.next{ right:4px; }
+  @media (max-width:720px){
+    .carousel-nav{ display:none; }
+    .soft-carousel-wrap{ padding:6px 4px 20px; }
+    .soft-carousel-wrap::before{ left:0; }
+    .soft-carousel-wrap::after{ right:0; }
+  }
+  .soft-card{
+    --card-accent:#F2A65A;
+    background:linear-gradient(165deg, color-mix(in oklab, var(--verde-rio) 92%, white 2%), var(--verde-rio));
+    border:1px solid rgba(237,239,242,0.07);
+    border-radius:24px;
+    padding:34px 30px 30px;
+    position:relative;
+    overflow:hidden;
+    transition:background .4s ease, box-shadow .35s ease, transform .35s cubic-bezier(.2,.8,.2,1), border-color .35s ease;
+    transform-style:preserve-3d;
+    will-change:transform;
+    min-height:308px;
+    width:330px; flex-shrink:0;
+    scroll-snap-align:start;
+    display:flex; flex-direction:column;
+    box-shadow:0 1px 0 0 rgba(255,255,255,0.03) inset, 0 18px 40px -30px rgba(0,0,0,0.6);
+  }
+  .soft-card::after{
+    content:"";
+    position:absolute; top:-110px; right:-70px;
+    width:240px; height:240px; border-radius:50%;
+    background:radial-gradient(circle, var(--card-accent) 0%, transparent 70%);
+    opacity:0.10; pointer-events:none; filter:blur(2px);
+    transition:opacity .4s ease, transform .4s ease;
+  }
+  .soft-card:hover, .soft-card.is-tilting{
+    transform:translateY(-10px) scale(1.03);
+    border-color:color-mix(in oklab, var(--card-accent) 45%, transparent);
+    box-shadow:
+      0 1px 0 0 rgba(255,255,255,0.04) inset,
+      0 0 0 1px color-mix(in oklab, var(--card-accent) 30%, transparent),
+      0 36px 60px -26px color-mix(in oklab, var(--card-accent) 45%, transparent);
+    z-index:2;
+  }
+  .soft-card:hover::after{ opacity:0.2; transform:scale(1.2); }
+  .soft-icon-wrap{
+    transition:transform .35s cubic-bezier(.2,.8,.2,1); cursor:pointer;
+    transform-origin:top left; /* card tem overflow:hidden — cresce pra dentro, não estoura o canto arredondado */
+  }
+  /* Hover só em ponteiro de mouse de verdade — evita hover "grudado" em touch */
+  @media (hover:hover) and (pointer:fine){
+    .soft-card:hover .soft-icon-wrap{ transform:scale(2); }
+  }
+  /* Celular/tablet: clique alterna a ampliação via JS (ver iniciarZoomIcones) */
+  .soft-icon-wrap.is-zoomed{ transform:scale(2); }
+  .soft-cta{
+    display:inline-flex; align-items:center; gap:7px;
+    font-family:var(--mono); font-size:13px; font-weight:700;
+    color:var(--card-accent);
+    margin-top:2px;
+  }
+  .soft-cta svg{ transition:transform .25s cubic-bezier(.2,.8,.2,1); }
+  .soft-card:hover .soft-cta svg{ transform:translateX(5px); }
+  .soft-tag{
+    font-family:var(--mono); font-size:12px; font-weight:500;
+    letter-spacing:0.04em; text-transform:uppercase;
+    padding:5px 13px;
+    background:color-mix(in oklab, var(--card-accent) 12%, transparent);
+    border:1px solid color-mix(in oklab, var(--card-accent) 30%, transparent);
+    border-radius:20px; width:fit-content;
+    margin-bottom:24px;
+    position:relative; z-index:1;
+  }
+  .soft-icon-wrap{
+    width:60px; height:60px; border-radius:20px;
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:22px;
+    position:relative; z-index:1;
+    overflow:hidden;
+  }
+  /* Só aplica moldura/fundo próprios quando o conteúdo é o losango genérico (sem logo real) — um logo de verdade já traz seu próprio fundo/composição. */
+  .soft-icon-wrap:has(.is-svg-fallback){
+    background:color-mix(in oklab, var(--card-accent) 14%, var(--verde-rio));
+    box-shadow:0 0 0 1px color-mix(in oklab, var(--card-accent) 22%, transparent), 0 12px 28px -16px color-mix(in oklab, var(--card-accent) 55%, transparent);
+  }
+  .soft-icon{ width:100%; height:100%; object-fit:contain; border-radius:20px; }
+  .soft-icon.is-svg-fallback{ width:24px; height:24px; border-radius:0; }
+  .soft-name{
+    font-family:var(--display); font-weight:700; font-size:23px;
+    letter-spacing:-0.01em;
+    margin-bottom:12px;
+    position:relative; z-index:1;
+  }
+  .soft-desc{
+    color:var(--papel-dim); font-size:15px; line-height:1.7;
+    flex:1;
+    position:relative; z-index:1;
+  }
+  .soft-foot{
+    margin-top:24px; padding-top:18px; border-top:1px solid rgba(237,239,242,0.08);
+    display:flex; align-items:center; gap:10px;
+    font-family:var(--mono); font-size:13.5px; color:var(--papel-dim);
+    position:relative; z-index:1;
+  }
+  .soft-cta{ margin-left:auto; }
+  .soft-stores{
+    display:flex; flex-wrap:wrap; gap:8px;
+    margin-top:16px; position:relative; z-index:1;
+  }
+  .soft-store-badge{
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:11px; color:var(--card-accent);
+    background:color-mix(in oklab, var(--card-accent) 12%, transparent);
+    border:1px solid color-mix(in oklab, var(--card-accent) 30%, transparent);
+    padding:4px 10px; border-radius:12px;
+    cursor:pointer; transition:background .2s ease;
+  }
+  .soft-store-badge:hover{ background:color-mix(in oklab, var(--card-accent) 22%, transparent); }
+
+  .sk{ background:rgba(237,239,242,0.06); border-radius:8px; animation:sk-pulse 1.4s ease-in-out infinite; }
+  .sk-tag{ width:110px; height:24px; border-radius:20px; margin-bottom:24px; }
+  .sk-icon{ width:60px; height:60px; border-radius:20px; margin-bottom:22px; }
+  .sk-line{ height:13px; margin-bottom:10px; }
+  @keyframes sk-pulse{ 0%,100%{ opacity:0.5; } 50%{ opacity:1; } }
+
+  .soft-card.placeholder{
+    display:flex; align-items:center; justify-content:center;
+    border-style:dashed;
+  }
+  .soft-card.placeholder .ph-inner{
+    text-align:center; color:var(--papel-dim);
+  }
+  .soft-card.placeholder .ph-plus{
+    font-family:var(--display); font-size:34px; color:var(--linha-forte);
+    margin-bottom:10px;
+  }
+  .soft-card.placeholder .ph-label{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.04em;
+  }
+
+  /* ============ PROCESSO ============ */
+  .processo{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:0;
+    position:relative;
+  }
+  .processo::before{
+    content:''; position:absolute; top:13px; left:0; right:0; height:1px;
+    background:var(--linha-forte);
+  }
+  .proc-step{ position:relative; padding-right:24px; }
+  .proc-dot{
+    width:27px; height:27px; border-radius:50%;
+    background:var(--verde-rio); border:1px solid var(--dourado-2);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-size:11px; color:var(--dourado-2);
+    margin-bottom:26px; position:relative; z-index:2;
+  }
+  .proc-title{
+    font-family:var(--display); font-weight:700; font-size:17px; margin-bottom:10px;
+  }
+  .proc-desc{ color:var(--papel-dim); font-size:14px; line-height:1.6; }
+
+  /* ============ STACK ============ */
+  .stack-band{
+    background:var(--grafite);
+    border-top:1px solid var(--linha);
+    border-bottom:1px solid var(--linha);
+  }
+  .stack-grid{
+    display:flex; flex-wrap:wrap; gap:14px;
+  }
+  .stack-pill{
+    font-family:var(--mono); font-size:13px;
+    padding:9px 16px; border:1px solid var(--linha-forte); border-radius:30px;
+    color:var(--papel-dim);
+    transition:all .2s ease;
+  }
+  .stack-pill:hover{
+    border-color:var(--dourado-2); color:var(--papel);
+    box-shadow:0 0 0 1px rgba(76,143,224,0.15), 0 8px 20px -10px rgba(226,131,63,0.4);
+  }
+
+  /* ============ SOBRE / FUNDADOR ============ */
+  .sobre-grid{
+    display:grid; grid-template-columns:0.9fr 1.1fr; gap:64px; align-items:center;
+  }
+  .sobre-frame{
+    aspect-ratio:4/5;
+    border:1px solid var(--linha-forte);
+    position:relative;
+    display:flex; align-items:center; justify-content:center;
+    background:
+      linear-gradient(var(--linha) 1px, transparent 1px),
+      linear-gradient(90deg, var(--linha) 1px, transparent 1px);
+    background-size:24px 24px;
+  }
+  .sobre-frame svg{ width:64%; height:64%; }
+  .sobre-frame .coord{
+    position:absolute; bottom:16px; left:16px;
+    font-family:var(--mono); font-size:11px; color:var(--papel-dim);
+    letter-spacing:0.04em;
+  }
+  .sobre-frame .coord2{
+    position:absolute; top:16px; right:16px;
+    font-family:var(--mono); font-size:11px; color:var(--papel-dim);
+  }
+  .sobre-text p{
+    color:var(--papel-dim); font-size:16px; line-height:1.75; margin-bottom:20px;
+  }
+  .sobre-text strong{ color:var(--papel); font-weight:600; }
+  .sobre-quote{
+    font-family:var(--display); font-size:22px; line-height:1.4;
+    color:var(--papel); margin-bottom:28px;
+    border-left:2px solid var(--dourado-2); padding-left:20px;
+  }
+
+  /* ============ CTA FINAL ============ */
+  .cta-final{
+    text-align:center; padding:140px 0;
+    position:relative;
+  }
+  .cta-final h2{
+    font-family:var(--display); font-weight:800;
+    font-size:clamp(34px, 5vw, 64px);
+    line-height:1.05; margin-bottom:24px;
+  }
+  .cta-final .section-desc{ margin:0 auto 40px; max-width:440px; text-align:center; }
+
+  /* ============ FOOTER ============ */
+  footer{
+    border-top:1px solid var(--linha);
+    padding:64px 0 32px;
+    background:var(--grafite);
+  }
+  .footer-grid{
+    display:grid; grid-template-columns:1.4fr repeat(3, 1fr); gap:40px;
+    margin-bottom:56px;
+  }
+  .footer-brand .brand{ margin-bottom:16px; }
+  .footer-brand p{ color:var(--papel-dim); font-size:14px; max-width:280px; line-height:1.6; }
+  .footer-col h4{
+    font-family:var(--mono); font-size:12px; color:var(--dourado-2);
+    text-transform:uppercase; letter-spacing:0.06em; margin-bottom:18px;
+  }
+  .footer-col a{
+    display:block; color:var(--papel-dim); font-size:14px;
+    margin-bottom:12px; transition:color .2s ease;
+  }
+  .footer-col a:hover{ color:var(--papel); }
+  .footer-bottom{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:28px; border-top:1px solid var(--linha);
+    font-family:var(--mono); font-size:12px; color:var(--papel-dim);
+  }
+
+  /* ============ MODAL AUTH ============ */
+  .modal-overlay{
+    position:fixed; inset:0; z-index:200;
+    background:rgba(7,20,18,0.78);
+    backdrop-filter:blur(4px);
+    display:none; align-items:center; justify-content:center;
+    padding:24px;
+  }
+  .modal-overlay.open{ display:flex; }
+  .modal-box{
+    background:var(--verde-rio-2);
+    border:1px solid var(--linha-forte);
+    width:100%; max-width:420px;
+    padding:40px 36px;
+    position:relative;
+    animation:modal-in .3s ease;
+  }
+  @keyframes modal-in{
+    from{ opacity:0; transform:translateY(12px) scale(0.98); }
+    to{ opacity:1; transform:translateY(0) scale(1); }
+  }
+  .modal-close{
+    position:absolute; top:18px; right:18px;
+    background:none; border:none; color:var(--papel-dim);
+    font-size:20px; line-height:1; padding:6px;
+  }
+  .modal-close:hover{ color:var(--papel); }
+  .modal-eyebrow{
+    font-family:var(--mono); font-size:11px; color:var(--sinal);
+    letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px;
+  }
+  .modal-title{
+    font-family:var(--display); font-weight:700; font-size:26px; margin-bottom:8px;
+  }
+  .modal-sub{ color:var(--papel-dim); font-size:14px; margin-bottom:30px; }
+  .field{ margin-bottom:18px; }
+  .field label{
+    display:block; font-family:var(--mono); font-size:11.5px;
+    color:var(--papel-dim); letter-spacing:0.04em; margin-bottom:8px;
+    text-transform:uppercase;
+  }
+  .field input{
+    width:100%; background:var(--grafite);
+    border:1px solid var(--linha-forte);
+    color:var(--papel); padding:13px 14px; font-size:14.5px;
+    font-family:var(--corpo); border-radius:9px;
+    transition:border-color .2s ease;
+  }
+  .field input:focus{ outline:none; border-color:var(--dourado-2); }
+  .field input::placeholder{ color:rgba(242,239,230,0.3); }
+  .modal-submit{
+    width:100%; margin-top:8px; padding:14px;
+    font-family:var(--mono); font-weight:700; font-size:13px;
+    letter-spacing:0.03em;
+  }
+  .modal-switch{
+    margin-top:22px; text-align:center; font-size:13.5px; color:var(--papel-dim);
+  }
+  .modal-switch button{
+    background:none; border:none; color:var(--dourado-2);
+    font-family:inherit; font-size:13.5px; font-weight:600;
+    border-bottom:1px solid transparent;
+  }
+  .modal-switch button:hover{ border-bottom-color:var(--dourado-2); }
+
+  .social-auth{ display:flex; flex-direction:column; gap:10px; margin-bottom:24px; }
+  .btn-social{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    width:100%; padding:12px; border-radius:9px;
+    border:1px solid var(--linha-forte); background:var(--grafite); color:var(--papel);
+    font-family:var(--corpo); font-size:14px; font-weight:600;
+    transition:all .2s ease;
+  }
+  .btn-social:hover{ border-color:var(--sinal); background:var(--painel); }
+  .btn-social svg{ width:18px; height:18px; flex-shrink:0; }
+  .auth-divider{
+    display:flex; align-items:center; gap:14px; margin-bottom:22px;
+    font-family:var(--mono); font-size:11px; color:var(--papel-dim); text-transform:uppercase; letter-spacing:0.04em;
+  }
+  .auth-divider::before, .auth-divider::after{ content:''; flex:1; height:1px; background:var(--linha-forte); }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 980px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .hero-mark{ order:-1; max-width:220px; margin:0 auto 12px; }
+    .hero-mark svg{ max-width:200px; }
+    .processo{ grid-template-columns:1fr 1fr; row-gap:40px; }
+    .processo::before{ display:none; }
+    .sobre-grid{ grid-template-columns:1fr; }
+    .footer-grid{ grid-template-columns:1fr 1fr; row-gap:36px; }
+  }
+
+  /* Telas médias (a maioria dos notebooks): com Vagas + seletor de idioma
+     ocupando mais espaço, os links secundários saem primeiro pra nunca
+     colidir com a marca ou o bloco de login — só abaixo de 720px vira
+     menu hambúrguer. */
+  @media (max-width: 1280px){
+    header nav .nav-links a[href="#processo"],
+    header nav .nav-links a[href="#stack"]{ display:none; }
+  }
+  @media (max-width: 1000px){
+    header nav .nav-links a[href="#parceiros"]{ display:none; }
+  }
+
+  @media (max-width: 720px){
+    .wrap{ padding:0 20px; }
+    .nav-toggle{
+      display:flex; background:none; border:1px solid var(--linha-forte);
+      color:var(--papel); padding:9px 12px; border-radius:9px; font-size:15px;
+      flex-shrink:0;
+    }
+    /* No header mobile só ficam a marca e (se logado) o nome — todo o
+       resto (links, idioma, admin/sair ou entrar/criar conta) mora
+       exclusivamente no hambúrguer (#mobileMenu), que já recebe essas
+       mesmas informações via JS (atualizarEstadoSessao). */
+    .nav-group-menu{ display:none; }
+    nav.wrap > .nav-group-account .nav-auth .btn{ display:none; }
+    nav.wrap > .nav-group-account{
+      background:none; border:none; padding:0; gap:10px;
+      flex-shrink:1; min-width:0;
+    }
+    nav.wrap > .nav-group-account .nav-divider{ display:none; }
+    nav.wrap > .nav-group-account .user-chip{ padding:7px 10px; gap:5px; flex-shrink:1; min-width:0; }
+    nav.wrap > .nav-group-account .user-chip-name{ max-width:96px; }
+  }
+  @media (max-width: 400px){
+    nav.wrap > .nav-group-account .user-chip-name{ max-width:62px; }
+  }
+  @media (max-width: 720px){
+    .hero{ padding-top:100px; min-height:auto; padding-bottom:60px; }
+    .hero-cta{ flex-direction:column; align-items:stretch; }
+    .hero-meta{ flex-wrap:wrap; gap:24px; }
+    section{ padding:72px 0; }
+    .section-head{ flex-direction:column; align-items:flex-start; gap:16px; }
+    .processo{ grid-template-columns:1fr; }
+    .footer-grid{ grid-template-columns:1fr; }
+    .footer-bottom{ flex-direction:column; gap:10px; text-align:center; }
+  }
+  /* ============ PARTNER CARD (pág completa) ============ */
+  .ad-badge{
+    font-family:var(--mono); font-size:10.5px; letter-spacing:0.05em;
+    color:var(--grafite); background:var(--dourado-2);
+    padding:3px 8px; border-radius:6px; text-transform:uppercase;
+    font-weight:700;
+  }
+
+  /* ============ PARCEIROS — SEÇÃO COMPLETA INCORPORADA ============ */
+  .page-hero{ position:relative; padding:140px 0 70px; overflow:hidden; }
+  .page-hero-river{ position:absolute; inset:0; z-index:0; opacity:0.4; }
+  .page-hero-river svg{ width:100%; height:100%; }
+  .breadcrumb{
+    position:relative; z-index:2;
+    font-family:var(--mono); font-size:13px; color:var(--papel-dim);
+    margin-bottom:20px; letter-spacing:0.02em;
+    background:var(--grafite); border:1px solid var(--linha);
+    display:inline-flex; align-items:center; padding:8px 14px; border-radius:4px;
+  }
+  .breadcrumb a{ color:var(--papel-dim); }
+  .breadcrumb a:hover{ color:var(--dourado-2); }
+  .breadcrumb .sep{ margin:0 6px; opacity:0.5; }
+  .breadcrumb .here{ color:var(--dourado-2); }
+  .cursor-blink{ margin-left:6px; color:var(--sinal); animation:blink 1.1s step-end infinite; }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  h2.page-title{
+    position:relative; z-index:2;
+    font-family:var(--display); font-weight:800;
+    font-size:clamp(32px, 4.6vw, 56px);
+    line-height:1.04; letter-spacing:-0.01em; max-width:780px;
+  }
+  h2.page-title .accent{ color:var(--dourado-2); }
+  .page-sub{
+    position:relative; z-index:2;
+    margin-top:22px; font-size:17px; color:var(--papel-dim);
+    max-width:560px; line-height:1.65;
+  }
+
+  .disclaimer-box{
+    display:flex; gap:18px; align-items:flex-start;
+    border:1px solid var(--linha-forte); border-left:3px solid var(--dourado-2);
+    border-radius:14px; padding:26px 28px; margin-bottom:0;
+    background:var(--grafite);
+  }
+  .disclaimer-box .ic{
+    font-family:var(--mono); color:var(--dourado-2); font-size:13px;
+    flex-shrink:0; margin-top:2px; border:1px solid var(--dourado-2);
+    border-radius:50%; width:22px; height:22px; display:flex;
+    align-items:center; justify-content:center;
+  }
+  .disclaimer-box h4{ font-family:var(--display); font-size:16px; margin-bottom:10px; }
+  .disclaimer-box p{ color:var(--papel-dim); font-size:14px; line-height:1.7; }
+  .disclaimer-box p + p{ margin-top:10px; }
+  .disclaimer-box strong{ color:var(--papel); }
+  .disclaimer-box a{ color:var(--dourado-2); border-bottom:1px solid rgba(226,190,110,0.4); }
+  .disclaimer-box a:hover{ border-bottom-color:var(--dourado-2); }
+
+  .vagas-banner{
+    display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;
+    width:100%; text-align:left; cursor:pointer;
+    background:linear-gradient(135deg, color-mix(in oklab, var(--dourado-2) 14%, var(--painel)), var(--painel) 60%);
+    border:1px solid var(--linha-forte); border-radius:20px;
+    padding:44px 40px; margin-bottom:28px;
+    transition:border-color .25s ease, transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease;
+  }
+  .vagas-banner:hover{ border-color:var(--dourado-2); transform:translateY(-2px); box-shadow:0 20px 50px -28px rgba(226,131,63,0.4); }
+  .vagas-banner-text{ display:flex; flex-direction:column; gap:8px; }
+  .vagas-banner-title{
+    font-family:var(--display); font-weight:800; letter-spacing:0.01em;
+    font-size:clamp(40px, 6vw, 72px); line-height:0.95;
+    color:var(--papel);
+  }
+  .vagas-banner-sub{ color:var(--papel-dim); font-size:14.5px; max-width:480px; line-height:1.6; }
+  .vagas-banner-cta{
+    display:flex; align-items:center; gap:10px; flex-shrink:0;
+    font-family:var(--mono); font-size:13px; font-weight:700; letter-spacing:0.02em;
+    color:var(--bg); background:var(--dourado-2);
+    border-radius:100px; padding:14px 22px; white-space:nowrap;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .vagas-banner:hover .vagas-banner-cta{ background:var(--dourado); }
+  .vagas-banner-arrow{ display:inline-block; transition:transform .25s ease; }
+  .vagas-banner[aria-expanded="true"] .vagas-banner-arrow{ transform:rotate(180deg); }
+
+  .vagas-conteudo{ animation:vagas-abre .5s cubic-bezier(0.16,1,0.3,1) both; }
+  @keyframes vagas-abre{ from{ opacity:0; transform:translateY(-10px); } to{ opacity:1; transform:translateY(0); } }
+  @media (prefers-reduced-motion: reduce){ .vagas-conteudo{ animation:none; } }
+
+  .vagas-categoria-grupo{ margin-bottom:36px; }
+  .vagas-categoria-titulo{
+    display:flex; align-items:center; gap:10px;
+    font-family:var(--mono); font-size:13px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase;
+    color:var(--dourado-2); margin-bottom:16px;
+  }
+  .vagas-categoria-titulo .count{
+    font-weight:400; color:var(--papel-dim); background:var(--painel);
+    border-radius:100px; padding:2px 9px; font-size:11.5px;
+  }
+
+  .vagas-filtros{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; }
+  .vaga-filtro-btn{
+    font-family:var(--mono); font-size:12.5px; color:var(--papel-dim);
+    background:var(--painel); border:1px solid var(--linha-forte); border-radius:100px;
+    padding:8px 16px; cursor:pointer; transition:color .15s, border-color .15s, background .15s;
+  }
+  .vaga-filtro-btn:hover{ color:var(--papel); border-color:var(--dourado-2); }
+  .vaga-filtro-btn.is-active{ color:var(--bg); background:var(--dourado-2); border-color:var(--dourado-2); font-weight:600; }
+
+  .vagas-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:16px; }
+  .vaga-card{
+    display:flex; flex-direction:column; gap:10px;
+    background:var(--painel); border:1px solid var(--linha-forte); border-radius:14px;
+    padding:22px 24px;
+    transition:transform .25s cubic-bezier(.2,.8,.2,1), border-color .25s ease;
+    text-decoration:none; color:inherit;
+  }
+  .vaga-card:hover{ transform:translateY(-3px); border-color:var(--dourado-2); }
+  .vaga-card-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .vaga-titulo{ font-family:var(--display); font-size:16px; color:var(--papel); line-height:1.35; }
+  .vaga-badge{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.04em;
+    color:var(--sinal); border:1px solid rgba(76,143,224,0.4); border-radius:100px;
+    padding:3px 10px; white-space:nowrap; flex-shrink:0;
+  }
+  .vaga-empresa{ font-family:var(--mono); font-size:13px; color:var(--dourado-2); }
+  .vaga-local{ font-size:12.5px; color:var(--papel-dim); }
+  .vaga-resumo{
+    font-size:13.5px; color:var(--papel-dim); line-height:1.6;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+  }
+  .vaga-cta{
+    margin-top:auto; padding-top:6px; font-family:var(--mono); font-size:12.5px;
+    color:var(--dourado-2); text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+  }
+  .vaga-cta:hover{ color:var(--papel); }
+  .vagas-vazio{ color:var(--papel-dim); font-size:14px; grid-column:1/-1; text-align:center; padding:40px 0; }
+
+  .tiers{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:1px;
+    background:var(--linha); border:1px solid var(--linha);
+  }
+  .tier-card{
+    background:var(--verde-rio); padding:40px 34px;
+    display:flex; flex-direction:column; transition:background .3s ease;
+    cursor:pointer;
+  }
+  .tier-card:hover{ background:var(--verde-rio-2); }
+  .tier-card.expanded{
+    grid-column: span 3;
+    flex-direction:row; gap:40px; align-items:flex-start;
+    background:var(--verde-rio-2);
+  }
+  .tier-card.expanded .tier-left{ flex:0 0 320px; }
+  .tier-card.expanded .tier-right{
+    flex:1; display:flex; flex-direction:column; gap:16px;
+    padding-top:4px;
+  }
+  .tier-card.expanded .tier-expanded-text{
+    display:block; color:var(--papel-dim); font-size:15px; line-height:1.75;
+    border-top:1px solid var(--linha); padding-top:16px; margin-top:8px;
+  }
+  .tier-expanded-text{ display:none; }
+  .tier-expand-hint{
+    font-family:var(--mono); font-size:10px; color:var(--papel-dim);
+    letter-spacing:.05em; margin-top:auto; padding-top:16px;
+    display:flex; align-items:center; gap:6px; transition:color .2s;
+  }
+  .tier-expand-hint .hint-icon{ transition:transform .3s; }
+  .tier-card.expanded .tier-expand-hint .hint-icon{ transform:rotate(180deg); }
+  .tier-card:hover .tier-expand-hint{ color:var(--dourado-2); }
+  @media (max-width: 980px){
+    .tier-card.expanded{ grid-column:span 1; flex-direction:column; }
+    .tier-card.expanded .tier-left{ flex:none; }
+  }
+  .tier-icon{
+    width:38px; height:38px; margin-bottom:22px; cursor:pointer;
+    transform-origin:left center; transition:transform .3s cubic-bezier(.16,.8,.24,1);
+  }
+  /* Hover só em ponteiro de mouse de verdade — evita hover "grudado" em touch */
+  @media (hover:hover) and (pointer:fine){
+    .tier-icon:hover{ transform:scale(2); }
+  }
+  /* Celular/tablet: clique alterna a ampliação via JS (ver iniciarZoomIconesTier) */
+  .tier-icon.is-zoomed{ transform:scale(2); }
+  .tier-name{ font-family:var(--display); font-weight:700; font-size:21px; margin-bottom:12px; }
+  .tier-desc{ color:var(--papel-dim); font-size:14px; line-height:1.65; margin-bottom:22px; flex:1; }
+  .tier-list{ list-style:none; margin-bottom:26px; }
+  .tier-list li{
+    font-family:var(--mono); font-size:12.5px; color:var(--papel-dim);
+    padding:8px 0; border-top:1px solid var(--linha);
+    display:flex; gap:10px; align-items:flex-start;
+  }
+  .tier-list li::before{ content:'→'; color:var(--dourado-2); flex-shrink:0; }
+  .tier-card .btn{ width:100%; text-align:center; }
+
+  .partners-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:1px;
+    background:var(--linha); border:1px solid var(--linha);
+    margin-bottom:32px;
+  }
+  .partner-slot{
+    background:var(--grafite); aspect-ratio:1.4;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:10px; padding:20px; border:1px dashed transparent;
+  }
+  .partner-slot.empty{ border:1px dashed var(--linha-forte); }
+  .partner-slot.empty .plus{ font-family:var(--display); font-size:26px; color:var(--linha-forte); }
+  .partner-slot.empty .lbl{
+    font-family:var(--mono); font-size:10.5px; color:var(--papel-dim);
+    text-align:center; letter-spacing:0.03em;
+  }
+  .partners-note{
+    font-family:var(--mono); font-size:12.5px; color:var(--papel-dim);
+    text-align:center; padding:18px 0 0;
+  }
+
+  .afiliado-row{
+    display:grid; grid-template-columns:auto 1fr auto auto; gap:24px; align-items:center;
+    padding:22px 0; border-bottom:1px solid var(--linha);
+  }
+  .afiliado-row:first-child{ border-top:1px solid var(--linha); }
+  .afiliado-cat{
+    font-family:var(--mono); font-size:11px; color:var(--dourado-2);
+    text-transform:uppercase; letter-spacing:0.05em;
+    border:1px solid rgba(226,131,63,0.35); border-radius:20px;
+    padding:5px 12px; white-space:nowrap;
+  }
+  .afiliado-name{ font-family:var(--display); font-weight:700; font-size:16px; }
+  .afiliado-status{ font-family:var(--mono); font-size:11px; color:var(--papel-dim); white-space:nowrap; }
+
+  .partner-form-band{
+    background:var(--grafite);
+    border-top:1px solid var(--linha); border-bottom:1px solid var(--linha);
+  }
+  .form-grid{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:64px; align-items:start; }
+  .form-side h3{ font-family:var(--display); font-weight:700; font-size:24px; margin-bottom:18px; }
+  .form-side p{ color:var(--papel-dim); font-size:15px; line-height:1.7; margin-bottom:16px; }
+  .form-side ul{ list-style:none; margin-top:24px; }
+  .form-side ul li{
+    font-family:var(--mono); font-size:13px; color:var(--papel-dim);
+    padding:10px 0; border-top:1px solid var(--linha); display:flex; gap:10px;
+  }
+  .form-side ul li::before{ content:'·'; color:var(--dourado-2); font-weight:700; }
+
+  .field select, .field textarea{
+    width:100%; background:var(--verde-rio);
+    border:1px solid var(--linha-forte);
+    color:var(--papel); padding:13px 14px; font-size:14.5px;
+    font-family:var(--corpo); border-radius:9px;
+    transition:border-color .2s ease;
+  }
+  .field textarea{ resize:vertical; min-height:100px; }
+  .field select:focus, .field textarea:focus{ outline:none; border-color:var(--dourado-2); }
+  .field textarea::placeholder{ color:rgba(242,239,230,0.3); }
+  .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .form-submit{ width:100%; margin-top:8px; padding:15px; font-weight:700; }
+  .form-note{ margin-top:16px; font-size:12px; color:var(--papel-dim); line-height:1.6; }
+
+  @media (max-width: 980px){
+    .tiers{ grid-template-columns:1fr; }
+    .partners-grid{ grid-template-columns:repeat(2, 1fr); }
+    .form-grid{ grid-template-columns:1fr; }
+  }
+  @media (max-width: 720px){
+    .page-hero{ padding:110px 0 50px; }
+    .afiliado-row{ grid-template-columns:1fr; gap:8px; text-align:left; }
+    .field-row{ grid-template-columns:1fr; }
+  }
+
+  /* ============ ADMIN PANEL ============ */
+  .admin-list{ display:flex; flex-direction:column; gap:1px; background:var(--linha); border:1px solid var(--linha); }
+  .admin-row{
+    background:var(--verde-rio); padding:22px 24px;
+    display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap;
+  }
+  .admin-row-main{ flex:1; min-width:240px; }
+  .admin-row-top{ display:flex; align-items:center; gap:12px; margin-bottom:6px; font-size:15px; flex-wrap:wrap; }
+  .admin-row-meta{ font-family:var(--mono); font-size:11.5px; color:var(--papel-dim); margin-bottom:8px; }
+  .admin-row-msg{ font-size:13.5px; color:var(--papel-dim); line-height:1.6; max-width:520px; }
+  .admin-row-actions{ display:flex; gap:8px; flex-shrink:0; }
+  .admin-empty{ padding:30px; text-align:center; color:var(--papel-dim); font-family:var(--mono); font-size:13px; background:var(--verde-rio); }
+
+  .admin-metrics{ display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:14px; }
+  .admin-stat{
+    background:var(--verde-rio); border:1px solid var(--linha); border-radius:12px;
+    padding:22px 24px; position:relative; overflow:hidden;
+    transition:border-color .25s ease, transform .25s ease;
+  }
+  .admin-stat::before{
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg, var(--dourado-2), transparent);
+  }
+  .admin-stat.accent-blue::before{ background:linear-gradient(90deg, var(--sinal), transparent); }
+  .admin-stat:hover{ border-color:var(--linha-forte); transform:translateY(-2px); }
+  .admin-stat .num{ font-family:var(--display); font-size:32px; font-weight:700; color:var(--dourado-2); line-height:1; }
+  .admin-stat .lbl{ font-family:var(--mono); font-size:11px; color:var(--papel-dim); letter-spacing:0.03em; margin-top:8px; display:block; }
+  .admin-stat.accent-blue .num{ color:var(--sinal); }
+
+  /* ---- Gráficos (analytics de acesso) ---- */
+  .chart-card{ background:var(--verde-rio); border:1px solid var(--linha); border-radius:12px; padding:20px 22px 14px; position:relative; }
+  .chart-svg{ display:block; width:100%; height:auto; overflow:visible; }
+  .chart-grid-line{ stroke:var(--linha-forte); stroke-width:1; shape-rendering:crispEdges; }
+  .chart-axis-label{ font-family:var(--mono); font-size:10px; fill:var(--papel-dim); }
+  .chart-bar{ transition:opacity .15s ease; }
+  .chart-bar-hit{ cursor:pointer; }
+  .chart-bar.is-active{ opacity:0.75; }
+  .chart-tooltip{
+    position:absolute; pointer-events:none; z-index:20; opacity:0; transition:opacity 0.12s ease;
+    background:var(--grafite); border:1px solid var(--linha-forte); border-radius:6px;
+    padding:8px 11px; font-family:var(--mono); font-size:11px; color:var(--papel); white-space:nowrap;
+    box-shadow:0 8px 24px rgba(0,0,0,0.4);
+  }
+  .chart-tooltip .tt-value{ color:var(--sinal); font-weight:700; font-size:13px; display:block; margin-top:2px; }
+  .chart-empty{ padding:34px 10px; text-align:center; color:var(--papel-dim); font-family:var(--mono); font-size:12px; }
+
+  .bar-rank{ display:flex; flex-direction:column; gap:12px; }
+  .bar-rank-row{ display:grid; grid-template-columns:88px 1fr 40px; align-items:center; gap:10px; }
+  .bar-rank-label{ font-size:12px; color:var(--papel); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:flex; align-items:center; gap:7px; }
+  .bar-rank-swatch{ width:9px; height:9px; border-radius:2px; flex-shrink:0; }
+  .bar-rank-track{ background:var(--linha); height:8px; border-radius:4px; overflow:hidden; }
+  .bar-rank-fill{ height:100%; border-radius:4px; transition:width 0.6s cubic-bezier(0.16,1,0.3,1); }
+
+  /* ---- Gráfico de pizza (donut) — Dispositivos / Navegadores ---- */
+  .pie-wrap{ display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
+  .pie-svg-wrap{ position:relative; flex-shrink:0; width:130px; height:130px; }
+  .pie-slice{ transition:opacity .15s ease; cursor:pointer; }
+  .pie-slice.is-active{ opacity:0.78; }
+  .pie-center-label{
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; pointer-events:none;
+  }
+  .pie-center-label .pcl-n{ font-family:var(--display); font-size:22px; font-weight:700; color:var(--papel); line-height:1; }
+  .pie-center-label .pcl-l{ font-family:var(--mono); font-size:9px; color:var(--papel-dim); letter-spacing:0.05em; margin-top:4px; }
+  .pie-legend{ flex:1; min-width:140px; display:flex; flex-direction:column; gap:9px; }
+  .pie-legend-item{ display:flex; align-items:center; gap:9px; font-size:12.5px; color:var(--papel); cursor:default; }
+  .pie-legend-swatch{ width:9px; height:9px; border-radius:2px; flex-shrink:0; }
+  .pie-legend-item .pli-label{ flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .pie-legend-item .pli-pct{ font-family:var(--mono); font-size:11.5px; color:var(--papel-dim); min-width:34px; text-align:right; }
+  .pie-legend-item .pli-value{ font-family:var(--mono); font-size:11.5px; color:var(--papel-dim); min-width:28px; text-align:right; }
+  .bar-rank-value{ font-family:var(--mono); font-size:12px; color:var(--papel-dim); text-align:right; }
+
+  .status-badge{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.04em; text-transform:uppercase;
+    padding:3px 9px; border-radius:20px; border:1px solid var(--linha-forte);
+  }
+  .status-pendente{ color:var(--dourado-2); border-color:rgba(226,131,63,0.4); }
+  .status-aprovado{ color:var(--sinal); border-color:rgba(76,143,224,0.4); }
+  .status-rejeitado{ color:#E07A5F; border-color:rgba(224,122,95,0.4); }
+
+  .btn-mini{
+    font-family:var(--mono); font-size:12px; padding:8px 13px; border-radius:8px;
+    border:1px solid var(--linha-forte); background:transparent; color:var(--papel);
+    white-space:nowrap; transition:all .2s ease;
+  }
+  .btn-mini-ok:hover{ border-color:var(--sinal); color:var(--sinal); }
+  .btn-mini-no:hover{ border-color:#E07A5F; color:#E07A5F; }
+  .btn-mini-del:hover{ border-color:var(--dourado-2); color:var(--dourado-2); }
+
+  .user-chip{
+    display:inline-flex; align-items:center; gap:7px;
+    font-family:var(--mono); font-size:12.5px; color:var(--papel);
+    padding:8px 14px; white-space:nowrap;
+    border:1px solid var(--linha-forte); border-radius:20px;
+    background:rgba(237,239,242,0.03);
+    max-width:100%; min-width:0;
+  }
+  .user-chip .crown{ font-size:13px; line-height:1; flex-shrink:0; }
+  .user-chip-name{
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+    display:inline-block; vertical-align:middle; max-width:150px;
+    flex-shrink:0;
+  }
+  .user-chip.is-admin{
+    border-color:color-mix(in oklab, var(--dourado-2) 35%, transparent);
+    background:color-mix(in oklab, var(--dourado-2) 10%, transparent);
+    color:var(--dourado-2);
+  }
+</style>
+</head>
+
+<body>
+
+<div class="grain"></div>
+
+<!-- ============ NAV ============ -->
+<header>
+  <nav class="wrap">
+    <div class="nav-group nav-group-account">
+      <a href="#topo" class="brand">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="rGradNav" x1="10" y1="10" x2="38" y2="38" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#4C8FE0"/>
+              <stop offset="0.45" stop-color="#4C8FE0"/>
+              <stop offset="0.6" stop-color="#E2833F"/>
+              <stop offset="1" stop-color="#F2A65A"/>
+            </linearGradient>
+          </defs>
+          <path d="M6 34C13 34.5 19 30.5 23 23C27 15.5 33.5 10 42 9.5" stroke="url(#rGradNav)" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+          <circle cx="42" cy="9.5" r="3.2" fill="#F2A65A"/>
+          <path d="M14 36V12H24.5C28.6 12 32 14.9 32 19C32 22.3 29.8 24.9 26.7 25.8L33 36H27.8L22 26.4H19V36H14ZM19 22.2H24C26 22.2 27.3 20.9 27.3 19C27.3 17.1 26 15.8 24 15.8H19V22.2Z" fill="url(#rGradNav)"/>
+        </svg>
+        <span class="brand-name">RHONEY<span class="dim">INC</span></span>
+      </a>
+      <span class="nav-divider" aria-hidden="true"></span>
+      <div class="nav-auth">
+        <button class="btn btn-ghost" onclick="openModal('login')" data-i18n="nav_entrar">Entrar</button>
+        <button class="btn btn-solid" onclick="openModal('cadastro')" data-i18n="nav_criar_conta">Criar conta</button>
+      </div>
+    </div>
+
+    <div class="nav-group nav-group-menu">
+      <div class="nav-links">
+        <a href="#softwares" data-i18n="nav_softwares">Softwares</a>
+        <a href="#processo" data-i18n="nav_processo">Processo</a>
+        <a href="#stack" data-i18n="nav_stack">Stack</a>
+        <a href="#parceiros" data-i18n="nav_parceiros">Parceiros</a>
+        <div class="nav-dropdown">
+          <button type="button" class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+            <span data-i18n="nav_vagas">Vagas</span><span class="nav-dropdown-caret">▾</span>
+          </button>
+          <div class="nav-dropdown-options">
+            <a href="#vagas" data-i18n="nav_vagas">Vagas</a>
+            <a href="#cursos" data-i18n="nav_cursos">Cursos</a>
+          </div>
+        </div>
+      </div>
+
+      <span class="nav-divider" aria-hidden="true"></span>
+
+      <div class="lang-switch" id="langSwitch">
+        <button type="button" class="lang-current" aria-haspopup="true" aria-expanded="false">
+          <span class="lang-current-label">PT</span><span class="lang-caret">▾</span>
+        </button>
+        <div class="lang-options" role="group" aria-label="Idioma">
+          <button data-lang="pt" class="is-active">Português</button>
+          <button data-lang="en">English</button>
+          <button data-lang="es">Español</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">☰</button>
+  </nav>
+</header>
+
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <button class="mobile-close" id="mobileClose" aria-label="Fechar menu">✕</button>
+  <div class="nav-links">
+    <a href="#softwares" data-i18n="nav_softwares">Softwares</a>
+    <a href="#processo" data-i18n="nav_processo">Processo</a>
+    <a href="#stack" data-i18n="nav_stack">Stack</a>
+    <a href="#parceiros" data-i18n="nav_parceiros">Parceiros</a>
+    <a href="#vagas" data-i18n="nav_vagas">Vagas</a>
+    <a href="#cursos" data-i18n="nav_cursos">Cursos</a>
+  </div>
+  <div class="lang-switch" id="langSwitchMobile">
+    <button type="button" class="lang-current" aria-haspopup="true" aria-expanded="false">
+      <span class="lang-current-label">PT</span><span class="lang-caret">▾</span>
+    </button>
+    <div class="lang-options" role="group" aria-label="Idioma">
+      <button data-lang="pt" class="is-active">Português</button>
+      <button data-lang="en">English</button>
+      <button data-lang="es">Español</button>
+    </div>
+  </div>
+  <div class="nav-auth">
+    <button class="btn btn-ghost" onclick="openModal('login')" data-i18n="nav_entrar">Entrar</button>
+    <button class="btn btn-solid" onclick="openModal('cadastro')" data-i18n="nav_criar_conta">Criar conta</button>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="topo">
+  <div class="hero-river" aria-hidden="true">
+    <svg viewBox="0 0 1400 800" preserveAspectRatio="xMidYMid slice">
+      <path d="M-100 600 C 200 500, 350 650, 600 550 S 1000 350, 1500 420" stroke="#E2833F" stroke-width="1" fill="none" opacity="0.35"/>
+      <path d="M-100 680 C 250 580, 400 720, 650 620 S 1050 430, 1500 500" stroke="#4C8FE0" stroke-width="1" fill="none" opacity="0.25"/>
+      <path d="M-100 520 C 180 440, 320 560, 580 480 S 980 300, 1500 360" stroke="#F2EFE6" stroke-width="1" fill="none" opacity="0.12"/>
+    </svg>
+  </div>
+
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow" data-i18n="hero_eyebrow">Estúdio de engenharia de software · Belém, PA</div>
+      <h1 class="hero-title" data-i18n-html="hero_title">Software com <span class="accent">prompt</span><br>e <span class="stroke">produto</span> definidos.</h1>
+      <p class="hero-sub" data-i18n="hero_sub">A RhoneyInc projeta e constrói produtos digitais do zero ao deploy — aplicativos, painéis e ferramentas que resolvem um problema real, com IA generativa, Claude Code e Supabase no centro do processo.</p>
+
+      <div class="hero-cta">
+        <button class="btn btn-solid btn-lg" onclick="openModal('cadastro')" data-i18n="hero_cta_criar">Criar minha conta</button>
+        <a href="#softwares" class="btn btn-ghost btn-lg" data-i18n="hero_cta_ver">Ver softwares →</a>
+      </div>
+
+      <div class="hero-meta">
+        <div><span class="num">03</span><span class="lbl" data-i18n="hero_meta_1">SOFTWARES NO ECOSSISTEMA</span></div>
+        <div><span class="num">100%</span><span class="lbl" data-i18n="hero_meta_2">DESENHADO NO BRASIL</span></div>
+        <div><span class="num">PA</span><span class="lbl" data-i18n="hero_meta_3">SEDE · BELÉM</span></div>
+      </div>
+    </div>
+
+    <div class="hero-mark">
+      <svg viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="rGradHero" x1="95" y1="75" x2="225" y2="245" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#4C8FE0"/>
+            <stop offset="0.42" stop-color="#4C8FE0"/>
+            <stop offset="0.58" stop-color="#E2833F"/>
+            <stop offset="1" stop-color="#F2A65A"/>
+          </linearGradient>
+          <radialGradient id="rGlowHero" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#4C8FE0" stop-opacity="0.35"/>
+            <stop offset="1" stop-color="#4C8FE0" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="rOrbHero" cx="0.35" cy="0.3" r="0.75">
+            <stop offset="0" stop-color="#FFD9A8"/>
+            <stop offset="0.55" stop-color="#F2A65A"/>
+            <stop offset="1" stop-color="#E2833F"/>
+          </radialGradient>
+          <filter id="rShadowHero" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="3" dy="6" stdDeviation="5" flood-color="#000" flood-opacity="0.45"/>
+          </filter>
+          <clipPath id="rClipHero">
+            <path d="M110 230V90H162C182 90 198 103 198 124C198 141 187 152 173 156L210 230H184L150 159H134V230H110Z"/>
+          </clipPath>
+        </defs>
+        <circle cx="160" cy="160" r="158" stroke="#E2833F" stroke-width="1" opacity="0.4"/>
+        <circle cx="160" cy="160" r="120" stroke="#4C8FE0" stroke-width="1" opacity="0.25"/>
+        <circle cx="160" cy="160" r="150" fill="url(#rGlowHero)"/>
+        <circle cx="198" cy="124" r="16" fill="#F2A65A" opacity="0.3" filter="blur(6px)"/>
+        <g filter="url(#rShadowHero)">
+          <g clip-path="url(#rClipHero)">
+            <path d="M110 230V90H162C182 90 198 103 198 124C198 141 187 152 173 156L210 230H184L150 159H134V230H110Z" fill="url(#rGradHero)"/>
+            <ellipse cx="140" cy="108" rx="50" ry="46" fill="#FFFFFF" opacity="0.4" filter="blur(14px)"/>
+            <ellipse cx="192" cy="208" rx="58" ry="58" fill="#000000" opacity="0.32" filter="blur(16px)"/>
+            <path d="M96 70 L214 70 L172 260 L54 260 Z" fill="#FFFFFF" opacity="0.10"/>
+            <path d="M116 78 L150 78 L108 260 L74 260 Z" fill="#FFFFFF" opacity="0.14"/>
+          </g>
+          <path d="M110 230V90H162C182 90 198 103 198 124C198 141 187 152 173 156L210 230H184L150 159H134V230H110Z" fill="none" stroke="rgba(0,0,0,0.4)" stroke-width="1.2"/>
+          <path d="M114 96V224" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
+          <path d="M164 94C179 96 190 106 190 121" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round" opacity="0.3" fill="none"/>
+          <path d="M134 156C134 185 120 210 92 224" stroke="url(#rGradHero)" stroke-width="3" stroke-linecap="round"/>
+          <path d="M134 156C140 175 138 198 122 218" stroke="#4C8FE0" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
+          <circle cx="92" cy="224" r="4" fill="#E2833F"/>
+          <circle cx="198" cy="124" r="7" fill="url(#rOrbHero)"/>
+        </g>
+        <text x="26" y="58" class="rmark-code" fill="#4C8FE0" transform="rotate(-8 26 58)">&lt;/&gt;</text>
+        <text x="246" y="278" class="rmark-code" fill="#F2A65A">{ }</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee-band">
+  <div class="marquee-track">
+    <span class="gold">FITNOW</span><span>·</span>
+    <span class="gold">CONTROLE FINANCEIRO</span><span>·</span>
+    <span>PYTHON</span><span>·</span>
+    <span>SUPABASE</span><span>·</span>
+    <span>REACT</span><span>·</span>
+    <span class="gold">FITNOW</span><span>·</span>
+    <span class="gold">CONTROLE FINANCEIRO</span><span>·</span>
+    <span>PYTHON</span><span>·</span>
+    <span>SUPABASE</span><span>·</span>
+    <span>REACT</span><span>·</span>
+  </div>
+</div>
+
+<!-- ============ SOFTWARES ============ -->
+<section id="softwares">
+  <div class="wrap">
+    <div class="section-head reveal-left">
+      <div>
+        <div class="section-eyebrow" data-i18n="soft_eyebrow">Linha de produtos</div>
+        <h2 class="section-title" data-i18n="soft_title">O que estamos construindo</h2>
+      </div>
+      <p class="section-desc" data-i18n="soft_desc">Cada software nasce de um problema vivido de perto, não de uma planilha de tendências.</p>
+    </div>
+
+    <div class="soft-carousel-wrap">
+      <button class="carousel-nav prev" onclick="scrollSoftCarousel(-1)" aria-label="Anterior">←</button>
+      <button class="carousel-nav next" onclick="scrollSoftCarousel(1)" aria-label="Próximo">→</button>
+      <div class="grid-soft" id="softCarousel">
+      <div id="softwaresGridDynamic" style="display:contents">
+      <!-- Preenchido dinamicamente via carregarSoftwaresPublicos() (app.js), a partir da tabela softwares no Supabase. -->
+      <div class="soft-card soft-skeleton">
+        <div class="sk sk-tag"></div>
+        <div class="sk sk-icon"></div>
+        <div class="sk sk-line" style="width:60%"></div>
+        <div class="sk sk-line" style="width:95%"></div>
+        <div class="sk sk-line" style="width:80%"></div>
+      </div>
+      <div class="soft-card soft-skeleton">
+        <div class="sk sk-tag"></div>
+        <div class="sk sk-icon"></div>
+        <div class="sk sk-line" style="width:50%"></div>
+        <div class="sk sk-line" style="width:90%"></div>
+        <div class="sk sk-line" style="width:70%"></div>
+      </div>
+      <div class="soft-card soft-skeleton">
+        <div class="sk sk-tag"></div>
+        <div class="sk sk-icon"></div>
+        <div class="sk sk-line" style="width:65%"></div>
+        <div class="sk sk-line" style="width:85%"></div>
+        <div class="sk sk-line" style="width:75%"></div>
+      </div>
+      </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESSO ============ -->
+<section id="processo">
+  <div class="wrap">
+    <div class="section-head reveal-right">
+      <div>
+        <div class="section-eyebrow" data-i18n="proc_eyebrow">Método</div>
+        <h2 class="section-title" data-i18n="proc_title">Do prompt à entrega</h2>
+      </div>
+      <p class="section-desc" data-i18n="proc_desc">Quatro etapas, sempre na mesma ordem — com IA generativa acelerando cada uma delas.</p>
+    </div>
+
+    <div class="processo reveal">
+      <div class="proc-step reveal">
+        <div class="proc-dot">01</div>
+        <div class="proc-title">Mapeamento</div>
+        <div class="proc-desc">Entendemos o problema real antes de abrir qualquer editor de código.</div>
+      </div>
+      <div class="proc-step reveal">
+        <div class="proc-dot">02</div>
+        <div class="proc-title">Protótipo</div>
+        <div class="proc-desc">Telas e fluxos navegáveis para validar a experiência cedo, sem retrabalho.</div>
+      </div>
+      <div class="proc-step reveal">
+        <div class="proc-dot">03</div>
+        <div class="proc-title">Construção</div>
+        <div class="proc-desc">Engenharia de verdade: banco de dados, autenticação, integrações e testes.</div>
+      </div>
+      <div class="proc-step reveal">
+        <div class="proc-dot">04</div>
+        <div class="proc-title">Entrega</div>
+        <div class="proc-desc">Deploy, monitoramento e um roadmap claro para a próxima versão.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STACK ============ -->
+<section id="stack" class="stack-band">
+  <div class="wrap">
+    <div class="section-head reveal-left">
+      <div>
+        <div class="section-eyebrow" data-i18n="stack_eyebrow">Ferramentas</div>
+        <h2 class="section-title" data-i18n="stack_title">Stack que sustenta o produto</h2>
+      </div>
+      <p class="section-desc" data-i18n="stack_desc">As mesmas peças, montadas de forma diferente para cada problema.</p>
+    </div>
+
+    <div class="stack-grid reveal">
+      <span class="stack-pill">Claude Code</span>
+      <span class="stack-pill">IA Generativa</span>
+      <span class="stack-pill">Python</span>
+      <span class="stack-pill">JavaScript</span>
+      <span class="stack-pill">SQL</span>
+      <span class="stack-pill">PostgreSQL</span>
+      <span class="stack-pill">MySQL</span>
+      <span class="stack-pill">Supabase</span>
+      <span class="stack-pill">FastAPI</span>
+      <span class="stack-pill">React</span>
+      <span class="stack-pill">Docker</span>
+      <span class="stack-pill">Kubernetes</span>
+      <span class="stack-pill">GitHub Actions</span>
+      <span class="stack-pill">Power BI</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PARCEIROS (completo, incorporado) ============ -->
+<section id="parceiros" class="page-hero" style="padding-top:0;">
+  <div class="page-hero-river" aria-hidden="true">
+    <svg viewBox="0 0 1400 600" preserveAspectRatio="xMidYMid slice">
+      <path d="M-100 450 C 200 380, 350 480, 600 420 S 1000 280, 1500 320" stroke="#E2833F" stroke-width="1" fill="none" opacity="0.3"/>
+      <path d="M-100 500 C 250 430, 400 540, 650 470 S 1050 330, 1500 380" stroke="#4C8FE0" stroke-width="1" fill="none" opacity="0.2"/>
+    </svg>
+  </div>
+
+  <div class="wrap">
+    <div class="breadcrumb">
+      <span style="color:var(--sinal);">$</span> <a href="#topo">~/rhoneyinc</a><span class="sep">/</span><span class="here">parceiros</span><span class="cursor-blink">▌</span>
+    </div>
+    <div class="eyebrow" data-i18n="parc_hero_eyebrow">Colaboração comercial</div>
+    <h2 class="page-title" data-i18n-html="parc_hero_title">Parceiros e <span class="accent">patrocinadores</span> da RhoneyInc.</h2>
+    <p class="page-sub" data-i18n="parc_hero_sub">Este é o combustível por trás da entrega: empresas, marcas e plataformas que apoiam o desenvolvimento dos nossos softwares — sempre de forma clara, identificada e dentro da lei.</p>
+  </div>
+</section>
+
+<!-- ============ DISCLAIMER ============ -->
+<section style="padding-top:0;">
+  <div class="wrap">
+    <div class="disclaimer-box reveal">
+      <span class="ic">i</span>
+      <div>
+        <h4>Aviso de transparência publicitária</h4>
+        <p>A RhoneyInc participa de parcerias comerciais, programas de afiliados e patrocínios. Isso significa que <strong>podemos receber comissão, créditos ou outra forma de remuneração</strong> quando você clica em determinados links, se cadastra ou realiza uma compra através deles — sem nenhum custo adicional para você.</p>
+        <p>Todo conteúdo dessa natureza é identificado com a etiqueta <span class="ad-badge">Publicidade</span>, em conformidade com o <strong>Art. 36 do Código de Defesa do Consumidor</strong> (direito à identificação da publicidade) e com as diretrizes de transparência do <strong>Marco Civil da Internet</strong>. Parcerias remuneradas nunca influenciam nossas avaliações técnicas, nem mudam a prioridade do nosso roadmap de produtos.</p>
+        <p>Dúvidas sobre alguma parceria específica? Fale com a gente em <a href="mailto:rhoneyinc@gmail.com">rhoneyinc@gmail.com</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MODALIDADES ============ -->
+<section style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head reveal-right">
+      <div>
+        <div class="section-eyebrow" data-i18n="modal_eyebrow">Modalidades</div>
+        <h2 class="section-title" data-i18n="modal_title">Três formas de caminhar com a gente</h2>
+      </div>
+      <p class="section-desc" data-i18n="modal_desc">Escolha o formato que melhor se encaixa com o seu negócio.</p>
+    </div>
+
+    <div class="tiers reveal" id="tiersGrid">
+      <div class="tier-card" onclick="expandirCard(this)">
+        <div class="tier-left">
+          <svg class="tier-icon" viewBox="0 0 30 30" fill="none">
+            <path d="M9 21L21 9M9 9h12v12" stroke="#4C8FE0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="tier-name">Parceiro de tecnologia</div>
+          <div class="tier-desc">Para empresas de infraestrutura, APIs e ferramentas de desenvolvimento. Trocamos visibilidade por acesso, créditos ou suporte técnico.</div>
+          <ul class="tier-list">
+            <li>Logo na home e na página de parceiros</li>
+            <li>Menção nos softwares onde a ferramenta é usada</li>
+            <li>Sem custo monetário direto</li>
+          </ul>
+          <a href="#form-parceria" class="btn btn-ghost" onclick="event.stopPropagation()">Quero ser parceiro</a>
+        </div>
+        <div class="tier-right">
+          <div class="tier-expanded-text">
+            <strong style="color:var(--papel);display:block;margin-bottom:12px;">Como funciona na prática</strong>
+            Você oferece acesso à sua ferramenta, créditos ou suporte técnico. Em troca, a RhoneyInc exibe sua marca nos produtos onde ela é utilizada — com link direto, menção no rodapé do app e espaço na nossa página de parceiros.<br><br>
+            Ideal para: provedores de infraestrutura, plataformas de autenticação, ferramentas de analytics, APIs de pagamento e serviços de comunicação.<br><br>
+            <strong style="color:var(--papel);">Não há custo financeiro.</strong> A troca é baseada em valor mútuo — visibilidade qualificada para você, acesso ao melhor tooling para nós.
+          </div>
+        </div>
+        <div class="tier-expand-hint"><span>Toque para expandir</span><span class="hint-icon">↕</span></div>
+      </div>
+
+      <div class="tier-card" onclick="expandirCard(this)">
+        <div class="tier-left">
+          <svg class="tier-icon" viewBox="0 0 30 30" fill="none">
+            <path d="M15 3L18 11H26L19.5 16L22 24L15 19L8 24L10.5 16L4 11H12L15 3Z" stroke="#F2A65A" stroke-width="1.6" stroke-linejoin="round"/>
+          </svg>
+          <div class="tier-name">Patrocínio de marca</div>
+          <div class="tier-desc">Espaço publicitário pago, com posição fixa e identificação clara como conteúdo patrocinado, dentro das normas do CDC.</div>
+          <ul class="tier-list">
+            <li>Banner identificado como "Publicidade"</li>
+            <li>Posição definida em contrato</li>
+            <li>Relatório de desempenho mensal</li>
+          </ul>
+          <a href="#form-parceria" class="btn btn-ghost" onclick="event.stopPropagation()">Quero patrocinar</a>
+        </div>
+        <div class="tier-right">
+          <div class="tier-expanded-text">
+            <strong style="color:var(--papel);display:block;margin-bottom:12px;">Visibilidade garantida, transparência total</strong>
+            Seu banner aparece em posição fixa no site e/ou nos apps, sempre identificado com a etiqueta <strong>Publicidade</strong> — em conformidade com o Art. 36 do CDC e o Marco Civil da Internet.<br><br>
+            Você recebe mensalmente um relatório com impressões, cliques, CTR e origem dos acessos por dispositivo e região.<br><br>
+            <strong style="color:var(--papel);">Investimento</strong> definido por contrato conforme produto, período e posição. Entre em contato para receber uma proposta personalizada.
+          </div>
+        </div>
+        <div class="tier-expand-hint"><span>Toque para expandir</span><span class="hint-icon">↕</span></div>
+      </div>
+
+      <div class="tier-card" onclick="expandirCard(this)">
+        <div class="tier-left">
+          <svg class="tier-icon" viewBox="0 0 30 30" fill="none">
+            <circle cx="15" cy="15" r="11" stroke="#4C8FE0" stroke-width="1.6"/>
+            <path d="M15 9v6l4 2" stroke="#4C8FE0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="tier-name">Programa de afiliados</div>
+          <div class="tier-desc">Para marcas com produto ou serviço relevante ao público dos nossos apps. Comissão paga por resultado (CPA), com link rastreável e identificado.</div>
+          <ul class="tier-list">
+            <li>Comissão por venda ou cadastro validado</li>
+            <li>Link de afiliado identificado para o usuário</li>
+            <li>Pagamento conforme legislação vigente</li>
+          </ul>
+          <a href="#form-parceria" class="btn btn-ghost" onclick="event.stopPropagation()">Quero ser afiliado</a>
+        </div>
+        <div class="tier-right">
+          <div class="tier-expanded-text">
+            <strong style="color:var(--papel);display:block;margin-bottom:12px;">Você só paga quando vende</strong>
+            No modelo CPA, a RhoneyInc promove seu produto usando links rastreáveis identificados com a etiqueta <strong>Publicidade</strong>. Você paga comissão apenas sobre conversões validadas.<br><br>
+            Todo link é transparente para o usuário — conformidade com CONAR e CDC.<br><br>
+            <strong style="color:var(--papel);">Pagamentos</strong> mensais via PIX, TED ou nota fiscal com comprovante de conversões. Ideal para: fintechs, plataformas de cursos, apps de saúde e marketplaces.
+          </div>
+        </div>
+        <div class="tier-expand-hint"><span>Toque para expandir</span><span class="hint-icon">↕</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CURSOS ============ -->
+<section id="cursos" style="padding-top:0;">
+  <div class="wrap">
+    <button type="button" class="vagas-banner reveal-left" id="cursosBanner" aria-expanded="false" aria-controls="cursosConteudo">
+      <div class="vagas-banner-text">
+        <span class="section-eyebrow" data-i18n="cursos_eyebrow">Estude de graça</span>
+        <span class="vagas-banner-title" data-i18n="cursos_title">CURSOS</span>
+        <span class="vagas-banner-sub" data-i18n="cursos_desc">Uma seleção de cursos reais e gratuitos (ou com opção gratuita) das melhores referências em tecnologia — sem cadastro na RhoneyInc, direto pra fonte.</span>
+      </div>
+      <span class="vagas-banner-cta">
+        <span data-i18n="cursos_banner_cta">Ver cursos por categoria</span>
+        <span class="vagas-banner-arrow">↓</span>
+      </span>
+    </button>
+
+    <div class="vagas-conteudo" id="cursosConteudo" hidden>
+      <!-- Preenchido dinamicamente via carregarCursos() (app.js), a partir da
+           tabela cursos no Supabase — curadoria manual no painel admin, não
+           existe fonte automática pra "descobrir" cursos novos (diferente de
+           Vagas, que usa a API da Remotive). -->
+      <div class="vagas-categorias" id="cursosGrid">
+        <p class="vagas-vazio" id="cursosCarregando" data-i18n="cursos_carregando">Carregando cursos...</p>
+      </div>
+
+      <div class="disclaimer-box reveal" style="margin-top:8px;">
+        <span class="ic">i</span>
+        <div>
+          <h4 data-i18n="cursos_aviso_titulo">Aviso de transparência — Cursos</h4>
+          <p data-i18n="cursos_aviso_texto">Esta é uma curadoria editorial da RhoneyInc — não somos afiliados nem recebemos comissão de nenhuma das plataformas listadas acima. São recomendações genuínas de onde a própria equipe RhoneyInc aprende. Preços e disponibilidade de cursos gratuitos podem mudar; confirme sempre no site oficial de cada plataforma.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PARCEIROS ATUAIS ============ -->
+<section style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-eyebrow" data-i18n="parc_eyebrow">Hoje</div>
+        <h2 class="section-title" data-i18n="parc_title">Parceiros atuais</h2>
+      </div>
+      <p class="section-desc" data-i18n="parc_desc">A RhoneyInc ainda está formando sua rede de parceiros. Os espaços abaixo serão preenchidos conforme as parcerias forem fechadas.</p>
+    </div>
+
+    <div class="partners-grid" id="partnersGridPublic">
+      <div class="partner-slot empty"><div class="plus">+</div><div class="lbl" data-i18n-html="parc_slot_label">VAGA<br>DISPONÍVEL</div></div>
+      <div class="partner-slot empty"><div class="plus">+</div><div class="lbl" data-i18n-html="parc_slot_label">VAGA<br>DISPONÍVEL</div></div>
+      <div class="partner-slot empty"><div class="plus">+</div><div class="lbl" data-i18n-html="parc_slot_label">VAGA<br>DISPONÍVEL</div></div>
+      <div class="partner-slot empty"><div class="plus">+</div><div class="lbl" data-i18n-html="parc_slot_label">VAGA<br>DISPONÍVEL</div></div>
+    </div>
+    <p class="partners-note" data-i18n="parc_nota">Nenhuma parceria comercial ativa no momento — esta seção será atualizada assim que houver acordos firmados.</p>
+  </div>
+</section>
+
+<!-- ============ AFILIADOS (lista exemplo de categorias) ============ -->
+<section style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head reveal-right">
+      <div>
+        <div class="section-eyebrow" data-i18n="cat_eyebrow">Categorias abertas</div>
+        <h2 class="section-title" data-i18n="cat_title">Onde cabe um link de afiliado</h2>
+      </div>
+      <p class="section-desc" data-i18n="cat_desc">Categorias relacionadas aos nossos softwares, abertas para propostas.</p>
+    </div>
+
+    <div>
+      <div class="afiliado-row">
+        <span class="afiliado-cat">Fitness</span>
+        <span class="afiliado-name">Equipamentos e suplementação</span>
+        <span class="ad-badge">Publicidade</span>
+        <span class="afiliado-status">Aberto para proposta</span>
+      </div>
+      <div class="afiliado-row">
+        <span class="afiliado-cat">Finanças</span>
+        <span class="afiliado-name">Bancos digitais e cartões</span>
+        <span class="ad-badge">Publicidade</span>
+        <span class="afiliado-status">Aberto para proposta</span>
+      </div>
+      <div class="afiliado-row">
+        <span class="afiliado-cat">Finanças</span>
+        <span class="afiliado-name">Plataformas de investimento</span>
+        <span class="ad-badge">Publicidade</span>
+        <span class="afiliado-status">Aberto para proposta</span>
+      </div>
+      <div class="afiliado-row">
+        <span class="afiliado-cat">Tecnologia</span>
+        <span class="afiliado-name">Hospedagem e infraestrutura</span>
+        <span class="ad-badge">Publicidade</span>
+        <span class="afiliado-status">Aberto para proposta</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FORM PARCERIA ============ -->
+<section class="partner-form-band" id="form-parceria">
+  <div class="wrap">
+    <div class="form-grid">
+      <div class="form-side reveal">
+        <div class="section-eyebrow">Vamos conversar</div>
+        <h3>Tem interesse em uma parceria?</h3>
+        <p>Conte um pouco sobre sua empresa e o tipo de colaboração que imagina. Respondemos por e-mail em até 3 dias úteis.</p>
+        <ul>
+          <li>Resposta humana, sem automação genérica</li>
+          <li>Avaliação caso a caso, sem taxa de análise</li>
+          <li>Contrato simples e termos claros</li>
+        </ul>
+      </div>
+
+      <form id="formParceria">
+        <div class="field-row">
+          <div class="field">
+            <label for="p-nome">Seu nome</label>
+            <input id="p-nome" type="text" placeholder="Nome completo" required>
+          </div>
+          <div class="field">
+            <label for="p-empresa">Empresa</label>
+            <input id="p-empresa" type="text" placeholder="Nome da empresa" required>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="p-email">E-mail</label>
+            <input id="p-email" type="email" placeholder="voce@empresa.com" required>
+          </div>
+          <div class="field">
+            <label for="p-tipo">Tipo de parceria</label>
+            <select id="p-tipo" required>
+              <option value="">Selecione</option>
+              <option>Parceiro de tecnologia</option>
+              <option>Patrocínio de marca</option>
+              <option>Programa de afiliados</option>
+              <option>Outro</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="p-msg">Conte sobre a proposta</label>
+          <textarea id="p-msg" placeholder="O que sua empresa faz e como imagina essa parceria com a RhoneyInc?" required></textarea>
+        </div>
+        <button class="btn btn-solid form-submit" type="submit">Enviar proposta</button>
+        <p class="form-note" id="parceria-feedback">Ao enviar, você concorda que a RhoneyInc entre em contato pelo e-mail informado para tratar da proposta. Nenhum dado é compartilhado com terceiros.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VAGAS ============ -->
+<section id="vagas">
+  <div class="wrap">
+    <button type="button" class="vagas-banner reveal" id="vagasBanner" aria-expanded="false" aria-controls="vagasConteudo">
+      <div class="vagas-banner-text">
+        <span class="section-eyebrow" data-i18n="vagas_eyebrow">Oportunidades no mercado</span>
+        <span class="vagas-banner-title" data-i18n="vagas_title">VAGAS</span>
+        <span class="vagas-banner-sub" data-i18n="vagas_desc">Um retorno pra comunidade: vagas remotas reais, agregadas automaticamente, sem intermediar candidatura nenhuma.</span>
+      </div>
+      <span class="vagas-banner-cta">
+        <span data-i18n="vagas_banner_cta">Ver vagas por categoria</span>
+        <span class="vagas-banner-arrow">↓</span>
+      </span>
+    </button>
+
+    <div class="vagas-conteudo" id="vagasConteudo" hidden>
+      <div class="vagas-filtros" id="vagasFiltros">
+        <button class="vaga-filtro-btn is-active" data-categoria="todas" data-i18n="vagas_filtro_todas">Todas</button>
+        <button class="vaga-filtro-btn" data-categoria="Engenharia" data-i18n="vagas_filtro_engenharia">Engenharia</button>
+        <button class="vaga-filtro-btn" data-categoria="IA">IA</button>
+        <button class="vaga-filtro-btn" data-categoria="Produto" data-i18n="vagas_filtro_produto">Produto</button>
+        <button class="vaga-filtro-btn" data-categoria="Dados" data-i18n="vagas_filtro_dados">Dados</button>
+        <button class="vaga-filtro-btn" data-categoria="Liderança" data-i18n="vagas_filtro_lideranca">Liderança</button>
+        <button class="vaga-filtro-btn" data-categoria="Gestão" data-i18n="vagas_filtro_gestao">Gestão</button>
+      </div>
+
+      <div class="vagas-categorias" id="vagasGrid">
+        <p class="vagas-vazio" id="vagasCarregando" data-i18n="vagas_carregando">Carregando vagas...</p>
+      </div>
+
+      <div class="disclaimer-box reveal" style="margin-top:32px;">
+        <span class="ic">i</span>
+        <div>
+          <h4>Aviso de transparência — Vagas</h4>
+          <p>As vagas exibidas nesta seção são agregadas automaticamente por meio de APIs públicas de terceiros (ex: Remotive), com base em palavras-chave de tecnologia, inteligência artificial, produto e liderança. A RhoneyInc não é a empresa contratante, não participa do processo seletivo, não recebe currículos e não possui qualquer vínculo com as vagas listadas além da exibição informativa.</p>
+          <p>Ao clicar em "Ver no LinkedIn", você será redirecionado para o LinkedIn, onde poderá consultar a vaga original (quando disponível) ou realizar uma busca pelo cargo e empresa correspondentes. A RhoneyInc não garante a veracidade, disponibilidade ou atualização das vagas de terceiros, e recomenda confirmar todas as informações diretamente com a empresa contratante antes de se candidatar.</p>
+          <p>Esta seção tem caráter exclusivamente informativo e não constitui recomendação de emprego, aconselhamento de carreira ou parceria comercial com as empresas listadas.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOBRE ============ -->
+<section id="sobre">
+  <div class="wrap sobre-grid">
+    <div class="sobre-frame reveal-left">
+      <span class="coord2">01°27'S, 48°30'W</span>
+      <svg viewBox="0 0 320 320" fill="none">
+        <defs>
+          <linearGradient id="rGradSobre" x1="95" y1="75" x2="225" y2="245" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#4C8FE0"/>
+            <stop offset="0.42" stop-color="#4C8FE0"/>
+            <stop offset="0.58" stop-color="#E2833F"/>
+            <stop offset="1" stop-color="#F2A65A"/>
+          </linearGradient>
+          <radialGradient id="rOrbSobre" cx="0.35" cy="0.3" r="0.75">
+            <stop offset="0" stop-color="#FFD9A8"/>
+            <stop offset="0.55" stop-color="#F2A65A"/>
+            <stop offset="1" stop-color="#E2833F"/>
+          </radialGradient>
+          <filter id="rShadowSobre" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="3" dy="6" stdDeviation="5" flood-color="#000" flood-opacity="0.45"/>
+          </filter>
+          <clipPath id="rClipSobre">
+            <path d="M110 230V90H162C182 90 198 103 198 124C198 141 187 152 173 156L210 230H184L150 159H134V230H110Z"/>
+          </clipPath>
+        </defs>
+        <circle cx="198" cy="124" r="16" fill="#F2A65A" opacity="0.3" filter="blur(6px)"/>
+        <g filter="url(#rShadowSobre)">
+          <g clip-path="url(#rClipSobre)">
+            <path d="M110 230V90H162C182 90 198 103 198 124C198 141 187 152 173 156L210 230H184L150 159H134V230H110Z" fill="url(#rGradSobre)"/>
+            <ellipse cx="140" cy="108" rx="50" ry="46" fill="#FFFFFF" opacity="0.4" filter="blur(14px)"/>
+            <ellipse cx="192" cy="208" rx="58" ry="58" fill="#000000" opacity="0.32" filter="blur(16px)"/>
+            <path d="M96 70 L214 70 L172 260 L54 260 Z" fill="#FFFFFF" opacity="0.10"/>
+            <path d="M116 78 L150 78 L108 260 L74 260 Z" fill="#FFFFFF" opacity="0.14"/>
+          </g>
+          <path d="M110 230V90H162C182 90 198 103 198 124C198 141 187 152 173 156L210 230H184L150 159H134V230H110Z" fill="none" stroke="rgba(0,0,0,0.4)" stroke-width="1.2"/>
+          <path d="M114 96V224" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
+          <path d="M164 94C179 96 190 106 190 121" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round" opacity="0.3" fill="none"/>
+          <path d="M134 156C134 185 120 210 92 224" stroke="url(#rGradSobre)" stroke-width="3" stroke-linecap="round"/>
+          <path d="M134 156C140 175 138 198 122 218" stroke="#4C8FE0" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
+          <circle cx="92" cy="224" r="4" fill="#E2833F"/>
+          <circle cx="198" cy="124" r="7" fill="url(#rOrbSobre)"/>
+        </g>
+        <text x="26" y="58" class="rmark-code" fill="#4C8FE0" transform="rotate(-8 26 58)">&lt;/&gt;</text>
+        <text x="246" y="278" class="rmark-code" fill="#F2A65A">{ }</text>
+      </svg>
+      <span class="coord">BELÉM · PARÁ · BRASIL</span>
+    </div>
+
+    <div class="sobre-text reveal-right">
+      <div class="section-eyebrow" data-i18n="sobre_eyebrow">Quem constrói</div>
+      <h2 class="section-title" style="margin-bottom:28px;" data-i18n="sobre_title">Sobre a RhoneyInc</h2>
+      <p class="sobre-quote">"Software bom é como um bom prompt: tem contexto claro e entrega exatamente o que precisa entregar."</p>
+      <p>A RhoneyInc é a marca por trás dos produtos de <strong>Ronaldo Martins</strong>, desenvolvedor formado em Licenciatura em Computação pela <strong>UFRA — Universidade Federal Rural da Amazônia</strong>, e ex-presidente da empresa júnior UTIC, em Belém do Pará.</p>
+      <p>Depois de liderar equipes e construir sistemas para terceiros, a RhoneyInc nasceu para dar nome e direção aos softwares que carregam a própria visão do fundador — do primeiro protótipo até o usuário final.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA FINAL ============ -->
+<section class="cta-final">
+  <div class="wrap">
+    <div class="eyebrow reveal" style="justify-content:center;" data-i18n="cta_eyebrow">Comece agora</div>
+    <h2 class="reveal" data-i18n="cta_title">Entre nessa nova era.</h2>
+    <p class="section-desc reveal" data-i18n="cta_desc">Crie sua conta para usar o MeuPet agora e acompanhar de perto o lançamento do FitNow, do Controle Financeiro e do que vier a seguir.</p>
+    <button class="btn btn-solid btn-lg reveal" onclick="openModal('cadastro')" data-i18n="cta_button">Criar minha conta gratuita</button>
+  </div>
+</section>
+
+<!-- ============ PAINEL ADMIN (visível só para admins) ============ -->
+<section id="admin" class="admin-only partner-form-band" style="display:none; padding-top:90px;">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <span style="color:var(--sinal);">$</span> <a href="#topo">~/rhoneyinc</a><span class="sep">/</span><span class="here">admin</span><span class="cursor-blink">▌</span>
+    </div>
+    <div class="section-head reveal" style="border:none; margin-bottom:40px;">
+      <div>
+        <div class="section-eyebrow">Acesso restrito</div>
+        <h2 class="section-title">Painel administrativo</h2>
+      </div>
+      <p class="section-desc">Métricas, usuários, propostas, parceiros e o conteúdo público do site — tudo num só lugar.</p>
+    </div>
+
+    <!-- Métricas -->
+    <div style="margin-bottom:80px;">
+      <h3 style="font-family:var(--display); font-size:20px; margin-bottom:8px;">Métricas</h3>
+      <p class="section-desc" style="max-width:560px; margin-bottom:24px;">Geral (site RhoneyInc) e, por baixo, um bloco por produto — cada app tem seu próprio banco de dados.</p>
+
+      <div style="font-family:var(--mono); font-size:12px; color:var(--sinal); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;">Geral · RhoneyInc</div>
+      <div id="adminMetricas" class="admin-metrics" style="margin-bottom:36px;">
+        <p class="admin-empty">Carregando...</p>
+      </div>
+
+      <div style="font-family:var(--mono); font-size:12px; color:var(--sinal); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;">MeuPet</div>
+      <div id="adminMetricasMeuPet" class="admin-metrics" style="margin-bottom:36px;">
+        <p class="admin-empty">Carregando...</p>
+      </div>
+
+      <div style="font-family:var(--mono); font-size:12px; color:var(--sinal); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;">FitNow · Controle Financeiro</div>
+      <div class="admin-metrics">
+        <div class="admin-stat"><span class="num">—</span><span class="lbl">FITNOW · SEM BACKEND AINDA</span></div>
+        <div class="admin-stat"><span class="num">—</span><span class="lbl">CONTROLE FINANCEIRO · SEM BACKEND AINDA</span></div>
+      </div>
+    </div>
+
+    <!-- Analytics de acesso -->
+    <div style="margin-bottom:80px;">
+      <h3 style="font-family:var(--display); font-size:20px; margin-bottom:8px;">Analytics de acesso</h3>
+      <p class="section-desc" style="max-width:560px; margin-bottom:24px;">Visitas ao site RhoneyInc — anônimo, sem cookies, sem IP armazenado. Localização e dispositivo são aproximados (por IP, via Vercel).</p>
+
+      <div id="adminAnalyticsResumo" class="admin-metrics" style="margin-bottom:28px;">
+        <p class="admin-empty">Carregando...</p>
+      </div>
+
+      <div style="margin-bottom:28px;">
+        <div style="font-family:var(--mono); font-size:12px; color:var(--sinal); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px;">Acessos · últimos 14 dias</div>
+        <div id="adminAnalyticsTendencia" class="chart-card"><p class="admin-empty">Carregando...</p></div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px;">
+        <div>
+          <div style="font-family:var(--mono); font-size:12px; color:var(--sinal); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px;">Dispositivos</div>
+          <div id="adminAnalyticsDispositivos" class="chart-card"><p class="admin-empty">Carregando...</p></div>
+        </div>
+        <div>
+          <div style="font-family:var(--mono); font-size:12px; color:var(--sinal); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px;">Navegadores</div>
+          <div id="adminAnalyticsNavegadores" class="chart-card"><p class="admin-empty">Carregando...</p></div>
+        </div>
+        <div>
+          <div style="font-family:var(--mono); font-size:12px; color:var(--sinal); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px;">Países</div>
+          <div id="adminAnalyticsPaises" class="chart-card"><p class="admin-empty">Carregando...</p></div>
+        </div>
+        <div>
+          <div style="font-family:var(--mono); font-size:12px; color:var(--sinal); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px;">Cidades</div>
+          <div id="adminAnalyticsCidades" class="chart-card"><p class="admin-empty">Carregando...</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Usuários -->
+    <div style="margin-bottom:80px;">
+      <h3 style="font-family:var(--display); font-size:20px; margin-bottom:24px;">Usuários cadastrados</h3>
+      <div id="adminUsuarios" class="admin-list">
+        <p class="admin-empty">Carregando...</p>
+      </div>
+    </div>
+
+    <!-- Novo software manual -->
+    <div id="admin-novo-software" style="margin-bottom:80px;">
+      <h3 style="font-family:var(--display); font-size:20px; margin-bottom:24px;">Adicionar / editar software</h3>
+      <form id="formNovoSoftware" style="max-width:560px;">
+        <input type="hidden" id="sw-id" value="">
+        <div class="field">
+          <label for="sw-nome">Nome do software</label>
+          <input id="sw-nome" type="text" placeholder="Nome do produto" required>
+        </div>
+        <div class="field">
+          <label for="sw-desc">Descrição</label>
+          <textarea id="sw-desc" placeholder="O que o produto faz" required></textarea>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="sw-status">Status</label>
+            <select id="sw-status" required>
+              <option value="em_desenvolvimento">Em desenvolvimento</option>
+              <option value="disponivel">Disponível agora</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="sw-plataforma">Plataforma</label>
+            <input id="sw-plataforma" type="text" placeholder="WEB · MOBILE">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="sw-link">Link do app (opcional)</label>
+            <input id="sw-link" type="url" placeholder="https://...">
+          </div>
+          <div class="field">
+            <label for="sw-ordem">Ordem</label>
+            <input id="sw-ordem" type="number" value="0" min="0">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="sw-logo">Logo (URL da imagem, opcional)</label>
+            <input id="sw-logo" type="url" placeholder="https://.../icon.png">
+          </div>
+          <div class="field">
+            <label for="sw-cor">Cor de identidade</label>
+            <input id="sw-cor" type="color" value="#F2A65A" style="height:42px; padding:4px;">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="sw-playstore">Link na Play Store (preencher quando publicar)</label>
+            <input id="sw-playstore" type="url" placeholder="https://play.google.com/store/apps/details?id=...">
+          </div>
+          <div class="field">
+            <label for="sw-appstore">Link na App Store (preencher quando publicar)</label>
+            <input id="sw-appstore" type="url" placeholder="https://apps.apple.com/app/...">
+          </div>
+        </div>
+        <button class="btn btn-solid form-submit" type="submit">Salvar software</button>
+        <button class="btn btn-ghost" type="button" onclick="cancelarEdicaoSoftware()" style="margin-top:10px;">Cancelar edição</button>
+      </form>
+    </div>
+
+    <!-- Propostas -->
+    <div style="margin-bottom:80px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:14px;">
+        <h3 style="font-family:var(--display); font-size:20px;">Propostas recebidas</h3>
+        <select id="filtroStatus" style="background:var(--verde-rio); border:1px solid var(--linha-forte); color:var(--papel); padding:9px 12px; border-radius:9px; font-family:var(--mono); font-size:12.5px;">
+          <option value="todas">Todas</option>
+          <option value="pendente">Pendentes</option>
+          <option value="aprovado">Aprovadas</option>
+          <option value="rejeitado">Rejeitadas</option>
+        </select>
+      </div>
+      <div id="adminPropostas" class="admin-list">
+        <p class="admin-empty">Carregando...</p>
+      </div>
+    </div>
+
+    <!-- Parceiros ativos -->
+    <div style="margin-bottom:80px;">
+      <h3 style="font-family:var(--display); font-size:20px; margin-bottom:24px;">Parceiros cadastrados</h3>
+      <div id="adminParceiros" class="admin-list">
+        <p class="admin-empty">Carregando...</p>
+      </div>
+    </div>
+
+    <!-- Novo parceiro manual -->
+    <div id="admin-novo-parceiro">
+      <h3 style="font-family:var(--display); font-size:20px; margin-bottom:24px;">Adicionar parceiro manualmente</h3>
+      <form id="formNovoParceiro" style="max-width:560px;">
+        <div class="field">
+          <label for="np-nome">Nome do parceiro</label>
+          <input id="np-nome" type="text" placeholder="Nome da empresa" required>
+        </div>
+        <div class="field">
+          <label for="np-tipo">Tipo</label>
+          <select id="np-tipo" required>
+            <option value="">Selecione</option>
+            <option>Parceiro de tecnologia</option>
+            <option>Patrocínio de marca</option>
+            <option>Programa de afiliados</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="np-desc">Descrição (opcional)</label>
+          <textarea id="np-desc" placeholder="Breve descrição da parceria"></textarea>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="np-link">Link (opcional)</label>
+            <input id="np-link" type="url" placeholder="https://...">
+          </div>
+          <div class="field">
+            <label for="np-logo">URL do logo (opcional)</label>
+            <input id="np-logo" type="url" placeholder="https://...">
+          </div>
+        </div>
+        <button class="btn btn-solid form-submit" type="submit">Adicionar parceiro</button>
+      </form>
+    </div>
+
+    <!-- Cursos cadastrados -->
+    <div style="margin-bottom:80px;">
+      <h3 style="font-family:var(--display); font-size:20px; margin-bottom:24px;">Cursos cadastrados</h3>
+      <div id="adminCursos" class="admin-list">
+        <p class="admin-empty">Carregando...</p>
+      </div>
+    </div>
+
+    <!-- Novo curso manual -->
+    <div id="admin-novo-curso">
+      <h3 style="font-family:var(--display); font-size:20px; margin-bottom:24px;">Adicionar curso</h3>
+      <form id="formNovoCurso" style="max-width:560px;">
+        <input type="hidden" id="cu-id" value="">
+        <div class="field">
+          <label for="cu-titulo">Nome do curso/plataforma</label>
+          <input id="cu-titulo" type="text" placeholder="Ex: freeCodeCamp" required>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="cu-categoria">Categoria</label>
+            <input id="cu-categoria" type="text" placeholder="Ex: Programação" required>
+          </div>
+          <div class="field">
+            <label for="cu-preco">Preço</label>
+            <select id="cu-preco" required>
+              <option value="gratuito">Gratuito</option>
+              <option value="pago_variavel">Pago (com opções acessíveis)</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="cu-desc">Descrição (opcional)</label>
+          <textarea id="cu-desc" placeholder="Breve descrição do curso"></textarea>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="cu-url">Link do curso</label>
+            <input id="cu-url" type="url" placeholder="https://..." required>
+          </div>
+          <div class="field">
+            <label for="cu-ordem">Ordem (menor aparece primeiro)</label>
+            <input id="cu-ordem" type="number" value="0">
+          </div>
+        </div>
+        <button class="btn btn-solid form-submit" type="submit" id="cu-submit-btn">Adicionar curso</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#topo" class="brand">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:30px;height:30px;">
+            <defs>
+              <linearGradient id="rGradFooter" x1="10" y1="10" x2="38" y2="38" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#4C8FE0"/>
+                <stop offset="0.45" stop-color="#4C8FE0"/>
+                <stop offset="0.6" stop-color="#E2833F"/>
+                <stop offset="1" stop-color="#F2A65A"/>
+              </linearGradient>
+            </defs>
+            <path d="M6 34C13 34.5 19 30.5 23 23C27 15.5 33.5 10 42 9.5" stroke="url(#rGradFooter)" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+            <circle cx="42" cy="9.5" r="3.2" fill="#F2A65A"/>
+            <path d="M14 36V12H24.5C28.6 12 32 14.9 32 19C32 22.3 29.8 24.9 26.7 25.8L33 36H27.8L22 26.4H19V36H14ZM19 22.2H24C26 22.2 27.3 20.9 27.3 19C27.3 17.1 26 15.8 24 15.8H19V22.2Z" fill="url(#rGradFooter)"/>
+          </svg>
+          <span class="brand-name">RHONEY<span class="dim">INC</span></span>
+        </a>
+        <p data-i18n="footer_blurb">Estúdio de engenharia de software fundado em Belém do Pará, construindo produtos digitais com identidade própria.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="footer_col_produtos">Produtos</h4>
+        <a href="https://meupet-zeta.vercel.app" target="_blank" rel="noopener">MeuPet</a>
+        <a href="https://fitnow.rhoneyinc.com" target="_blank" rel="noopener">FitNow</a>
+        <a href="https://finwise.rhoneyinc.com" target="_blank" rel="noopener">Controle Financeiro</a>
+        <a href="https://menuflex.rhoneyinc.com" target="_blank" rel="noopener">MenuFlex</a>
+        <a href="#softwares">Próximos produtos</a>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="footer_col_empresa">Empresa</h4>
+        <a href="#sobre">Sobre</a>
+        <a href="#processo">Processo</a>
+        <a href="#stack">Stack</a>
+        <a href="#parceiros">Parceiros</a>
+        <a href="#vagas">Vagas</a>
+        <a href="#cursos">Cursos</a>
+        <a href="changelog.html">Changelog</a>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="footer_col_legal">Legal</h4>
+        <a href="privacidade.html">Privacidade (LGPD)</a>
+        <a href="termos.html">Termos de uso</a>
+        <a href="mailto:rhoneyinc@gmail.com">Contato</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 RHONEYINC — TODOS OS DIREITOS RESERVADOS</span>
+      <span>BELÉM, PA — BRASIL</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ MODAL AUTH ============ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()" aria-label="Fechar">✕</button>
+
+    <div id="modalLogin">
+      <div class="modal-eyebrow">Bem-vindo de volta</div>
+      <div class="modal-title">Entrar</div>
+      <div class="modal-sub">Acesse sua conta RhoneyInc.</div>
+      <div class="social-auth">
+        <button type="button" class="btn-social" onclick="entrarComProvider('google')">
+          <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M23.52 12.27c0-.85-.08-1.67-.22-2.45H12v4.64h6.47c-.28 1.5-1.13 2.78-2.4 3.63v3.02h3.89c2.28-2.1 3.56-5.2 3.56-8.84Z"/><path fill="#34A853" d="M12 24c3.24 0 5.96-1.07 7.95-2.9l-3.89-3.02c-1.08.73-2.46 1.16-4.06 1.16-3.12 0-5.77-2.11-6.72-4.94H1.27v3.1C3.25 21.3 7.31 24 12 24Z"/><path fill="#FBBC05" d="M5.28 14.3c-.24-.73-.38-1.5-.38-2.3s.14-1.57.38-2.3V6.6H1.27A11.98 11.98 0 0 0 0 12c0 1.94.46 3.77 1.27 5.4l4.01-3.1Z"/><path fill="#EA4335" d="M12 4.76c1.77 0 3.35.61 4.6 1.8l3.45-3.45C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.7 1.27 6.6l4.01 3.1C6.23 6.87 8.88 4.76 12 4.76Z"/></svg>
+          Continuar com Google
+        </button>
+        <button type="button" class="btn-social" onclick="entrarComProvider('github')">
+          <svg viewBox="0 0 24 24" fill="#EDEFF2"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.79-.25.79-.55 0-.27-.01-1.16-.02-2.11-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.41-5.25 5.69.41.36.78 1.06.78 2.14 0 1.55-.01 2.79-.01 3.17 0 .3.21.66.79.55A10.51 10.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+          Continuar com GitHub
+        </button>
+        <button type="button" class="btn-social" onclick="entrarComProvider('apple')">
+          <svg viewBox="0 0 24 24" fill="#EDEFF2"><path d="M17.05 12.5c-.03-2.4 1.96-3.55 2.05-3.6-1.12-1.63-2.86-1.86-3.48-1.88-1.48-.15-2.89.87-3.64.87-.75 0-1.9-.85-3.13-.83-1.61.02-3.1.94-3.93 2.38-1.68 2.9-.43 7.2 1.2 9.55.8 1.15 1.75 2.44 3 2.4 1.2-.05 1.66-.78 3.12-.78s1.87.78 3.14.75c1.3-.02 2.12-1.17 2.91-2.33.92-1.34 1.3-2.63 1.32-2.7-.03-.01-2.52-.97-2.55-3.83Z"/><path d="M14.7 5.42c.67-.81 1.11-1.94 1-3.06-.96.04-2.13.64-2.82 1.45-.62.71-1.16 1.87-1.02 2.96 1.07.08 2.16-.54 2.84-1.35Z"/></svg>
+          Continuar com Apple
+        </button>
+      </div>
+      <div class="auth-divider">ou com e-mail</div>
+      <form id="formLogin">
+        <div class="field">
+          <label for="login-email">E-mail</label>
+          <input id="login-email" type="email" placeholder="voce@email.com" required>
+        </div>
+        <div class="field">
+          <label for="login-senha">Senha</label>
+          <input id="login-senha" type="password" placeholder="••••••••" required>
+        </div>
+        <p class="auth-error" style="display:none; color:#E07A5F; font-size:13px; margin-bottom:14px;"></p>
+        <button class="btn btn-solid modal-submit" type="submit">Entrar na conta</button>
+      </form>
+      <div class="modal-switch">Ainda não tem conta? <button onclick="switchTo('cadastro')">Criar conta</button></div>
+    </div>
+
+    <div id="modalCadastro" style="display:none;">
+      <div class="modal-eyebrow">Comece agora</div>
+      <div class="modal-title">Criar conta</div>
+      <div class="modal-sub">Acompanhe os softwares da RhoneyInc em primeira mão.</div>
+      <div class="social-auth">
+        <button type="button" class="btn-social" onclick="entrarComProvider('google')">
+          <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M23.52 12.27c0-.85-.08-1.67-.22-2.45H12v4.64h6.47c-.28 1.5-1.13 2.78-2.4 3.63v3.02h3.89c2.28-2.1 3.56-5.2 3.56-8.84Z"/><path fill="#34A853" d="M12 24c3.24 0 5.96-1.07 7.95-2.9l-3.89-3.02c-1.08.73-2.46 1.16-4.06 1.16-3.12 0-5.77-2.11-6.72-4.94H1.27v3.1C3.25 21.3 7.31 24 12 24Z"/><path fill="#FBBC05" d="M5.28 14.3c-.24-.73-.38-1.5-.38-2.3s.14-1.57.38-2.3V6.6H1.27A11.98 11.98 0 0 0 0 12c0 1.94.46 3.77 1.27 5.4l4.01-3.1Z"/><path fill="#EA4335" d="M12 4.76c1.77 0 3.35.61 4.6 1.8l3.45-3.45C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.7 1.27 6.6l4.01 3.1C6.23 6.87 8.88 4.76 12 4.76Z"/></svg>
+          Continuar com Google
+        </button>
+        <button type="button" class="btn-social" onclick="entrarComProvider('github')">
+          <svg viewBox="0 0 24 24" fill="#EDEFF2"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.79-.25.79-.55 0-.27-.01-1.16-.02-2.11-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.41-5.25 5.69.41.36.78 1.06.78 2.14 0 1.55-.01 2.79-.01 3.17 0 .3.21.66.79.55A10.51 10.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+          Continuar com GitHub
+        </button>
+        <button type="button" class="btn-social" onclick="entrarComProvider('apple')">
+          <svg viewBox="0 0 24 24" fill="#EDEFF2"><path d="M17.05 12.5c-.03-2.4 1.96-3.55 2.05-3.6-1.12-1.63-2.86-1.86-3.48-1.88-1.48-.15-2.89.87-3.64.87-.75 0-1.9-.85-3.13-.83-1.61.02-3.1.94-3.93 2.38-1.68 2.9-.43 7.2 1.2 9.55.8 1.15 1.75 2.44 3 2.4 1.2-.05 1.66-.78 3.12-.78s1.87.78 3.14.75c1.3-.02 2.12-1.17 2.91-2.33.92-1.34 1.3-2.63 1.32-2.7-.03-.01-2.52-.97-2.55-3.83Z"/><path d="M14.7 5.42c.67-.81 1.11-1.94 1-3.06-.96.04-2.13.64-2.82 1.45-.62.71-1.16 1.87-1.02 2.96 1.07.08 2.16-.54 2.84-1.35Z"/></svg>
+          Continuar com Apple
+        </button>
+      </div>
+      <div class="auth-divider">ou com e-mail</div>
+      <form id="formCadastro">
+        <div class="field">
+          <label for="cad-nome">Nome</label>
+          <input id="cad-nome" type="text" placeholder="Seu nome completo" required>
+        </div>
+        <div class="field">
+          <label for="cad-email">E-mail</label>
+          <input id="cad-email" type="email" placeholder="voce@email.com" required>
+        </div>
+        <div class="field">
+          <label for="cad-senha">Senha</label>
+          <input id="cad-senha" type="password" placeholder="Mínimo 6 caracteres" required minlength="6">
+        </div>
+        <p class="auth-error" style="display:none; color:#E07A5F; font-size:13px; margin-bottom:14px;"></p>
+        <button class="btn btn-solid modal-submit" type="submit">Criar minha conta</button>
+      </form>
+      <div class="modal-switch">Já tem conta? <button onclick="switchTo('login')">Entrar</button></div>
+    </div>
+  </div>
+</div>
+
+<script src="supabase-client.js"></script>
+<script src="app.js"></script>
+<script src="admin.js"></script>
+<script>
+  // Registro de acesso anônimo (analytics de 1ª parte, sem cookies) — best-effort,
+  // não bloqueia nem afeta o carregamento da página se falhar.
+  (function(){
+    try {
+      var payload = JSON.stringify({ path: window.location.pathname });
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon('/api/track', new Blob([payload], { type: 'application/json' }));
+      } else {
+        fetch('/api/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload, keepalive: true }).catch(function(){});
+      }
+    } catch(e) {}
+  })();
+</script>
+
+</body>
+</html>

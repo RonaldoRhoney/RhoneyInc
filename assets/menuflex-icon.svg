@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="none">
+  <rect width="192" height="192" rx="42" fill="#1D140D"/>
+  <rect width="192" height="192" rx="42" fill="url(#menuflex-glow)" fill-opacity="0.28"/>
+  <path d="M44 86C44 66 68 54 96 54C124 54 148 66 148 86" stroke="#F97316" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="78" cy="64" r="3.6" fill="#F97316"/>
+  <circle cx="96" cy="58" r="3.6" fill="#F97316"/>
+  <circle cx="114" cy="64" r="3.6" fill="#F97316"/>
+  <path d="M42 102C60 111 132 111 150 102" stroke="#F97316" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M40 120H152" stroke="#F97316" stroke-width="9" stroke-linecap="round"/>
+  <path d="M44 136C44 144 68 150 96 150C124 150 148 144 148 136" stroke="#F97316" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <defs>
+    <radialGradient id="menuflex-glow" cx="0" cy="0" r="1" gradientTransform="translate(96 40) rotate(90) scale(140)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F97316"/>
+      <stop offset="1" stop-color="#F97316" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
