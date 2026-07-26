@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="none">
+  <rect width="192" height="192" rx="42" fill="#12100A"/>
+  <rect width="192" height="192" rx="42" fill="url(#vagalume-glow)" fill-opacity="0.32"/>
+  <circle cx="96" cy="96" r="22" fill="#F5B942"/>
+  <circle cx="96" cy="96" r="34" stroke="#F5B942" stroke-width="4" stroke-opacity="0.35"/>
+  <circle cx="140" cy="60" r="4" fill="#F5B942" fill-opacity="0.7"/>
+  <circle cx="54" cy="128" r="3" fill="#F5B942" fill-opacity="0.5"/>
+  <circle cx="130" cy="132" r="2.4" fill="#F5B942" fill-opacity="0.5"/>
+  <defs>
+    <radialGradient id="vagalume-glow" cx="0" cy="0" r="1" gradientTransform="translate(96 96) rotate(90) scale(110)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F5B942"/>
+      <stop offset="1" stop-color="#F5B942" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

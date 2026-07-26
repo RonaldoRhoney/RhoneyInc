@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="none">
+  <rect width="192" height="192" rx="42" fill="#0B1F1B"/>
+  <rect width="192" height="192" rx="42" fill="url(#futebol-glow)" fill-opacity="0.28"/>
+  <circle cx="96" cy="96" r="38" stroke="#3FA796" stroke-width="6"/>
+  <path d="M96 70L110 82L105 100H87L82 82Z" fill="#3FA796"/>
+  <path d="M96 58V70M96 122V134M58 96H70M122 96H134" stroke="#3FA796" stroke-width="5" stroke-linecap="round"/>
+  <defs>
+    <radialGradient id="futebol-glow" cx="0" cy="0" r="1" gradientTransform="translate(96 40) rotate(90) scale(140)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3FA796"/>
+      <stop offset="1" stop-color="#3FA796" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

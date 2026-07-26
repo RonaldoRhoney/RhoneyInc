@@ -164,21 +164,17 @@
     box-shadow:0 12px 40px -20px rgba(0,0,0,0.65);
   }
 
-  /* ============ NAV ORBITAL (topo da página, telas largas) ============
-     Some no lugar do header compacto só enquanto a página está no topo
-     (header sem .is-scrolled) e a tela é larga o bastante pra caber os
-     itens girando ao redor do logo sem espremer nada. Ao rolar — ou em
-     qualquer tela ≤980px — cai pro .nav-stack de sempre (ver regras logo
-     abaixo e a query ≤980px). */
+  /* ============ NAV ORBITAL (desativado 2026-07-25) ============
+     O menu circular girando ao redor do logo não harmonizava com o resto
+     do site (Ronaldo, 2026-07-25) — desativado via CSS (display:none fixo),
+     não removido do HTML/JS, pra poder reverter fácil se precisar. O
+     .nav-stack (menu compacto de sempre) agora fica sempre visível, em
+     qualquer largura de tela. */
   .nav-orbit-outer{
-    display:none;
+    display:none !important;
     padding:26px 36px 34px;
     align-items:flex-start; justify-content:space-between;
     max-width:1400px; margin:0 auto;
-  }
-  @media (min-width: 981px){
-    header:not(.is-scrolled) .nav-orbit-outer{ display:flex; }
-    header:not(.is-scrolled) .nav-stack{ display:none; }
   }
   .nav-orbit{
     position:relative;
@@ -282,7 +278,7 @@
     width:100%; justify-content:space-between;
   }
   .nav-group-menu{
-    background:var(--painel); border:1px solid var(--linha-forte);
+    background:var(--painel);
     border-radius:100px; padding:12px 28px;
     gap:26px;
     width:100%; justify-content:space-between;
@@ -291,19 +287,19 @@
   .nav-group-menu .nav-divider{ display:none; }
 
   .nav-links{
-    display:flex; align-items:center; gap:32px;
+    display:flex; align-items:center; justify-content:center; gap:32px;
     font-family:var(--mono); font-size:15.5px; font-weight:600;
     letter-spacing:0.03em;
-    flex-shrink:1; min-width:0;
+    flex:1; min-width:0;
   }
   .nav-links a{
-    color:var(--papel-dim);
+    color:var(--papel);
     position:relative;
     padding:6px 0;
     transition:color .25s ease;
     white-space:nowrap;
   }
-  .nav-links a:hover{ color:var(--papel); }
+  .nav-links a:hover{ color:var(--sinal); }
 
   .lang-switch{
     position:relative; flex-shrink:0;
@@ -360,12 +356,12 @@
   .nav-dropdown{ position:relative; }
   .nav-dropdown-trigger{
     display:flex; align-items:center; gap:5px;
-    font-family:var(--mono); font-size:13.5px; letter-spacing:0.03em;
-    color:var(--papel-dim); background:none; border:none; padding:6px 0;
+    font-family:var(--mono); font-size:15.5px; font-weight:600; letter-spacing:0.03em;
+    color:var(--papel); background:none; border:none; padding:6px 0;
     cursor:pointer; transition:color .25s ease;
   }
-  .nav-dropdown-trigger:hover{ color:var(--papel); }
-  .nav-dropdown-caret{ font-size:9px; color:var(--papel-dim); transition:transform .2s ease; }
+  .nav-dropdown-trigger:hover{ color:var(--sinal); }
+  .nav-dropdown-caret{ font-size:9px; color:var(--papel); transition:transform .2s ease; }
   .nav-dropdown.is-open .nav-dropdown-caret{ transform:rotate(180deg); }
 
   .nav-dropdown-options{
@@ -2503,6 +2499,7 @@
         <a href="https://fitnow.rhoneyinc.com" target="_blank" rel="noopener">FitNow</a>
         <a href="https://finwise.rhoneyinc.com" target="_blank" rel="noopener">Controle Financeiro</a>
         <a href="https://menuflex.rhoneyinc.com" target="_blank" rel="noopener">MenuFlex</a>
+        <a href="https://vagalume.rhoneyinc.com" target="_blank" rel="noopener">VagaLume</a>
         <a href="#softwares">Próximos produtos</a>
       </div>
 
