@@ -8,7 +8,8 @@
 async function carregarPainelAdmin(){
   if(typeof clienteDisponivel === 'function' && !clienteDisponivel()) return;
   await carregarMetricas();
-  await carregarMetricasMeuPet();
+  await carregarMetricasProduto('meupet', 'adminMetricasMeuPet');
+  await carregarMetricasProduto('menuflex', 'adminMetricasMenuFlex');
   await carregarAnalytics();
   await carregarUsuarios();
   await carregarPropostas();
@@ -47,9 +48,12 @@ async function carregarMetricas(){
   `;
 }
 
-// ---------- MÉTRICAS DO MEUPET (via função serverless, sem chave no navegador) ----------
-async function carregarMetricasMeuPet(){
-  const container = document.getElementById('adminMetricasMeuPet');
+// ---------- MÉTRICAS POR PRODUTO (via função serverless genérica, sem chave no navegador) ----------
+// Reaproveitada por qualquer produto com integração configurada — pra adicionar um novo,
+// só chamar carregarMetricasProduto('chave', 'idDoContainer') a partir de carregarPainelAdmin(),
+// com o bloco correspondente adicionado no mapa PRODUTOS de api/metrics-produto.js.
+async function carregarMetricasProduto(produtoKey, containerId){
+  const container = document.getElementById(containerId);
   if(!container) return;
 
   const { data: { session } } = await supabaseClient.auth.getSession();
@@ -59,26 +63,21 @@ async function carregarMetricasMeuPet(){
   }
 
   try{
-    const resp = await fetch('/api/metrics-meupet', {
+    const resp = await fetch(`/api/metrics-produto?produto=${encodeURIComponent(produtoKey)}`, {
       headers: { Authorization: `Bearer ${session.access_token}` }
     });
-    const dados = await resp.json();
+    const corpo = await resp.json();
 
     if(!resp.ok){
-      container.innerHTML = `<p class="admin-empty">Integração com o MeuPet ainda não configurada (${escapeHtml(dados.error || 'erro desconhecido')}).</p>`;
+      container.innerHTML = `<p class="admin-empty">Integração com ${escapeHtml(produtoKey)} ainda não configurada (${escapeHtml(corpo.error || 'erro desconhecido')}).</p>`;
       return;
     }
 
-    container.innerHTML = `
-      <div class="admin-stat accent-blue"><span class="num">${dados.tutores}</span><span class="lbl">TUTORES CADASTRADOS</span></div>
-      <div class="admin-stat"><span class="num">${dados.pets}</span><span class="lbl">PETS CADASTRADOS</span></div>
-      <div class="admin-stat"><span class="num">${dados.posts}</span><span class="lbl">POSTS NO FEED</span></div>
-      <div class="admin-stat accent-blue"><span class="num">${dados.adocoes_ativas}</span><span class="lbl">ANÚNCIOS DE ADOÇÃO ATIVOS</span></div>
-      <div class="admin-stat"><span class="num">${dados.petshops}</span><span class="lbl">PETSHOPS CADASTRADOS</span></div>
-      <div class="admin-stat accent-blue"><span class="num">${dados.assinaturas_pagas}</span><span class="lbl">ASSINATURAS PAGAS</span></div>
-    `;
+    container.innerHTML = corpo.metricas.map((m, i) => `
+      <div class="admin-stat${i % 3 === 0 ? ' accent-blue' : ''}"><span class="num">${corpo.dados[m.chave]}</span><span class="lbl">${escapeHtml(m.label).toUpperCase()}</span></div>
+    `).join('');
   } catch(err){
-    container.innerHTML = `<p class="admin-empty">Não foi possível carregar as métricas do MeuPet agora.</p>`;
+    container.innerHTML = `<p class="admin-empty">Não foi possível carregar as métricas de ${escapeHtml(produtoKey)} agora.</p>`;
   }
 }
 
