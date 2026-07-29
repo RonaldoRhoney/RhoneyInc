@@ -3,7 +3,7 @@
 //
 // Agrega os dados de public.page_views: total de acessos, dispositivos,
 // navegadores, top países/cidades e acessos por dia (últimos 14 dias).
-// Mesma lógica de autenticação do api/metrics-meupet.js: valida o
+// Mesma lógica de autenticação do api/metrics-produto.js: valida o
 // token de sessão e confirma que quem pediu é admin antes de responder.
 //
 // Variáveis de ambiente exigidas:

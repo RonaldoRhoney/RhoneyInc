@@ -10,7 +10,7 @@
 // nenhuma policy de insert (só admin pode SELECT). A gravação usa a
 // service_role key, que só pode viver no servidor — nunca no navegador.
 //
-// Variáveis de ambiente exigidas (mesmas do api/metrics-meupet.js):
+// Variáveis de ambiente exigidas (mesmas do api/metrics-produto.js):
 //   RHONEYINC_SUPABASE_URL
 //   RHONEYINC_SERVICE_ROLE_KEY
 // ============================================================
