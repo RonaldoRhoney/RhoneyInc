@@ -300,6 +300,11 @@
     white-space:nowrap;
   }
   .nav-links a:hover{ color:var(--sinal); }
+  .nav-como-usar-btn{
+    background:none; border:none; font:inherit; cursor:pointer;
+    color:var(--papel); position:relative; padding:6px 0; transition:color .25s ease; white-space:nowrap;
+  }
+  .nav-como-usar-btn:hover{ color:var(--sinal); }
 
   .lang-switch{
     position:relative; flex-shrink:0;
@@ -893,6 +898,28 @@
     color:var(--papel); margin-bottom:28px;
     border-left:2px solid var(--dourado-2); padding-left:20px;
   }
+
+  /* ============ ROADMAP ============ */
+  .roadmap-cols{ display:grid; gap:28px; grid-template-columns:repeat(3, 1fr); }
+  @media (max-width:860px){ .roadmap-cols{ grid-template-columns:1fr; } }
+  .roadmap-col{
+    background:var(--bg-2); border:1px solid var(--linha); border-radius:16px; padding:26px 24px;
+  }
+  .roadmap-col-eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:700;
+    letter-spacing:0.06em; text-transform:uppercase; margin-bottom:18px;
+  }
+  .roadmap-col-eyebrow .dot{ width:8px; height:8px; border-radius:50%; }
+  .roadmap-col.is-live .dot{ background:#4CAF6D; }
+  .roadmap-col.is-progress .dot{ background:var(--dourado-2); }
+  .roadmap-col.is-next .dot{ background:var(--papel-dim); }
+  .roadmap-col.is-live .roadmap-col-eyebrow{ color:#4CAF6D; }
+  .roadmap-col.is-progress .roadmap-col-eyebrow{ color:var(--dourado-2); }
+  .roadmap-col.is-next .roadmap-col-eyebrow{ color:var(--papel-dim); }
+  .roadmap-item{ padding:12px 0; border-top:1px solid var(--linha); }
+  .roadmap-item:first-of-type{ border-top:none; padding-top:0; }
+  .roadmap-item-title{ font-weight:600; color:var(--papel); font-size:14.5px; margin-bottom:4px; }
+  .roadmap-item-desc{ color:var(--papel-dim); font-size:13.5px; line-height:1.6; }
 
   /* ============ FAQ ============ */
   .faq-list{ max-width:760px; margin:0 auto; display:flex; flex-direction:column; gap:12px; }
@@ -1587,6 +1614,8 @@
         <a href="#processo" data-i18n="nav_processo">Processo</a>
         <a href="#stack" data-i18n="nav_stack">Stack</a>
         <a href="#parceiros" data-i18n="nav_parceiros">Parceiros</a>
+        <a href="#roadmap" data-i18n="nav_roadmap">Roadmap</a>
+        <button type="button" class="nav-como-usar-btn" onclick="abrirComoUsar()" data-i18n="nav_como_usar">❓ Como usar</button>
         <div class="nav-dropdown">
           <button type="button" class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false">
             <span data-i18n="nav_vagas">Vagas</span><span class="nav-dropdown-caret">▾</span>
@@ -1622,6 +1651,8 @@
     <a href="#processo" data-i18n="nav_processo">Processo</a>
     <a href="#stack" data-i18n="nav_stack">Stack</a>
     <a href="#parceiros" data-i18n="nav_parceiros">Parceiros</a>
+    <a href="#roadmap" data-i18n="nav_roadmap">Roadmap</a>
+    <button type="button" class="nav-como-usar-btn" onclick="abrirComoUsar()" data-i18n="nav_como_usar">❓ Como usar</button>
     <a href="#vagas" data-i18n="nav_vagas">Vagas</a>
     <a href="#cursos" data-i18n="nav_cursos">Cursos</a>
   </div>
@@ -1933,6 +1964,69 @@
       <span class="stack-pill">Kubernetes</span>
       <span class="stack-pill">GitHub Actions</span>
       <span class="stack-pill">Power BI</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ROADMAP ============ -->
+<section id="roadmap">
+  <div class="wrap">
+    <div class="section-head reveal-left">
+      <div>
+        <div class="section-eyebrow">Pra onde vamos</div>
+        <h2 class="section-title">Roadmap</h2>
+      </div>
+      <p class="section-desc">O que já está no ar, o que está sendo construído agora e o que vem a seguir — atualizado conforme os produtos avançam.</p>
+    </div>
+
+    <div class="roadmap-cols reveal">
+      <div class="roadmap-col is-live">
+        <span class="roadmap-col-eyebrow"><span class="dot"></span> No ar</span>
+        <div class="roadmap-item">
+          <div class="roadmap-item-title">MeuPet</div>
+          <div class="roadmap-item-desc">Rede social de pets em produção, com verificação de desenvolvedor no Google Play em andamento pra publicação oficial na loja.</div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-item-title">MenuFlex</div>
+          <div class="roadmap-item-desc">Cardápio digital + pedido via WhatsApp com negócios reais ativos, gestão de insumos, ficha técnica e trial de 60 dias.</div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-item-title">VagaLume</div>
+          <div class="roadmap-item-desc">Agente de matching de vaga de emprego rodando com automação via n8n e aviso por Telegram.</div>
+        </div>
+      </div>
+
+      <div class="roadmap-col is-progress">
+        <span class="roadmap-col-eyebrow"><span class="dot"></span> Em desenvolvimento agora</span>
+        <div class="roadmap-item">
+          <div class="roadmap-item-title">MenuFlex — módulo de estoque completo</div>
+          <div class="roadmap-item-desc">Fornecedores como cadastro próprio, entradas e saídas com histórico, compras e inventário com conferência física.</div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-item-title">FinWise</div>
+          <div class="roadmap-item-desc">Agentes de IA por módulo financeiro, evoluindo de protótipo pra versão utilizável no dia a dia.</div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-item-title">MontaMóvel</div>
+          <div class="roadmap-item-desc">Painel, PWA de montador e portal do cliente em refinamento contínuo com quem já usa.</div>
+        </div>
+      </div>
+
+      <div class="roadmap-col is-next">
+        <span class="roadmap-col-eyebrow"><span class="dot"></span> Próximos passos</span>
+        <div class="roadmap-item">
+          <div class="roadmap-item-title">FitNow</div>
+          <div class="roadmap-item-desc">App de fitness inclusivo saindo do papel: biblioteca de treinos, receitas e comunidade.</div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-item-title">Login único RhoneyInc</div>
+          <div class="roadmap-item-desc">Autenticação central da RhoneyInc estendida gradualmente pros produtos que hoje têm login próprio.</div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-item-title">AmaVida</div>
+          <div class="roadmap-item-desc">Plataforma pra idosos e cuidadores avançando com o cuidado redobrado que dado de saúde exige.</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -2762,6 +2856,13 @@
       </form>
       <div class="modal-switch">Já tem conta? <button onclick="switchTo('login')">Entrar</button></div>
     </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="comoUsarOverlay">
+  <div class="modal-box" style="max-width:480px;">
+    <button class="modal-close" onclick="fecharComoUsar()" aria-label="Fechar">✕</button>
+    <div id="comoUsarConteudo"></div>
   </div>
 </div>
 

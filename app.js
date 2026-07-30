@@ -33,6 +33,78 @@ function switchTo(tipo){
   document.getElementById('modalCadastro').style.display = tipo === 'cadastro' ? 'block' : 'none';
   clearAuthError();
 }
+// ---------- MODAL "COMO USAR" (tutorial de navegação do site) ----------
+const COMO_USAR_PASSOS = [
+  {
+    icone: '👋',
+    titulo: 'Bem-vindo à RhoneyInc',
+    texto: 'Este site reúne a história da empresa e a família de produtos que ela constrói. Esse guia rápido mostra onde encontrar cada coisa.',
+  },
+  {
+    icone: '🧩',
+    titulo: 'Conheça os produtos',
+    texto: 'Role até "Softwares" (ou use o menu no topo) pra ver os cards de cada produto, e "Produtos em detalhe" um pouco mais abaixo pra ler o que cada um resolve de verdade.',
+  },
+  {
+    icone: '👤',
+    titulo: 'Crie sua conta',
+    texto: 'O botão "Criar conta", no topo, dá acesso à sua conta RhoneyInc — hoje usada principalmente pra acompanhar o MeuPet e os lançamentos futuros em primeira mão.',
+  },
+  {
+    icone: '🤝',
+    titulo: 'Vire parceiro',
+    texto: 'Na seção "Parceiros", tem um formulário direto pra propor indicação, patrocínio ou outro modelo de parceria com a RhoneyInc.',
+  },
+  {
+    icone: '💼',
+    titulo: 'Candidate-se a uma vaga',
+    texto: 'A seção "Vagas" agrega oportunidades reais automaticamente — sem intermediar candidatura, o link te leva direto pra fonte original.',
+  },
+  {
+    icone: '💬',
+    titulo: 'Tire dúvidas',
+    texto: 'O "FAQ" reúne as perguntas mais comuns. Pra qualquer outra coisa, o e-mail de contato está no rodapé do site.',
+  },
+];
+let comoUsarIndex = 0;
+
+function renderComoUsarPasso(){
+  const passo = COMO_USAR_PASSOS[comoUsarIndex];
+  const total = COMO_USAR_PASSOS.length;
+  const ehUltimo = comoUsarIndex === total - 1;
+  const dots = COMO_USAR_PASSOS.map((_, i) =>
+    `<span style="display:inline-block;height:6px;border-radius:99px;transition:all .3s ease;width:${i === comoUsarIndex ? '24px' : '6px'};background:${i === comoUsarIndex ? 'var(--dourado)' : 'rgba(237,239,242,0.2)'};"></span>`
+  ).join('');
+  document.getElementById('comoUsarConteudo').innerHTML = `
+    <div style="text-align:center;">
+      <div style="width:72px;height:72px;border-radius:20px;background:var(--dourado);display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 18px;">${passo.icone}</div>
+      <p style="font-size:12px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--dourado-2);margin-bottom:8px;">Passo ${comoUsarIndex + 1} de ${total}</p>
+      <h3 style="font-family:var(--display);font-size:22px;margin-bottom:10px;color:var(--papel);">${passo.titulo}</h3>
+      <p style="color:var(--papel-dim);font-size:14.5px;line-height:1.65;margin-bottom:24px;">${passo.texto}</p>
+      <div style="display:flex;justify-content:center;gap:6px;margin-bottom:24px;">${dots}</div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-ghost" style="flex:1;" onclick="comoUsarAnterior()" ${comoUsarIndex === 0 ? 'disabled' : ''}>Anterior</button>
+        <button class="btn btn-solid" style="flex:1;" onclick="comoUsarProximo()">${ehUltimo ? 'Concluir' : 'Próximo'}</button>
+      </div>
+    </div>
+  `;
+}
+function abrirComoUsar(){
+  comoUsarIndex = 0;
+  renderComoUsarPasso();
+  document.getElementById('comoUsarOverlay').classList.add('open');
+}
+function fecharComoUsar(){
+  document.getElementById('comoUsarOverlay').classList.remove('open');
+}
+function comoUsarAnterior(){
+  if(comoUsarIndex > 0){ comoUsarIndex--; renderComoUsarPasso(); }
+}
+function comoUsarProximo(){
+  if(comoUsarIndex < COMO_USAR_PASSOS.length - 1){ comoUsarIndex++; renderComoUsarPasso(); }
+  else { fecharComoUsar(); }
+}
+
 function clearAuthError(){
   document.querySelectorAll('.auth-error').forEach(el => { el.textContent = ''; el.style.display = 'none'; });
 }
@@ -63,8 +135,16 @@ document.addEventListener('DOMContentLoaded', function(){
       if(e.target === this) closeModal();
     });
   }
+  const comoUsarOverlay = document.getElementById('comoUsarOverlay');
+  if(comoUsarOverlay){
+    comoUsarOverlay.addEventListener('click', function(e){
+      if(e.target === this) fecharComoUsar();
+    });
+  }
   document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape') closeModal();
+    if(e.key !== 'Escape') return;
+    closeModal();
+    fecharComoUsar();
   });
 
   // ---------- LOGIN ----------
@@ -336,7 +416,7 @@ document.addEventListener('DOMContentLoaded', iniciarSoftCarouselAuto);
 const I18N = {
   pt: {
     nav_softwares: 'Softwares', nav_processo: 'Processo', nav_stack: 'Stack',
-    nav_parceiros: 'Parceiros', nav_vagas: 'Vagas', nav_cursos: 'Cursos', nav_sobre: 'Sobre',
+    nav_parceiros: 'Parceiros', nav_roadmap: 'Roadmap', nav_como_usar: '❓ Como usar', nav_vagas: 'Vagas', nav_cursos: 'Cursos', nav_sobre: 'Sobre',
     nav_entrar: 'Entrar', nav_criar_conta: 'Criar conta',
     hero_eyebrow: 'Estúdio de engenharia de software · Belém, PA',
     hero_title: 'Software com <span class="accent">prompt</span><br>e <span class="stroke">produto</span> definidos.',
@@ -394,7 +474,7 @@ const I18N = {
   },
   en: {
     nav_softwares: 'Software', nav_processo: 'Process', nav_stack: 'Stack',
-    nav_parceiros: 'Partners', nav_vagas: 'Jobs', nav_cursos: 'Courses', nav_sobre: 'About',
+    nav_parceiros: 'Partners', nav_roadmap: 'Roadmap', nav_como_usar: '❓ How it works', nav_vagas: 'Jobs', nav_cursos: 'Courses', nav_sobre: 'About',
     nav_entrar: 'Log in', nav_criar_conta: 'Create account',
     hero_eyebrow: 'Software engineering studio · Belém, Brazil',
     hero_title: 'Software with a clear <span class="accent">prompt</span><br>and a defined <span class="stroke">product</span>.',
@@ -452,7 +532,7 @@ const I18N = {
   },
   es: {
     nav_softwares: 'Software', nav_processo: 'Proceso', nav_stack: 'Stack',
-    nav_parceiros: 'Socios', nav_vagas: 'Empleos', nav_cursos: 'Cursos', nav_sobre: 'Nosotros',
+    nav_parceiros: 'Socios', nav_roadmap: 'Roadmap', nav_como_usar: '❓ Cómo usar', nav_vagas: 'Empleos', nav_cursos: 'Cursos', nav_sobre: 'Nosotros',
     nav_entrar: 'Iniciar sesión', nav_criar_conta: 'Crear cuenta',
     hero_eyebrow: 'Estudio de ingeniería de software · Belém, Brasil',
     hero_title: 'Software con <span class="accent">prompt</span><br>y <span class="stroke">producto</span> definidos.',
