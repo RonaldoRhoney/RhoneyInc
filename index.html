@@ -894,6 +894,26 @@
     border-left:2px solid var(--dourado-2); padding-left:20px;
   }
 
+  /* ============ FAQ ============ */
+  .faq-list{ max-width:760px; margin:0 auto; display:flex; flex-direction:column; gap:12px; }
+  .faq-item{
+    background:var(--bg-2); border:1px solid var(--linha); border-radius:14px;
+    padding:4px 22px; transition:border-color .2s ease;
+  }
+  .faq-item[open]{ border-color:var(--linha-forte); }
+  .faq-item summary{
+    list-style:none; cursor:pointer; padding:20px 0; font-weight:600; font-size:16px;
+    color:var(--papel); display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  .faq-item summary::-webkit-details-marker{ display:none; }
+  .faq-item summary::after{
+    content:'+'; font-size:22px; color:var(--dourado-2); flex-shrink:0; transition:transform .2s ease;
+  }
+  .faq-item[open] summary::after{ content:'−'; }
+  .faq-item p{
+    color:var(--papel-dim); font-size:15px; line-height:1.7; padding:0 0 22px;
+  }
+
   /* ============ CTA FINAL ============ */
   .cta-final{
     text-align:center; padding:140px 0;
@@ -2293,6 +2313,54 @@
   </div>
 </section>
 
+<!-- ============ FAQ ============ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head reveal-left">
+      <div>
+        <div class="section-eyebrow">Dúvidas comuns</div>
+        <h2 class="section-title">Perguntas frequentes</h2>
+      </div>
+      <p class="section-desc">O que quem chega aqui pela primeira vez mais pergunta.</p>
+    </div>
+
+    <div class="faq-list reveal">
+      <details class="faq-item">
+        <summary>O que é a RhoneyInc, afinal?</summary>
+        <p>É a marca por trás de uma família de produtos de software criados por Ronaldo Martins — cada um resolvendo um problema real de um público específico: MeuPet (tutores de pet), MenuFlex (donos de lanchonete/restaurante), FinWise (gestão financeira pessoal), MontaMóvel (montadores de móveis), FitNow (fitness inclusivo), AmaVida (idosos e cuidadores), VagaLume (matching de vaga de emprego) e Até Passar (concurso público). Não é uma agência que constrói sob encomenda pra terceiro — são produtos próprios.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Os produtos são pagos?</summary>
+        <p>Depende do produto e do estágio. Alguns, como o MenuFlex, têm plano gratuito com limites (Free), planos pagos com mais recursos (Básico, Premium) e um período de teste completo de 60 dias liberado automaticamente no primeiro pedido do lojista. Outros, como o MeuPet, são gratuitos no uso principal hoje. Cada produto tem sua própria página com o detalhe atualizado dos planos.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Meus dados ficam seguros?</summary>
+        <p>Cada produto tem seu próprio banco de dados isolado, com regra de acesso por linha (Row Level Security) — ou seja, um negócio nunca enxerga o dado de outro, e um usuário nunca enxerga o dado de outro usuário, aplicado no banco, não só na tela. Dado sensível (como CPF, no caso do MontaMóvel) é criptografado. Os detalhes completos, produto por produto, estão na <a href="privacidade.html">Política de Privacidade</a>.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Por que o site usa IA generativa (Claude Code) pra construir os produtos?</summary>
+        <p>Porque acelera a parte mecânica da engenharia — escrever código repetitivo, gerar variações de tela, montar consulta de banco — liberando tempo pra decisão que realmente importa: modelagem de dado, segurança, regra de negócio e experiência do usuário. Toda decisão estrutural é revisada por engenharia humana antes de ir pro ar; a IA acelera a produção, não substitui a responsabilidade sobre o que é entregue.</p>
+      </details>
+      <details class="faq-item">
+        <summary>A RhoneyInc atende só Belém/Pará?</summary>
+        <p>A sede e o fundador estão em Belém, mas todos os produtos são feitos pra rodar em qualquer lugar do Brasil — o MenuFlex já tem negócios ativos fora do Pará, por exemplo. Não há restrição geográfica de uso em nenhum dos softwares.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Como funciona o programa de Parceiros?</summary>
+        <p>É uma forma de outras empresas ou pessoas se associarem à RhoneyInc — seja indicando clientes, seja em modelos de patrocínio dos produtos. Tem um formulário próprio na seção <a href="#form-parceria">Parceiros</a> desta página pra quem quiser propor algo.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Tem vaga de emprego ou estágio na RhoneyInc?</summary>
+        <p>As vagas atuais (quando existem) ficam listadas na seção <a href="#vagas">Vagas</a> desta página, agregadas automaticamente — sem intermediar candidatura, o link leva direto pra fonte original (geralmente LinkedIn).</p>
+      </details>
+      <details class="faq-item">
+        <summary>Por que o site exibe anúncios (Google AdSense)?</summary>
+        <p>É uma das formas de sustentar o desenvolvimento contínuo dos produtos, ao lado dos planos pagos. O uso de cookies e identificadores de anúncio pelo Google está detalhado na seção 6 da <a href="privacidade.html">Política de Privacidade</a>, incluindo como desativar a personalização de anúncios.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
 <!-- ============ CTA FINAL ============ -->
 <section class="cta-final">
   <div class="wrap">
@@ -2599,6 +2667,7 @@
         <a href="#parceiros">Parceiros</a>
         <a href="#vagas">Vagas</a>
         <a href="#cursos">Cursos</a>
+        <a href="#faq">FAQ</a>
         <a href="changelog.html">Changelog</a>
       </div>
 
