@@ -42,6 +42,18 @@ function linkLinkedin(url, titulo, empresa) {
 }
 
 export default async function handler(req, res) {
+  // Protege o endpoint do Cron: a Vercel injeta esse header automaticamente
+  // em chamadas agendadas quando CRON_SECRET está configurado no projeto
+  // (painel Vercel → Settings → Environment Variables). Sem essa variável
+  // configurada ainda, deixa passar (mesmo comportamento de antes) — mas
+  // configure CRON_SECRET assim que possível pra essa proteção valer de
+  // verdade, senão qualquer um pode chamar essa URL e forçar uma sincronização.
+  const CRON_SECRET = process.env.CRON_SECRET;
+  if (CRON_SECRET && req.headers.authorization !== `Bearer ${CRON_SECRET}`) {
+    res.status(401).json({ error: 'Não autorizado.' });
+    return;
+  }
+
   const SUPABASE_URL = process.env.RHONEYINC_SUPABASE_URL;
   const SERVICE_KEY = process.env.RHONEYINC_SERVICE_ROLE_KEY;
   if (!SUPABASE_URL || !SERVICE_KEY) {
